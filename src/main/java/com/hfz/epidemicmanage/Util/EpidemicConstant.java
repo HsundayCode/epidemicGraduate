@@ -16,6 +16,8 @@ public interface EpidemicConstant {
      */
     int ACTIVATION_REPEAT = 2;
 
+    int INFORMATION_PERFECT = 1;
+
 
 
 }

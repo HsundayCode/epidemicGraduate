@@ -2,6 +2,7 @@ package com.hfz.epidemicmanage.Dao;
 
 import com.hfz.epidemicmanage.Entity.Account;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
@@ -17,5 +18,5 @@ public interface AccountMapper {
 
     Account selectByEmail(String email);//通过邮箱激活
 
-    int updateStatus(int id,int status);//状态改变
+    int updateStatus(@Param("id") int id, @Param("status") int status);//状态改变
 }

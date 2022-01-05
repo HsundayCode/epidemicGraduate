@@ -12,7 +12,7 @@
 
     <insert id="insertAccount" parameterType="Account" keyProperty="id">
         insert into account(<include refid="insertFiles"></include>)
-        values (#{name},#{password},#{email},#{salt},#{activationcode},#{status},#{createtime},#{type})
+        values (#{name},#{password},#{salt},#{email},#{activationcode},#{status},#{createtime},#{type})
     </insert>
 
     <select id="selectByName" resultType="Account">

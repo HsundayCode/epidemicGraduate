@@ -2,11 +2,15 @@ package com.hfz.epidemicmanage.Service;
 
 import com.hfz.epidemicmanage.Dao.AccountMapper;
 import com.hfz.epidemicmanage.Entity.Account;
+import com.hfz.epidemicmanage.Entity.LoginTicket;
 import com.hfz.epidemicmanage.Util.EpidemicConstant;
 import com.hfz.epidemicmanage.Util.EpidemicUtil;
 import com.hfz.epidemicmanage.Util.MailClient;
+import com.hfz.epidemicmanage.Util.RedisKeyUtil;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.tomcat.util.http.ConcurrentDateFormat;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
@@ -14,6 +18,7 @@ import org.thymeleaf.context.Context;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class AccountService implements EpidemicConstant {
@@ -24,6 +29,8 @@ public class AccountService implements EpidemicConstant {
     MailClient mailClient;
     @Autowired
     TemplateEngine templateEngine;
+    @Autowired
+    RedisTemplate redisTemplate;
 
 
     public Account FindAccountById(int id)
@@ -83,12 +90,13 @@ public class AccountService implements EpidemicConstant {
         account.setStatus(0);
         account.setCreatetime(new Date());
         account.setActivationcode(EpidemicUtil.generateUUID()); //设置激活码
+       // account.setEmail(account.getEmail());
         accountMapper.insertAccount(account);
         //发送激活邮件
 
         Context context = new Context();
         context.setVariable("email",account.getEmail());
-        String url ="http://localhost:8080/account/register/"+accountMapper.selectByName(account.getName()).getId()+"/"+account.getActivationcode();
+        String url ="http://localhost:8080/register/"+accountMapper.selectByName(account.getName()).getId()+"/"+account.getActivationcode();
         context.setVariable("url",url);
         String content = templateEngine.process("mail/registmail",context);
         mailClient.sendMail(account.getEmail(),"激活账号",content);
@@ -111,5 +119,52 @@ public class AccountService implements EpidemicConstant {
         }
     }
 
+    public Map<String,Object> login(String username,String password,long expire){
+        Map<String,Object> map = new HashMap<>();
+        Account accountDB = accountMapper.selectByName(username);
+        if(StringUtils.isBlank(username))
+        {
+            map.put("accountMessage","账号不能为空");
+            return map;
+        }
+        if(StringUtils.isBlank(password))
+        {
+            map.put("passwordMessage","密码不能为空");
+            return map;
+        }
+        if(accountDB == null)
+        {
+            map.put("accountMessage","账号不存在");
+            return map;
+        }
+        if(accountDB.getStatus() != 1)
+        {
+            map.put("accountMessage","账号还未激活");
+            return map;
+        }
+
+       password = EpidemicUtil.getmd5(password+ accountDB.getStatus());
+        if(!password.equals(accountDB.getPassword()))
+        {
+            map.put("passwordMessage","密码错误");
+            return map;
+        }
+
+        //创建登录凭证 作为拦截器判断cookie
+        LoginTicket loginTicket = new LoginTicket();
+        loginTicket.setId(accountDB.getId());
+        loginTicket.setTicket(EpidemicUtil.generateUUID());
+        loginTicket.setStatus(0);
+        loginTicket.setExpired(new Date(System.currentTimeMillis() + expire * 1000));
+
+        String ticketKey = RedisKeyUtil.getTicketKey(loginTicket.getTicket());
+
+        redisTemplate.opsForValue().set(ticketKey,ticketKey);//里面有用户id
+        redisTemplate.expire(ticketKey,6, TimeUnit.DAYS);//过期时间
+
+        map.put("ticket",loginTicket.getTicket());
+        return map;
+
+    }
 
 }

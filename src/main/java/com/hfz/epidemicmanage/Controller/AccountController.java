@@ -43,7 +43,7 @@ public class AccountController {
         return "/register";
     }
 
-    @RequestMapping(path= "/register/{accountid}/{code}",method = RequestMethod.POST)
+    @RequestMapping(path= "/register/{accountid}/{code}",method = RequestMethod.GET)
     public String activationAccount(Model model, @PathVariable("accountid") int accountid,@PathVariable("code") String code){
         int status = accountService.activation(accountid,code);
         if(status == 1)
