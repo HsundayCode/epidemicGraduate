@@ -15,8 +15,10 @@ public interface EpidemicConstant {
      * 重复激活
      */
     int ACTIVATION_REPEAT = 2;
-
-    int INFORMATION_PERFECT = 1;
+    /**
+     * 信息完善
+     */
+    int INFORMATION_PERFECT = 3;
 
 
 

@@ -28,14 +28,17 @@ public class LoginTicketInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String ticket = CookieUtil.getCookie(request,"ticket");
-        String ticketKey = RedisKeyUtil.getTicketKey(ticket);
-        LoginTicket loginTicket = (LoginTicket) redisTemplate.opsForSet().pop(ticketKey);
-        if(ticket != null && loginTicket.getStatus() == 0 && loginTicket.getExpired().after(new Date()))
+        if(ticket != null)
         {
-
-            Account account = accountMapper.selectById(loginTicket.getId());
-            hostHolder.setAccount(account);
+            String ticketKey = RedisKeyUtil.getTicketKey(ticket);
+            LoginTicket loginTicket = (LoginTicket) redisTemplate.opsForValue().get(ticketKey);
+            if(ticket != null && loginTicket.getStatus() == 0 && loginTicket.getExpired().after(new Date()))
+            {
+                Account account = accountMapper.selectById(loginTicket.getId());
+                hostHolder.setAccount(account);
+            }
         }
+
         return true;
     }
 }

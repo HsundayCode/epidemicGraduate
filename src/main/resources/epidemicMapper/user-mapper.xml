@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hfz.epidemicmanage.Dao.UserMapper">
+    <sql id="selectFiles">
+        id,accountid,name,sex,age,idcard,locale,phone,birthday
+    </sql>
+
+    <sql id="insertFiles">
+        accountid,name,sex,age,idcard,locale,phone,birthday
+    </sql>
+
+    <select id="selectById" parameterType="int" resultType="User">
+        select <include refid="selectFiles"></include>
+        from user
+        where id = #{id}
+    </select>
+    <select id="selectByName" resultType="User">
+        select <include refid="selectFiles"></include>
+        from user
+        where name = #{name}
+    </select>
+    <select id="selectByAccountid" resultType="User">
+        select <include refid="selectFiles"></include>
+        from user
+        where accountid = #{accountid}
+    </select>
+
+    <insert id="insertUser" parameterType="User" keyProperty="id">
+        insert into User(<include refid="insertFiles"></include>)
+        values (#{accountid},#{name},#{sex},#{age},#{idcard},#{locale},#{phone},#{birthday})
+    </insert>
+
+</mapper>

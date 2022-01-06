@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
@@ -45,5 +46,11 @@ public class LoginController {
             return "/login";
         }
 
+    }
+
+    @RequestMapping(path = "/logout",method = RequestMethod.GET)
+    public String logout(Model model, HttpServletRequest request){
+        accountService.logout(request);
+        return "/index";
     }
 }

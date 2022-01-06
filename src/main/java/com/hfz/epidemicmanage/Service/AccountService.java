@@ -3,18 +3,17 @@ package com.hfz.epidemicmanage.Service;
 import com.hfz.epidemicmanage.Dao.AccountMapper;
 import com.hfz.epidemicmanage.Entity.Account;
 import com.hfz.epidemicmanage.Entity.LoginTicket;
-import com.hfz.epidemicmanage.Util.EpidemicConstant;
-import com.hfz.epidemicmanage.Util.EpidemicUtil;
-import com.hfz.epidemicmanage.Util.MailClient;
-import com.hfz.epidemicmanage.Util.RedisKeyUtil;
+import com.hfz.epidemicmanage.Util.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.tomcat.util.http.ConcurrentDateFormat;
+import org.apache.tomcat.util.http.parser.Host;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,6 +30,8 @@ public class AccountService implements EpidemicConstant {
     TemplateEngine templateEngine;
     @Autowired
     RedisTemplate redisTemplate;
+    @Autowired
+    HostHolder hostHolder;
 
 
     public Account FindAccountById(int id)
@@ -85,7 +86,7 @@ public class AccountService implements EpidemicConstant {
         }
         //对注册进行加工，在存入数据库
         account.setSalt(EpidemicUtil.generateUUID().substring(0,5));//唯一码
-        account.setPassword(EpidemicUtil.getmd5(account.getPassword()) + account.getSalt());
+        account.setPassword(EpidemicUtil.getmd5(account.getPassword() + account.getSalt()));
         account.setType(0);
         account.setStatus(0);
         account.setCreatetime(new Date());
@@ -143,7 +144,7 @@ public class AccountService implements EpidemicConstant {
             return map;
         }
 
-       password = EpidemicUtil.getmd5(password+ accountDB.getStatus());
+       password = EpidemicUtil.getmd5(password+ accountDB.getSalt());
         if(!password.equals(accountDB.getPassword()))
         {
             map.put("passwordMessage","密码错误");
@@ -153,17 +154,27 @@ public class AccountService implements EpidemicConstant {
         //创建登录凭证 作为拦截器判断cookie
         LoginTicket loginTicket = new LoginTicket();
         loginTicket.setId(accountDB.getId());
+        loginTicket.setUsername(accountDB.getName());
         loginTicket.setTicket(EpidemicUtil.generateUUID());
         loginTicket.setStatus(0);
         loginTicket.setExpired(new Date(System.currentTimeMillis() + expire * 1000));
 
         String ticketKey = RedisKeyUtil.getTicketKey(loginTicket.getTicket());
 
-        redisTemplate.opsForValue().set(ticketKey,ticketKey);//里面有用户id
-        redisTemplate.expire(ticketKey,6, TimeUnit.DAYS);//过期时间
+        redisTemplate.opsForValue().set(ticketKey,loginTicket);//里面有用户id
+        redisTemplate.expire(ticketKey,expire * 1000,TimeUnit.SECONDS);//过期时间
 
         map.put("ticket",loginTicket.getTicket());
         return map;
+
+    }
+
+    //cookie取出ticketKey再从redis中取出loginTicket 删除
+    public void logout(HttpServletRequest request){
+        String ticket = CookieUtil.getCookie(request,"ticket");
+        String ticketKey = RedisKeyUtil.getTicketKey(ticket);
+        LoginTicket loginTicket=(LoginTicket) redisTemplate.opsForValue().get(ticketKey);
+        loginTicket.setStatus(1);
 
     }
 
