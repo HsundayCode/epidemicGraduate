@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>用户详情以及修改用户状态</title>
+</head>
+<body>
+
+<div>
+    <p th:text="${Patient.id}"></p>
+    <p th:text="${Patient.name}"></p>
+    <p th:text="${Patient.age}"></p>
+    <p th:text="${Patient.sex}"></p>
+    <p th:text="${Patient.accountid}"></p>
+    <p th:text="${Patient.idcard}"></p>
+    <p th:text="${Patient.phone}"></p>
+    <p th:text="${Patient.place}"></p>
+    <p th:text="${Patient.birthday}"></p>
+    <p th:text="${Patient.trail}"></p>
+    <p th:text="${Patient.name}"></p>
+    <p th:text="${Patient.divide}"></p>
+    <p th:text="${Patient.locale}"></p>
+    <p th:text="${Patient.occurrencetime}"></p>
+</div>
+<form method="post" th:action="@{/add}">
+    状况:<input type="text" name="status" id="status">
+    地点:<input type="text" name="place" id="place">
+    地址:<input type="text" name="divide" id="divide">
+    轨迹:<input type="text" name="trail" id="trail">
+    日期:<input type="text" name="occurrencetime" id="occurrencetime">
+    <button type="submit">修改状态</button>
+</form>
+<p th:text="${patientMessage}"></p>
+</body>
+</html>

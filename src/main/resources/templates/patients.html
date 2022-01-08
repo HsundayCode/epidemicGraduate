@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>用户列表</title>
+</head>
+<body>
+<form method="post" th:action="@{/patientList}" >
+    条件:<input type="text" name="factor" id=" factor">
+    关键字:<input type="text" name="key" id=" key">
+    <button type="submit">条件查询</button>
+</form>
+<div th:each="patient:${patientList}">
+    <a th:href="@{|/patientdetail/${patient.id}|}">详情页面</a>
+    <p th:text="${patient.id}"></p>
+    <p th:text="${patient.accountid}"></p>
+    <p th:text="${patient.name}"></p>
+    <p th:text="${patient.sex}"></p>
+    <p th:text="${patient.age}"></p>
+    <p th:text="${patient.idcard}"></p>
+    <p th:text="${patient.locale}"></p>
+    <p th:text="${patient.phone}"></p>
+    <p th:text="${patient.birthday}"></p>
+    <p th:text="${patient.status}"></p>
+    <p th:text="${patient.place}"></p>
+    <p th:text="${patient.divide}"></p>
+    <p th:text="${patient.trail}"></p>
+    <p th:text="${patient.occurrencetime}"></p>
+</div>
+</body>
+</html>

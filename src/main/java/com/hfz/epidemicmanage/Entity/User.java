@@ -12,10 +12,18 @@ public class User {
     private int phone;//手机号码
     private String birthday;//出生日期
 
+    private String status;//隔离情况级别
+    private String place;//感染地方
+    private String divide;//隔离地址
+    private String trail;//轨迹
+    private String occurrencetime;//感染日期
+
     public User() {
     }
 
-    public User(int id, int accountid, String name, String sex, String age, int idcard, String locale, int phone, String birthday) {
+    public User(int id, int accountid, String name, String sex, String age,
+                int idcard, String locale, int phone, String birthday, String status,
+                String place, String divide, String trail, String occurrencetime) {
         this.id = id;
         this.accountid = accountid;
         this.name = name;
@@ -25,6 +33,11 @@ public class User {
         this.locale = locale;
         this.phone = phone;
         this.birthday = birthday;
+        this.status = status;
+        this.place = place;
+        this.divide = divide;
+        this.trail = trail;
+        this.occurrencetime = occurrencetime;
     }
 
     public int getId() {
@@ -99,6 +112,46 @@ public class User {
         this.birthday = birthday;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getPlace() {
+        return place;
+    }
+
+    public void setPlace(String place) {
+        this.place = place;
+    }
+
+    public String getDivide() {
+        return divide;
+    }
+
+    public void setDivide(String divide) {
+        this.divide = divide;
+    }
+
+    public String getTrail() {
+        return trail;
+    }
+
+    public void setTrail(String trail) {
+        this.trail = trail;
+    }
+
+    public String getOccurrencetime() {
+        return occurrencetime;
+    }
+
+    public void setOccurrencetime(String occurrencetime) {
+        this.occurrencetime = occurrencetime;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -111,6 +164,11 @@ public class User {
                 ", locale='" + locale + '\'' +
                 ", phone=" + phone +
                 ", birthday='" + birthday + '\'' +
+                ", status='" + status + '\'' +
+                ", place='" + place + '\'' +
+                ", divide='" + divide + '\'' +
+                ", trail='" + trail + '\'' +
+                ", occurrencetime='" + occurrencetime + '\'' +
                 '}';
     }
 }

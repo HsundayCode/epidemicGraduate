@@ -3,12 +3,12 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hfz.epidemicmanage.Dao.UserMapper">
-    <sql id="selectFiles">
-        id,accountid,name,sex,age,idcard,locale,phone,birthday
+    <sql id="selectFiles">,
+        id,accountid,name,sex,age,idcard,locale,phone,birthday,status,place,divide,trail,occurrencetime
     </sql>
 
     <sql id="insertFiles">
-        accountid,name,sex,age,idcard,locale,phone,birthday
+        accountid,name,sex,age,idcard,locale,phone,birthday,status,place,divide,trail,occurrencetime
     </sql>
 
     <select id="selectById" parameterType="int" resultType="User">
@@ -29,7 +29,7 @@
 
     <insert id="insertUser" parameterType="User" keyProperty="id">
         insert into User(<include refid="insertFiles"></include>)
-        values (#{accountid},#{name},#{sex},#{age},#{idcard},#{locale},#{phone},#{birthday})
+        values (#{accountid},#{name},#{sex},#{age},#{idcard},#{locale},#{phone},#{birthday},#{status},#{place},#{divide},#{trail},#{occurrentime})
     </insert>
 
 </mapper>
