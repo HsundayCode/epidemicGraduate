@@ -22,6 +22,7 @@ public class UserService implements EpidemicConstant {
     @Autowired
     HostHolder hostHolder;
 
+    //注册账号
     public Map<String,Object> addUser(User user){
         Map<String,Object> map = new HashMap<>();
         Account account = hostHolder.getAccount();

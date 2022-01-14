@@ -23,7 +23,7 @@ public class AccountController {
     public String toregist(){
         return "/register";
     }
-
+    //注册
     @RequestMapping(path= "/register",method = RequestMethod.POST)
     public String Register(Model model, Account account)
     {
@@ -43,6 +43,7 @@ public class AccountController {
         return "/register";
     }
 
+    //邮箱激活
     @RequestMapping(path= "/register/{accountid}/{code}",method = RequestMethod.GET)
     public String activationAccount(Model model, @PathVariable("accountid") int accountid,@PathVariable("code") String code){
         int status = accountService.activation(accountid,code);

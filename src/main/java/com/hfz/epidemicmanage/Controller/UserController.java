@@ -24,6 +24,7 @@ public class UserController {
         return "/information";
     }
 
+    //用户添加信息
     @RequestMapping(path = "/information",method = RequestMethod.POST)
     public String information(Model model, User user){
         Map<String,Object> map = userService.addUser(user);

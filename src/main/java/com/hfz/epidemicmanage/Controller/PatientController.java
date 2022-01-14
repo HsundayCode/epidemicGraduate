@@ -29,10 +29,11 @@ public class PatientController {
     @Autowired
     HostHolder hostHolder;
 
+//    //获得用户详情页面
+//    @RequestMapping(path = "/change",method = RequestMethod.GET)
+//    public String getAddPage(){return "/patientdetail"; }
 
-    @RequestMapping(path = "/change",method = RequestMethod.GET)
-    public String getAddPage(){return "/patientdetail"; }
-
+    //获得用户列表页面
     @RequestMapping(path = "/patientList",method = RequestMethod.GET)
     public String getPatientListPage(){
         return "/patients";
@@ -71,23 +72,13 @@ public class PatientController {
         return "/patients";
     }
 
+    //根据id获得用户详情
     @RequestMapping(path = "/patientdetail/{patientid}",method = RequestMethod.GET)
     public String getPatientDetail(Model model, @PathVariable("patientid") int patientid){
         User patient= patientService.findPatientById(patientid);
         model.addAttribute("Patient",patient);
         return "/patientdetail";
     }
-//
-//    //
-//    @RequestMapping
-//    public String addPatient(Model model, User user)
-//    {
-//
-//    }
-//
-//    @RequestMapping
-//    public String modifyStatus(Model model,String status){
-//
-//    }
+
 
 }

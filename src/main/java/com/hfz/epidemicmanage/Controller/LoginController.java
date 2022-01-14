@@ -29,6 +29,7 @@ public class LoginController {
         return "/login";
     }
 
+    //登录，登陆凭证，cookie
     @RequestMapping(path = "/login",method = RequestMethod.POST)
     public String login(Model model, String name, String password, HttpServletResponse response){
         int expire = 3600 * 12;
@@ -48,6 +49,7 @@ public class LoginController {
 
     }
 
+    //登出 设置登录凭证的状态
     @RequestMapping(path = "/logout",method = RequestMethod.GET)
     public String logout(Model model, HttpServletRequest request){
         accountService.logout(request);

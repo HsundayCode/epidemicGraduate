@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>
+    用户<p th:text="${account.name}"></p>
+    标题<p th:text="${postdetail.title}"></p>
+    内容<p th:text="${postdetail.content}"></p>
+    <a th:href="@{|/updatestatus/${postdetail.id}|}">已解决</a>
+</div>
+</body>
+</html>

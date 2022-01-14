@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>已解决</title>
+</head>
+<body>
+<div th:each="map:${postListMap}">
+    <ul>
+        <li>用户:<p th:text="${map.account.name}"></p></li>
+        <li>标题:<a th:href="@{|/postdetail/${map.post.id}|}"><p th:text="${map.post.title}"></p></a></li>
+    </ul>
+</div>
+
+</body>
+</html>

@@ -49,6 +49,7 @@ public class AccountService implements EpidemicConstant {
         return accountMapper.selectByEmail(email);
     }
 
+    //注册账号
     public Map<String,Object>  addAccount(Account account)
     {
         Map<String,Object> map = new HashMap<>();
@@ -105,8 +106,9 @@ public class AccountService implements EpidemicConstant {
         return map;
     }
 
+    //激活判断 会改成redis
     public int activation(int id,String key){
-        Account account = accountMapper.selectById(id);
+        Account account = accountMapper.selectById(id);//
         String code = account.getActivationcode();
         if(account.getStatus() == 1)
         {
@@ -120,6 +122,7 @@ public class AccountService implements EpidemicConstant {
         }
     }
 
+    //登录 判断该账号合理性
     public Map<String,Object> login(String username,String password,long expire){
         Map<String,Object> map = new HashMap<>();
         Account accountDB = accountMapper.selectByName(username);
