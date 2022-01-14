@@ -3,6 +3,7 @@ package com.hfz.epidemicmanage.Controller;
 import com.hfz.epidemicmanage.Entity.User;
 import com.hfz.epidemicmanage.Service.UserService;
 import com.hfz.epidemicmanage.Util.HostHolder;
+import com.hfz.epidemicmanage.annotation.LoginRequire;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,11 +20,14 @@ public class UserController {
     @Autowired
     HostHolder hostHolder;
 
+    @LoginRequire
     @RequestMapping(path = "/addinformation",method = RequestMethod.GET)
     public String getInformation(){
         return "/information";
     }
 
+    //用户添加信息
+    @LoginRequire
     @RequestMapping(path = "/information",method = RequestMethod.POST)
     public String information(Model model, User user){
         Map<String,Object> map = userService.addUser(user);

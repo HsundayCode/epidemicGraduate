@@ -11,19 +11,21 @@ import java.util.List;
 @Mapper
 @Repository
 public interface PatientMapper {
-    User selectById(int userid);//病人id
+    User selectById(int userid);//病人id 用户id
     User selectByIdcard(int idcard);//身份证
 
-    List<User>selectByKey(@Param("key") String key,@Param("limit") int limit,@Param("offset") int offset);//名字
-    List<User> selectByPlace(String place,int limit,int offset);//感染地点
-    List<User> selectByStatus(String status,int limit,int offset);//隔离情况级别
+    List<User>selectByKey(@Param("key") String key,@Param("limit") int limit,@Param("offset") int offset);//条件 关键字查询
+
 
     List<User> selectPatients(@Param("limit") int limit,@Param("offset") int offset);//全部
 
     int insertPatient(User patient);//添加
+
     int updateStatus(String Status);//修改级别
+
     int updatePatient(@Param("userid") int userid, @Param("status") String status,@Param("place") String place,
-                      @Param("divide") String divide, @Param("trail") String trail, @Param("occurrencetime") String occurrencetime);//在user表里更新病人信息
+                      @Param("divide") String divide, @Param("trail") String trail,
+                      @Param("occurrencetime") String occurrencetime);//管理员更新病人信息
 
 
 }

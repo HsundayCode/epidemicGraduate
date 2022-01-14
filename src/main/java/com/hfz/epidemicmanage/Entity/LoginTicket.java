@@ -1,7 +1,7 @@
 package com.hfz.epidemicmanage.Entity;
 
 import java.util.Date;
-
+//登录凭证
 public class LoginTicket {
     private int id;
     private String username;

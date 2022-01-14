@@ -2,7 +2,9 @@ package com.hfz.epidemicmanage.Controller;
 
 import com.hfz.epidemicmanage.Dao.AccountMapper;
 import com.hfz.epidemicmanage.Entity.Account;
+import com.hfz.epidemicmanage.Entity.Event;
 import com.hfz.epidemicmanage.Service.AccountService;
+import com.hfz.epidemicmanage.Service.EventService;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,12 +25,15 @@ public class LoginController {
     AccountMapper accountMapper;
     @Autowired
     AccountService accountService;
+    @Autowired
+    EventService eventService;
 
     @RequestMapping(path = "/login",method = RequestMethod.GET)
     public String getLogin(){
         return "/login";
     }
 
+    //登录，登陆凭证，cookie
     @RequestMapping(path = "/login",method = RequestMethod.POST)
     public String login(Model model, String name, String password, HttpServletResponse response){
         int expire = 3600 * 12;
@@ -38,7 +43,7 @@ public class LoginController {
             Cookie cookie = new Cookie("ticket",map.get("ticket").toString());
             cookie.setMaxAge(expire);
             response.addCookie(cookie);
-            return "/index";
+            return "redirect:/index";//单纯的return是直接找到页面，而重定向是再次请求，动态页面要重定向，不然之前的数据会丢失
         }else
         {
             model.addAttribute("accountMessage",map.get("accountMessage"));
@@ -48,9 +53,12 @@ public class LoginController {
 
     }
 
+    //登出 设置登录凭证的状态
     @RequestMapping(path = "/logout",method = RequestMethod.GET)
     public String logout(Model model, HttpServletRequest request){
         accountService.logout(request);
-        return "/index";
+
+
+        return "redirect:/index";
     }
 }

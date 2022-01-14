@@ -12,20 +12,20 @@
 </form>
 <div th:each="patient:${patientList}">
     <a th:href="@{|/patientdetail/${patient.id}|}">详情页面</a>
-    <p th:text="${patient.id}"></p>
-    <p th:text="${patient.accountid}"></p>
-    <p th:text="${patient.name}"></p>
-    <p th:text="${patient.sex}"></p>
-    <p th:text="${patient.age}"></p>
-    <p th:text="${patient.idcard}"></p>
-    <p th:text="${patient.locale}"></p>
-    <p th:text="${patient.phone}"></p>
-    <p th:text="${patient.birthday}"></p>
-    <p th:text="${patient.status}"></p>
-    <p th:text="${patient.place}"></p>
-    <p th:text="${patient.divide}"></p>
-    <p th:text="${patient.trail}"></p>
-    <p th:text="${patient.occurrencetime}"></p>
+    <tr th:text="${patient.id}"></>
+    <tr th:text="${patient.accountid}"></tr>
+    <tr th:text="${patient.name}"></tr>
+    <tr th:text="${patient.sex}"></tr>
+    <tr th:text="${patient.age}"></tr>
+    <tr th:text="${patient.idcard}"></tr>
+    <tr th:text="${patient.locale}"></tr>
+    <tr th:text="${patient.phone}"></tr>
+    <tr th:text="${patient.birthday}"></tr>
+    <tr th:text="${patient.status}"></tr>
+    <tr th:text="${patient.place}"></tr>
+    <tr th:text="${patient.divide}"></tr>
+    <tr th:text="${patient.trail}"></tr>
+    <tr th:text="${patient.occurrencetime}"></tr>
 </div>
 </body>
 </html>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hfz.epidemicmanage.Dao.RecordSMapper">
+    <sql id="selectFiles">
+        id,accountid,temperature,name,locale,phone,createtime
+    </sql>
+    <sql id="insertFiles">
+        accountid,temperature,name,locale,phone,createtime
+    </sql>
+
+    <insert id="insertRecord" keyProperty="id">
+        insert into record(<include refid="insertFiles"></include>)
+        values (#{accountid},#{temperature},#{name},#{locale},#{phone},#{createtime})
+    </insert>
+    <insert id="insertTodayRecord" keyProperty="id">
+        insert into todayrecord(<include refid="insertFiles"></include>)
+        values (#{accountid},#{temperature},#{name},#{locale},#{phone},#{createtime})
+    </insert>
+
+    <select id="selectTodayRecord" resultType="com.hfz.epidemicmanage.Entity.Record">
+        select <include refid="selectFiles"></include>
+        from todayrecord
+        where accountid = #{accountid}
+    </select>
+    <update id="updateToday">
+        update todayrecord set temperature=#{temperature},local=#{locale},createtime=#{createtime}
+        where accountid = #{accountid}
+    </update>
+    <select id="selectTodayRecordRow" resultType="int">
+        select count (id)
+        from todayrecord
+        where createtime = #{createtime}
+    </select>
+
+</mapper>

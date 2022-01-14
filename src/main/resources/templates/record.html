@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>登记打卡</title>
+</head>
+<body>
+<div>
+    <form th:action="@{/addRecord}" method="post">
+        当前体温:<input type="text" name="temperature" id="temperature">
+        当前地址:<input type="text" name="locale" id="local">
+        <button type="submit">提交</button>
+    </form>
+</div>
+打卡情况:<tr th:text="${result}"></tr>
+</body>
+</html>

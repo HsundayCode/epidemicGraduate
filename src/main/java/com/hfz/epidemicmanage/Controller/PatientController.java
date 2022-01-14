@@ -7,6 +7,7 @@ import com.hfz.epidemicmanage.Entity.Patient;
 import com.hfz.epidemicmanage.Entity.User;
 import com.hfz.epidemicmanage.Service.PatientService;
 import com.hfz.epidemicmanage.Util.HostHolder;
+import com.hfz.epidemicmanage.annotation.LoginRequire;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,16 +30,19 @@ public class PatientController {
     @Autowired
     HostHolder hostHolder;
 
+//    //获得用户详情页面
+//    @RequestMapping(path = "/change",method = RequestMethod.GET)
+//    public String getAddPage(){return "/patientdetail"; }
 
-    @RequestMapping(path = "/change",method = RequestMethod.GET)
-    public String getAddPage(){return "/patientdetail"; }
-
+    //获得用户列表页面
+    @LoginRequire
     @RequestMapping(path = "/patientList",method = RequestMethod.GET)
     public String getPatientListPage(){
         return "/patients";
     }
 
     //添加病人信息
+    @LoginRequire
     @RequestMapping(path = "/add",method = RequestMethod.POST)
     public String addPatient(Model model,int userid,String status,String place,String divide,String trail,String occurrencetime){
         Account account = hostHolder.getAccount();
@@ -53,6 +57,7 @@ public class PatientController {
     }
 
     //输出病人列表 factor查询条件  key需要查询的关键字
+    @LoginRequire
     @RequestMapping(path = "/patientList",method = RequestMethod.POST)
     public String getPatientsList(Model model,String factor,String key, Page page){
         List<Map<String,Object> > patients = new ArrayList<>();
@@ -71,23 +76,14 @@ public class PatientController {
         return "/patients";
     }
 
+    //根据id获得用户详情
+    @LoginRequire
     @RequestMapping(path = "/patientdetail/{patientid}",method = RequestMethod.GET)
     public String getPatientDetail(Model model, @PathVariable("patientid") int patientid){
         User patient= patientService.findPatientById(patientid);
         model.addAttribute("Patient",patient);
         return "/patientdetail";
     }
-//
-//    //
-//    @RequestMapping
-//    public String addPatient(Model model, User user)
-//    {
-//
-//    }
-//
-//    @RequestMapping
-//    public String modifyStatus(Model model,String status){
-//
-//    }
+
 
 }

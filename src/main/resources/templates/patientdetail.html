@@ -7,20 +7,19 @@
 <body>
 
 <div>
-    <p th:text="${Patient.id}"></p>
-    <p th:text="${Patient.name}"></p>
-    <p th:text="${Patient.age}"></p>
-    <p th:text="${Patient.sex}"></p>
-    <p th:text="${Patient.accountid}"></p>
-    <p th:text="${Patient.idcard}"></p>
-    <p th:text="${Patient.phone}"></p>
-    <p th:text="${Patient.place}"></p>
-    <p th:text="${Patient.birthday}"></p>
-    <p th:text="${Patient.trail}"></p>
-    <p th:text="${Patient.name}"></p>
-    <p th:text="${Patient.divide}"></p>
-    <p th:text="${Patient.locale}"></p>
-    <p th:text="${Patient.occurrencetime}"></p>
+    <tr th:text="${Patient.id}"></tr>
+    姓名:<tr th:text="${Patient.name}"></tr>
+    年龄:<tr th:text="${Patient.age}"></tr>
+    性别:<tr th:text="${Patient.sex}"></tr>
+    账号id:<tr th:text="${Patient.accountid}"></tr>
+    身份证:<tr th:text="${Patient.idcard}"></tr>
+    联系:<tr th:text="${Patient.phone}"></tr>
+    感染地点:<tr th:text="${Patient.place}"></tr>
+    生日:<tr th:text="${Patient.birthday}"></tr>
+    轨迹:<tr th:text="${Patient.trail}"></tr>
+    隔离地址:<tr th:text="${Patient.divide}"></tr>
+    地址:<tr th:text="${Patient.locale}"></tr>
+    发生时间:<tr th:text="${Patient.occurrencetime}"></tr>
 </div>
 <form method="post" th:action="@{/add}">
     状况:<input type="text" name="status" id="status">
