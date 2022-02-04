@@ -27,12 +27,18 @@ public class UserController {
     }
 
     //用户添加信息
+    //需要判断用户是否已经存在信息，不能重复提交，判断账号id是否在user里存在
+    //添加完信息后应该返回首页
     @LoginRequire
     @RequestMapping(path = "/information",method = RequestMethod.POST)
     public String information(Model model, User user){
         Map<String,Object> map = userService.addUser(user);
-        model.addAttribute("userMessage",map.get("userMessage"));
-
-        return "/information";
+        //判断map是否为空，返回指定页面
+        if(map != null)
+        {
+            model.addAttribute("userMessage",map.get("userMessage"));
+            return "/information";
+        }
+       return "/index";
     }
 }

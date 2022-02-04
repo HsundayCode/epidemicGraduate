@@ -24,33 +24,34 @@ public class PostService implements EpidemicConstant {
     @Autowired
     PostMapper postMapper;
 
-    //添加
+    //添加反馈信息
     public Map<String,Object> addPost(String title,String content){
         Map<String,Object> map = new HashMap<>();
         Post post = new Post();
         Account account = hostHolder.getAccount();
         User user = userMapper.selectById(account.getId());
 
-        post.setAccountid(account.getId());
-        post.setContent(content);
-        post.setTitle(title);
-        post.setCreateTime(new Date());
-        post.setStatus(POST_UNRESOLVED);
+        post.setAccountid(account.getId());//账号id，通过账号id可以知道用户信息
+        post.setContent(content);//内容
+        post.setTitle(title);//标题
+        post.setCreateTime(new Date());//创建时间
+        post.setStatus(POST_UNRESOLVED);//消息状态
 
         postMapper.insertPost(post);
         return map;
     }
 
     //根据id可以查看帖子详情
+    //单个用户的全部消息反馈信息
     public Post FindPostDetail(int postid){
         Post post = postMapper.selectPostById(postid);
         return post;
     }
 
-    //获取全部
+    //获取全部反馈信息
     public List<Map<String,Object>> getPostList(int limit,int offset)
     {
-        List<Post> postList = postMapper.selectPostList(5,0);
+        List<Post> postList = postMapper.selectPostList(limit,offset);
         List<Map<String,Object>> postvo = new ArrayList<>();
         for(Post post : postList)
         {
@@ -67,10 +68,11 @@ public class PostService implements EpidemicConstant {
         postMapper.updateStatus(accountid,status);
     }
 
+    //未解决反馈信息列表
     public List<Map<String,Object>> getUnResolvedList(String accountname,int limit,int offset)
     {
         int accountid = accountMapper.selectByName(accountname).getId();
-        List<Post> UnResolvedList = postMapper.selectUnResolvedList(accountid,5,0);
+        List<Post> UnResolvedList = postMapper.selectUnResolvedList(accountid,limit,offset);
         List<Map<String,Object>> unresolved = new ArrayList<>();
         for(Post post : UnResolvedList)
         {
@@ -81,6 +83,7 @@ public class PostService implements EpidemicConstant {
         }
         return unresolved;
     }
+    //已解决反馈信息列表
     public List<Map<String,Object>> getResolvedList(String accountname,int limit,int offset)
     {
         int accountid = accountMapper.selectByName(accountname).getId();

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.HashMap;
 import java.util.Map;
-//注册账号
+//注册激活账号
 @Controller
 public class AccountController {
 
@@ -28,12 +28,12 @@ public class AccountController {
     public String Register(Model model, Account account)
     {
         Map<String,Object> map;
-        map = accountService.addAccount(account);
+        map = accountService.addAccount(account);//返回账号状态
         if(map==null || map.isEmpty())
         {
             model.addAttribute("msg","注册成功");
             model.addAttribute("target","/index");
-            return "/index";
+            return "/register";
         }else
         {
             model.addAttribute("nameMessage",map.get("nameMessage"));
@@ -46,7 +46,7 @@ public class AccountController {
     //邮箱激活
     @RequestMapping(path= "/register/{Activationcode}",method = RequestMethod.GET)
     public String activationAccount(Model model, @PathVariable("Activationcode") String Activationcode){
-        int status = accountService.activation(Activationcode);
+        int status = accountService.activation(Activationcode);//返回激活状态码
         if(status == 1)
         {
             model.addAttribute("msg","账号激活成功");

@@ -12,10 +12,12 @@
         邮箱:<input type="email" name="email" id="email" required>
         <button type="submit" >注册</button>
     </form>
-
+    账号情况:<tr th:text="${msg}"></tr>
+    跳转首页:<tr th:text="${target}"></tr>
     账号异常:<tr th:text="${nameMessage}"></tr>
     密码异常:<tr th:text="${passwordMessage}"></tr>
     邮箱异常:<tr th:text="${emailMessage}"></tr>
+
 </div>
 </body>
 </html>

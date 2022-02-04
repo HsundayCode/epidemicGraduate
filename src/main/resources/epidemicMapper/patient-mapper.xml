@@ -7,7 +7,7 @@
         status,place,divide,trail,occurrencetime
     </sql>
     <sql id="selectFiles">
-        accountid,name,sex,age,idcard,locale,phone,birthday,status,place,divide,trail,occurrencetime
+        id,accountid,name,sex,age,idcard,locale,phone,birthday,status,place,divide,trail,occurrencetime
     </sql>
     
     <update id="updatePatient">
@@ -31,4 +31,8 @@
         from user
         where name = #{key} or status = #{key} or place = #{key}
     </select>
+    <update id="updateStatus">
+        update user set status = #{status}
+        where id = #{userid]}
+    </update>
 </mapper>

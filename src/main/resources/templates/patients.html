@@ -12,7 +12,7 @@
 </form>
 <div th:each="patient:${patientList}">
     <a th:href="@{|/patientdetail/${patient.id}|}">详情页面</a>
-    <tr th:text="${patient.id}"></>
+    <tr th:text="${patient.id}"></tr>
     <tr th:text="${patient.accountid}"></tr>
     <tr th:text="${patient.name}"></tr>
     <tr th:text="${patient.sex}"></tr>
@@ -27,5 +27,11 @@
     <tr th:text="${patient.trail}"></tr>
     <tr th:text="${patient.occurrencetime}"></tr>
 </div>
+<ul th:fragment="pagination">
+    <li><a th:href="@{${page.path}(current=1)}">首页</a></li>
+    <li><a th:href="@{${page.path}(current=${page.current-1})}">上一页</a></li>
+    <li><a th:href="@{${page.path}}" th:text="${page.current}">1</a></li>
+    <li><a th:href="@{${page.path}(current=${page.current+1})}">下一页</a></li>
+</ul>
 </body>
 </html>

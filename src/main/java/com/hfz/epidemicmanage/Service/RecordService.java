@@ -24,6 +24,10 @@ public class RecordService {
         return HistoryRecordList;
     }
 
+    public List<Record> findRecentlyRecordList(int limit,int offset){
+        return recordSMapper.selectTodayRecordList(limit,offset);
+    }
+
     //添加记录
     public String addRecord(Record record){
         String todayKey = RedisKeyUtil.getTodayRecordKey(record.getAccountid());
@@ -36,8 +40,9 @@ public class RecordService {
             redisTemplate.opsForValue().set(todayKey,record.getCreatetime());
             if(recordSMapper.selectTodayRecord(record.getAccountid()) == null)
             {
-                recordSMapper.insertTodayRecord(record);//放入当前表
+                recordSMapper.insertTodayRecord(record);//放入最近表
             }else {
+                //更新最近表
                 recordSMapper.updateToday(record.getAccountid(),record.getTemperature(),record.getLocale(),record.getCreatetime());
             }
 

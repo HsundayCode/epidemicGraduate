@@ -19,9 +19,9 @@ public interface PatientMapper {
 
     List<User> selectPatients(@Param("limit") int limit,@Param("offset") int offset);//全部
 
-    int insertPatient(User patient);//添加
+    int insertPatient(User patient);//添加--用更新信息 添加👉用户自己添加
 
-    int updateStatus(String Status);//修改级别
+    int updateStatus(int userid,String Status);//修改级别
 
     int updatePatient(@Param("userid") int userid, @Param("status") String status,@Param("place") String place,
                       @Param("divide") String divide, @Param("trail") String trail,
