@@ -93,29 +93,38 @@ public class AccountService implements EpidemicConstant {
         account.setCreatetime(new Date());
         account.setActivationcode(EpidemicUtil.generateUUID()); //设置激活码
        // account.setEmail(account.getEmail());
-        accountMapper.insertAccount(account);
+        //accountMapper.insertAccount(account);//应该先放进缓存设置过期时间，激活时再放进数据库
         //发送激活邮件
+        String ActivationcodeKey = RedisKeyUtil.getActivationcodeKey(account.getActivationcode());
+        redisTemplate.opsForValue().set(ActivationcodeKey,account);
+        redisTemplate.expire(ActivationcodeKey,5*60,TimeUnit.SECONDS);//5分钟过期
 
         Context context = new Context();
-        context.setVariable("email",account.getEmail());
-        String url ="http://localhost:8080/register/"+accountMapper.selectByName(account.getName()).getId()+"/"+account.getActivationcode();
-        context.setVariable("url",url);
+        context.setVariable("email",account.getEmail());//设置模板属性
+        //注册接口/+姓名(账号)+账号激活码  xxx
+        //不能用中文做url
+        String url ="http://localhost:8080/register/"+account.getActivationcode();
+        context.setVariable("url",url);//设置模板属性
         String content = templateEngine.process("mail/registmail",context);
+
         mailClient.sendMail(account.getEmail(),"激活账号",content);
 
         return map;
     }
 
     //激活判断 会改成redis
-    public int activation(int id,String key){
-        Account account = accountMapper.selectById(id);//
-        String code = account.getActivationcode();
+    public int activation(String Activationcode){
+        //Account account = accountMapper.selectById(id);//
+        //String code = account.getActivationcode();
+        String ActivationcodeKey = RedisKeyUtil.getActivationcodeKey(Activationcode);
+        Account account = (Account) redisTemplate.opsForValue().get(ActivationcodeKey);
         if(account.getStatus() == 1)
         {
             return ACTIVATION_REPEAT;
-        }else if(key.equals(code))
+        }else if(Activationcode.equals(account.getActivationcode()))
         {
-            accountMapper.updateStatus(id,1);
+            account.setStatus(1);
+            accountMapper.insertAccount(account);
             return ACTIVATION_SUCCESS;
         }else {
             return ACTIVATION_FAILURE;
@@ -164,6 +173,7 @@ public class AccountService implements EpidemicConstant {
 
         String ticketKey = RedisKeyUtil.getTicketKey(loginTicket.getTicket());
 
+        //拦截器用但现在感觉这个时多此一举了
         redisTemplate.opsForValue().set(ticketKey,loginTicket);//里面有用户id
         redisTemplate.expire(ticketKey,expire * 1000,TimeUnit.SECONDS);//过期时间
 

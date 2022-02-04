@@ -44,9 +44,9 @@ public class AccountController {
     }
 
     //邮箱激活
-    @RequestMapping(path= "/register/{accountid}/{code}",method = RequestMethod.GET)
-    public String activationAccount(Model model, @PathVariable("accountid") int accountid,@PathVariable("code") String code){
-        int status = accountService.activation(accountid,code);
+    @RequestMapping(path= "/register/{Activationcode}",method = RequestMethod.GET)
+    public String activationAccount(Model model, @PathVariable("Activationcode") String Activationcode){
+        int status = accountService.activation(Activationcode);
         if(status == 1)
         {
             model.addAttribute("msg","账号激活成功");
