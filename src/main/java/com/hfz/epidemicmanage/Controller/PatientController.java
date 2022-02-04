@@ -35,11 +35,11 @@ public class PatientController {
 //    public String getAddPage(){return "/patientdetail"; }
 
     //获得用户列表页面
-    @LoginRequire
-    @RequestMapping(path = "/patientList",method = RequestMethod.GET)
-    public String getPatientListPage(){
-        return "/patients";
-    }
+//    @LoginRequire
+//    @RequestMapping(path = "/patientList",method = RequestMethod.GET)
+//    public String getPatientListPage(){
+//        return "/patients";
+//    }
 
     //添加病人信息
     @LoginRequire
@@ -55,35 +55,37 @@ public class PatientController {
         model.addAttribute("patientMessage","修改成功");
         return "/patientdetail";
     }
-
-    //输出病人列表 factor查询条件  key需要查询的关键字
+    //因为分页的原因条件查询要分开不能用post来分页？
     @LoginRequire
-    @RequestMapping(path = "/patientList",method = RequestMethod.POST)
-    public String getPatientsList(Model model,String factor,String key, Page page){
-        List<Map<String,Object> > patients = new ArrayList<>();
-        if(StringUtils.isBlank(factor))
-        {
-            Map<String,Object> map = patientService.findPatients(5,0);
+    @RequestMapping(path = "/patientList",method = RequestMethod.GET)
+    public String getPatientsList(Model model, Page page){
+        page.setLimit(5);
+        page.setPath("/patientList");
+        //List<Map<String,Object>> patients = new ArrayList<>();
+            //返回的map里有List<Map<String,Object>>
+            Map<String,Object> map = patientService.findPatients(page.getLimit(),page.getoffset());
             model.addAttribute("patientList",map.get("patientList"));
-            return "/patients";
-        }
-        if(!StringUtils.isBlank(factor))
-        {
-            Map<String,Object> map = patientService.findPatientListByFactor(factor,key,5,0);
-            model.addAttribute("patientList",map.get("ByFactorList"));
-            return "/patients";
-        }
-        return "/patients";
+            return "/patients";//返回全部列表
+
+
     }
 
     //根据id获得用户详情
+    //用户列表中会有用户id
     @LoginRequire
     @RequestMapping(path = "/patientdetail/{patientid}",method = RequestMethod.GET)
     public String getPatientDetail(Model model, @PathVariable("patientid") int patientid){
         User patient= patientService.findPatientById(patientid);
         model.addAttribute("Patient",patient);
-        return "/patientdetail";
+        return "/patientdetail";//返回一个用户实体类
     }
 
+    //修改用户状态
+    @LoginRequire
+    @RequestMapping(path = "/updateStatus/{accountid}",method = RequestMethod.GET)
+    public void updateStatus(@PathVariable("accountid") int accountid,String status)
+    {
+        patientService.updateStatus(accountid,status);
+    }
 
 }

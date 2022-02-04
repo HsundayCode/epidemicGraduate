@@ -9,6 +9,7 @@ import com.hfz.epidemicmanage.Service.RecordService;
 import com.hfz.epidemicmanage.Service.UserService;
 import com.hfz.epidemicmanage.Util.HostHolder;
 import com.hfz.epidemicmanage.annotation.LoginRequire;
+import com.hfz.epidemicmanage.annotation.ManageRequire;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,6 +36,7 @@ public class RecordController {
 
     //获取某人历史打卡记录
     @LoginRequire
+    @ManageRequire
     @RequestMapping(path = "/HistoryRecord",method = RequestMethod.POST)
     public String getHistoryRecordList(Model model, Page page,int accountid){
         List<Record> recordList = recordService.findHistoryRecordList(accountid,page.getLimit(),page.getoffset());
@@ -61,5 +63,11 @@ public class RecordController {
         return "/record";
     }
 
+    //最近打卡列表
+    public String getRecentlyRecordList(Model model,Page page){
+        List<Record> RecentlyRecordList = recordService.findRecentlyRecordList(page.getLimit(),page.getoffset());
+        model.addAttribute("RecentlyRecordList",RecentlyRecordList);
+        return "/recordList";
+    }
 
 }

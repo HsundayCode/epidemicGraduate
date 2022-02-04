@@ -22,6 +22,7 @@ public class PatientService implements EpidemicConstant {
     @Autowired
     AccountMapper accountMapper;
 
+    //获得用户列表页面
     //一次性查询 列表
     public Map<String,Object> findPatients(int limit,int offset){
         Map<String,Object> map = new HashMap<>();
@@ -30,22 +31,24 @@ public class PatientService implements EpidemicConstant {
         return map;
     }
 
+    //输出病人列表 factor查询条件  key需要查询的关键字
     //名字，级别，感染地点3个方法
+    //前端会把查询条件和查询关键词传进来
     public Map<String,Object> findPatientListByFactor(String factor,String key,int limit,int offset){
         Map<String,Object> map = new HashMap<>();
-        if(factor.equals("name"))
+        if(factor.equals("name"))//通过用户名查询
         {
             List<User> ByNameList = patientMapper.selectByKey(key,limit,offset);
             map.put("ByFactorList",ByNameList);
             return map;
         }
-        if(factor.equals("status"))
+        if(factor.equals("status"))//通过身体状态查询
         {
             List<User> ByStatusList = patientMapper.selectByKey(key,limit,offset);
             map.put("ByFactorList",ByStatusList);
             return map;
         }
-        if(factor.equals("place"))
+        if(factor.equals("place"))//通过感染地点查询
         {
             List<User> ByPlaceList = patientMapper.selectByKey(key,limit,offset);
             map.put("ByFactorList",ByPlaceList);
@@ -64,9 +67,16 @@ public class PatientService implements EpidemicConstant {
         return patientMapper.selectByIdcard(idcard);
     }
 
+    //添加用户信息
+    //修该用户信息
     public void updatePatient(int userid,String status,String place,String divide,String trail,String occurrencetime)
     {
         patientMapper.updatePatient(userid,status,place,divide,trail,occurrencetime);
+    }
+    //修改用户状态
+    public void updateStatus(int id,String status)
+    {
+        patientMapper.updateStatus(id,status);
     }
 
 }

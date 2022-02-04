@@ -28,7 +28,7 @@
 
     <insert id="insertUser" parameterType="User" keyProperty="id">
         insert into User(<include refid="insertFiles"></include>)
-        values (#{accountid},#{name},#{sex},#{age},#{idcard},#{locale},#{phone},#{birthday},#{status},#{place},#{divide},#{trail},#{occurrentime})
+        values (#{accountid},#{name},#{sex},#{age},#{idcard},#{locale},#{phone},#{birthday},#{status},#{place},#{divide},#{trail},#{occurrencetime})
     </insert>
 
 </mapper>

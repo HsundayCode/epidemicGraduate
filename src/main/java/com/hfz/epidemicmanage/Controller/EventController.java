@@ -14,6 +14,8 @@ public class EventController {
     @Autowired
     EventService eventService;
 
+    //这里不应该返回到首页，用ajax
+    //获取社区病人数量
     @RequestMapping(path = "/getpatientNum",method = RequestMethod.GET)
     public String getPatientNum(Model model){
         Event event = eventService.getPatientNum();

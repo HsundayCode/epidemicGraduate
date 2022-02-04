@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
-
+//登录登出
 @Controller
 public class LoginController {
 
@@ -37,28 +37,26 @@ public class LoginController {
     @RequestMapping(path = "/login",method = RequestMethod.POST)
     public String login(Model model, String name, String password, HttpServletResponse response){
         int expire = 3600 * 12;
-        Map<String,Object> map = accountService.login(name,password,expire);
+        Map<String,Object> map = accountService.login(name,password,expire);//判断账号合法
         if(map.containsKey("ticket"))
         {
             Cookie cookie = new Cookie("ticket",map.get("ticket").toString());
             cookie.setMaxAge(expire);
             response.addCookie(cookie);
-            return "redirect:/index";//单纯的return是直接找到页面，而重定向是再次请求，动态页面要重定向，不然之前的数据会丢失
+            return "/index";//单纯的return是直接找到页面，而重定向是再次请求，动态页面要重定向，不然之前的数据会丢失
         }else
         {
             model.addAttribute("accountMessage",map.get("accountMessage"));
             model.addAttribute("passwordMessage",map.get("passwordMessage"));
-            return "/login";
+            return "/login";//返回注册状态
         }
 
     }
 
-    //登出 设置登录凭证的状态
+    //通过cookie来设置登出 设置登录凭证的状态
     @RequestMapping(path = "/logout",method = RequestMethod.GET)
     public String logout(Model model, HttpServletRequest request){
         accountService.logout(request);
-
-
-        return "redirect:/index";
+        return "/login";
     }
 }
