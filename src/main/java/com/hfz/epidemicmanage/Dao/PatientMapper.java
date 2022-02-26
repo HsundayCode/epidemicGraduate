@@ -1,6 +1,6 @@
 package com.hfz.epidemicmanage.Dao;
 
-import com.hfz.epidemicmanage.Entity.Patient;
+
 import com.hfz.epidemicmanage.Entity.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -14,7 +14,9 @@ public interface PatientMapper {
     User selectById(int userid);//病人id 用户id
     User selectByIdcard(int idcard);//身份证
 
-    List<User>selectByKey(@Param("key") String key,@Param("limit") int limit,@Param("offset") int offset);//条件 关键字查询
+    List<User>selectByName(String name,@Param("limit") int limit,@Param("offset") int offset);//条件 关键字查询
+    List<User>selectByStatus(int status,int limit,int offset);
+
 
 
     List<User> selectPatients(@Param("limit") int limit,@Param("offset") int offset);//全部

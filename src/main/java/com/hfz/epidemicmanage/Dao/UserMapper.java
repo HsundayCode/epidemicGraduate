@@ -12,4 +12,5 @@ public interface UserMapper {
     User selectByName(String name);
     User selectByAccountid(int accountid);
     int insertUser(User user);//用户信息添加
+    int deleteUser(int id);
 }

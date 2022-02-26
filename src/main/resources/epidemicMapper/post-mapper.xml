@@ -34,9 +34,6 @@
         select <include refid="selectFiles"></include>
         from post
         where status = 0
-        <if test="accountid !=0">
-        and accountid = #{accountid}
-        </if>
         order by createtime desc
         limit #{offset},#{limit}
     </select>
@@ -44,9 +41,6 @@
         select <include refid="selectFiles"></include>
         from post
         where status = 1
-        <if test="accountid !=0">
-            and accountid = #{accountid}
-        </if>
         order by createtime desc
         limit #{offset},#{limit}
     </select>

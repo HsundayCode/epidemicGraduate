@@ -31,10 +31,15 @@
         from user
         where idcard = #{idcard}
     </select>
-    <select id="selectByKey" resultType="User">
+    <select id="selectByName" resultType="User">
         select <include refid="selectFiles"></include>
         from user
-        where name = #{key} or status = #{key} or place = #{key}
+        where name = #{name}
+    </select>
+    <select id="selectByStatus">
+        select <include refid="selectFiles"></include>
+        from user
+        where status = #{status}
     </select>
     <update id="updateStatus">
         update user set status = #{status}

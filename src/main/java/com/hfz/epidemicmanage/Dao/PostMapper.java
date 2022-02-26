@@ -15,6 +15,6 @@ public interface PostMapper {
     Post selectPostById(int postid);//帖子详情
     int updateStatus(@Param("postid") int postid,@Param("status") int status);//更新状态
 
-    List<Post> selectUnResolvedList(@Param("accountid") int accountid,@Param("limit") int limit, @Param("offset") int offset);
-    List<Post> selectResolvedList(@Param("accountid") int accountid,@Param("limit") int limit, @Param("offset") int offset);
+    List<Post> selectUnResolvedList(@Param("limit") int limit, @Param("offset") int offset);
+    List<Post> selectResolvedList(@Param("limit") int limit, @Param("offset") int offset);
 }

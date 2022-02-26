@@ -8,6 +8,7 @@ import com.hfz.epidemicmanage.annotation.LoginRequire;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -25,7 +26,7 @@ public class UserController {
     @LoginRequire
     @RequestMapping(path = "/addinformation",method = RequestMethod.GET)
     public String getInformation(){
-        return "views/form";
+        return "addTemplate/addUser";
     }
 
     //用户添加信息
@@ -39,16 +40,24 @@ public class UserController {
         if(account.getStatus() == 3)
         {
             map.put("userMessage","信息重复添加");
-            model.addAttribute("userMessage",map.get("userMessage"));
-            return "views/form";
+            model.addAttribute("res",map.get("userMessage"));
+            return "/addresult";
         }
        map = userService.addUser(user);
         //判断map是否为空，返回指定页面
         if(map != null)
         {
             model.addAttribute("userMessage",map.get("userMessage"));
-            return "/information";
+            return "/userdetail";
         }
        return "index";
+    }
+
+    @RequestMapping(path = "/deleteuser/{userid}",method = RequestMethod.GET)
+    public String deleteUser(@PathVariable("userid") int id, Model model)
+    {
+        userService.deleteUser(id);
+        model.addAttribute("res","删除成功");
+        return "/addresult";
     }
 }

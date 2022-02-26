@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>活动功能测试</title>
+</head>
+<body>
+<form method="post" th:action="@{/addActivity}">
+    标题<input type="text" name="title">
+    内容<input type="text" name="content">
+    地点<input type="text" name="place"><br>
+    人数<input type="text" name="personNum">
+    负责<input type="text" name="leader">
+    活动时间<input type="text" name="actime">
+    负责手机<input type="text" name="leaderPhone">
+    状态<input type="text" name="status">
+    <button type="submit">提交</button>
+</form>
+</body>
+</html>

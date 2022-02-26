@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hfz.epidemicmanage.Dao.ActivityMapper">
+    <sql id="selectFiles">
+        id,title,content,place,personNum,leader,actime,leaderPhone,status
+    </sql>
+    <sql id="insertFiles">
+        title,content,place,personNum,leader,actime,leaderPhone,status
+    </sql>
+
+    <insert id="insertActivity" keyProperty="id">
+        insert into activity(<include refid="insertFiles"></include>)
+        values (#{title},#{content},#{place},#{personNum},#{leader},#{actime},#{leaderPhone},#{status})
+    </insert>
+
+    <select id="selectAll" resultType="Activity">
+        select <include refid="selectFiles"></include>
+        from activity
+        limit #{offset},#{limit}
+    </select>
+
+    <select id="selectActivityByStatus" resultType="Activity">
+        select <include refid="selectFiles"></include>
+        from activity
+        where status = #{status}
+        limit #{offset},#{limit}
+    </select>
+
+    <select id="selectActivityByActime" resultType="Activity">
+        select <include refid="selectFiles"></include>
+        from activity
+        where actime = #{actime}
+        limit #{offset},#{limit}
+    </select>
+
+    <select id="selectActivityByPlace" resultType="Activity">
+        select <include refid="selectFiles"></include>
+        from activity
+        where place = #{place}
+        limit #{offset},#{limit}
+    </select>
+
+    <select id="selectActivityByTitle" resultType="Activity">
+        select <include refid="selectFiles"></include>
+        from activity
+        where title = #{title}
+    </select>
+
+    <select id="selectActivityById" resultType="Activity">
+        select <include refid="selectFiles"></include>
+        from activity
+        where id = #{id}
+    </select>
+
+    <delete id="deleteActivity">
+        delete from activity where id = #{id}
+    </delete>
+
+    <update id="updateStatus">
+        update activity set status = #{status}
+        where id = #{id}
+    </update>
+
+</mapper>

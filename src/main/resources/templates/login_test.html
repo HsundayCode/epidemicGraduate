@@ -1,19 +1,39 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th ="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>登录系统</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="css/layui.css">
+    <link rel="stylesheet" href="css/login.css">
+    <link rel="icon" href="/favicon.ico">
+    <title>管理后台</title>
+    <base target="_parent" />
 </head>
-<body>
-<form method="post" th:action="@{/login}">
-    账号:<input type="text" name="name" id="name">
-    密码:<input type="password" name="password" id="password">
-    <button type="submit">登录</button>
-</form>
-<div>
-    <tr th:text="${accountMessage}"></tr>
-    <tr th:text="${passwordMessage}"></tr>
-</div>
+<body class="login-wrap">
+    <div class="login-container">
+        <form class="login-form" method="post" th:action="@{/login}">
+            <div class="input-group">
+                <input type="text" id="name" name="name" class="input-field">
+                <label for="name" class="input-label">
+                    <span class="label-title">用户名</span>
+                </label>
+            </div>
+            <div class="input-group">
+                <input type="password" id="password" name="password" class="input-field">
+                <label for="password" class="input-label">
+                    <span class="label-title">密码</span>
+                </label>
+                <div>
+                <tr th:text="${accountMessage}"></tr>
+                <tr th:text="${passwordMessage}"></tr>
+            </div>
+            </div>
+            <button type="submit" class="login-button">登录<i class="ai ai-enter"></i></button>
+        </form>
+    </div>
 
 </body>
+<script src="layui.js"></script>
+<script src="index.js" data-main="login"></script>
 </html>

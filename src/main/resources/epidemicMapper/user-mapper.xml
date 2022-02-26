@@ -31,4 +31,8 @@
         values (#{accountid},#{name},#{sex},#{age},#{idcard},#{locale},#{phone},#{birthday},#{status},#{place},#{divide},#{trail},#{occurrencetime})
     </insert>
 
+    <delete id="deleteUser">
+        delete from user where id =  #{id}
+    </delete>
+
 </mapper>

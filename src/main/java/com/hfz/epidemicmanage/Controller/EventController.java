@@ -8,6 +8,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.util.HashMap;
+
 @Controller
 public class EventController {
 
@@ -20,6 +22,10 @@ public class EventController {
     public String getPatientNum(Model model){
         Event event = eventService.getPatientNum();
         model.addAttribute("event",event);
+//        HashMap<String,Event> map = new HashMap<>();
+//        map.put("event",event);
+//        model.addAttribute("eventmap",map);
+
         return "views/console";
     }
 

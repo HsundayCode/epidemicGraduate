@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="./css/layui.css">
+    <link rel="stylesheet" href="../css/layui.css"/>
+    <link rel="stylesheet" href="../css/view.css"/>
+    <title></title>
+</head>
+
+<body class="layui-view-body">
+    <div class="layui-content">
+        <div class="layui-row layui-col-space20">
+                <div class="layui-col-sm6 layui-col-md3">
+                    <div class="layui-card">
+                        <div class="layui-card-body chart-card">
+                            <div class="chart-header">
+                                <div class="metawrap">
+                                    <div class="meta">
+                                        <span>死亡</span>
+                                    </div>
+                                    <div class="total" th:text="${event.deathNum}">126,560</div>
+                                </div>
+                            </div>
+                            <div class="chart-body">
+                                <div class="contentwrap">
+                                    fsdfdsf
+                                </div>
+                            </div>
+                            <div class="chart-footer">
+                                <div class="field">
+                                    <span>日注册量</span>
+                                    <span>321</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-sm6 layui-col-md3">
+                    <div class="layui-card">
+                        <div class="layui-card-body chart-card">
+                            <div class="chart-header">
+                                <div class="metawrap">
+                                    <div class="meta">
+                                        <span>密接</span>
+                                    </div>
+                                    <div class="total" th:text="${event.divideNum}">126,560</div>
+                                </div>
+                            </div>
+                            <div class="chart-body">
+                                <div class="contentwrap">
+                                    fsdfdsf
+                                </div>
+                            </div>
+                            <div class="chart-footer">
+                                <div class="field">
+                                    <span>日注册量</span>
+                                    <span>321</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-sm6 layui-col-md3">
+                    <div class="layui-card">
+                        <div class="layui-card-body chart-card">
+                            <div class="chart-header">
+                                <div class="metawrap">
+                                    <div class="meta">
+                                        <span>次密接</span>
+                                    </div>
+                                    <div class="total" th:text="${event.doubtNUm}">126,560</div>
+                                </div>
+                            </div>
+                            <div class="chart-body">
+                                <div class="contentwrap">
+                                    fsdfdsf
+                                </div>
+                            </div>
+                            <div class="chart-footer">
+                                <div class="field">
+                                    <span>次密接</span>
+                                    <span>321</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+<!--            打卡反馈-->
+            <div class="layui-row layui-col-space20">
+                <div class="layui-col-sm20 layui-col-md20">
+                    <div class="layui-card">
+                        <div class="layui-card-body chart-card">
+                            <div class="chart-header">
+                                <div class="metawrap">
+                                    <div class="meta">
+                                        <span>打卡</span>
+                                    </div>
+                                    <div class="form-box">
+                                        <div class="layui-form layui-form-item">
+                                            <div class="layui-inline">
+                                                <div class="layui-form-mid">体温:</div>
+                                                <div class="layui-input-inline">
+                                                  <input type="text" name="temperature" id="temperature" autocomplete="off" class="layui-input">
+                                                </div>
+                                                <div class="layui-form-mid">地址:</div>
+                                                <div class="layui-input-inline" >
+                                                  <input type="text" name="locale" id="locale" autocomplete="off" class="layui-input">
+                                                </div>
+                                                <button class="layui-btn layui-btn-blue" onclick="record()">提交</button>
+                                                <p id="res"></p>
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+<!--                公告发布-->
+            <div class="layui-row layui-col-space20">
+                <div class="layui-col-sm20 layui-col-md20">
+                    <div class="layui-card">
+                        <div class="layui-card-body chart-card">
+                            <div class="chart-header">
+                                <div class="metawrap">
+                                    <div class="meta">
+                                        <span>社区动态</span>
+                                    </div>
+                                    <ul th:each="aclist:${activitylist}">
+                                        <a th:href="@{|/getAcById/${aclist.id}|}"><li th:text="${aclist.title}"></li></a>
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    
+   
+    <script src="layui.all.js"></script>
+    <script type="text/javascript" src="../jquery-3.6.0.min.js"></script>
+    <script type="text/javascript">
+        function record(){
+            $.ajax({
+                type:"post",
+                url:"/addRecord",
+                dataType:"text",
+                data: {"temperature":$("#temperature").val(),"locale" : $("#locale").val()},
+                success:function (res) {
+                    alert(res);
+                    $("#res").html(res);
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>

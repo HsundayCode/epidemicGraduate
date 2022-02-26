@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../css/layui.css">
+    <link rel="stylesheet" href="../css/view.css"/>
+    <link rel="icon" href="/favicon.ico">
+    <title>管理后台</title>
+</head>
+<body class="layui-view-body">
+    <div class="layui-content">
+        <div class="layui-page-header">
+            <div class="pagewrap">
+                <span class="layui-breadcrumb">
+                  <a href="">首页</a>
+                  <a href="">用户</a>
+                  <a><cite>用户组</cite></a>
+                </span>
+                <h2 class="title">用户组</h2>
+            </div>
+        </div>
+        <div class="layui-row">
+            <div class="layui-card">
+                <div class="layui-card-body">
+                    <div class="form-box">
+                        <fieldset class="table-search-fieldset">
+                            <legend>搜索信息</legend>
+                            <div style="margin: 10px 10px 10px 10px">
+                                <div class="layui-form-item">
+                                    <div class="layui-inline">
+                                        <label class="layui-form-label">条件</label>
+                                        <div class="layui-inline">
+                                            <select  id="sex" style="width: 100px;" class="layui-select">
+                                                <option value="1">姓名</option>
+                                                <option value="2">身份证</option>
+                                            </select>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <input type="text" id="suffix" class="layui-input" style="width: 300px">
+                                        </div>
+                                        <div class="layui-inline">
+                                            <a href="/patientList" id="res"><button type="submit" class="layui-btn layui-btn-primary"  lay-submit lay-filter="data-search-btn"><i class="layui-icon"></i> 搜 索</button></a>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <a target="_blank" href="#" ><span class="layui-btn layui-btn-normal layui-btn-mini">添加</span></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                        <div class="layui-card-body ">
+                          <table class="layui-table layui-form">
+                            <thead>
+                              <tr>
+                                <th>ID</th>
+                                <th>登录名</th>
+                                <th>手机</th>
+                                <th>邮箱</th>
+                                <th>角色</th>
+                                <th>加入时间</th>
+                                <th>状态</th>
+                                <th>操作</th>
+                            </tr></thead>
+                            <tbody th:each="res:${maplist}">
+                              <tr >
+                                <td th:text="${res.patient.id}">1</td>
+                                <td th:text="${res.patient.name}">admin</td>
+                                <td th:text="${res.patient.phone}">18925139194</td>
+                                <td th:text="${res.account.email}">113664000@qq.com</td>
+                                <td th:text="${res.account.type==1?'管理员':'一般用户'}">超级管理员</td>
+                                <td th:text="${#dates.format(res.account.createtime,'yyyy-MM-dd HH:mm:ss')}">2017-01-01 11:11:42</td>
+                                <td class="td-status">
+                                    <a th:href="@{|/patientdetail/${res.patient.id}|}" ><span class="layui-btn layui-btn-normal layui-btn-mini">详情</span></a>
+                                </td>
+                                  <td class="td-status">
+                                      <a href="#" ><span class="layui-btn layui-btn-normal layui-btn-mini">详情</span></a>
+                                      <a href="#" ><span class="layui-btn layui-btn-normal layui-btn-mini">修改</span></a>
+                                      <a th:href="@{|/deleteuser/${res.patient.id}|}" ><span class="layui-btn layui-btn-normal layui-btn-mini">删除</span></a>
+                                  </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                      </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="digg" th:fragment="pagedemo">
+        <span class="disabled"> <a th:href="@{${page.path}(current=${page.current-1})}">&lt;</a></span>
+        <span class="current" th:href="@{${page.path}(current=1)}">1</span>
+        <a th:href="@{${page.path}(current=2)}">2</a>
+        <a th:href="@{${page.path}(current=3)}">3</a>
+        <a th:href="@{${page.path}(current=4)}">4</a>
+        <a th:href="@{${page.path}(current=5)}">5</a>
+        <a th:href="@{${page.path}(current=${page.total})}" >末页</a>
+        <a th:href="@{${page.path}(current=${page.current+1})}">
+            &gt; </a></div>
+    <script src="layui.all.js"></script>
+    <script type="text/javascript" src="../jquery-3.6.0.min.js"></script>
+    <script type="text/javascript">
+        $("#sex").change(function () {
+            var suffix = $("#suffix").val();
+            var op = $("#sex").val()
+            if(op == 1)
+            {
+                $("#res").attr("href","/getByName/"+suffix);
+            }
+            if(op == 2)
+            {
+                $("#res").attr("href","/getByIdcard/"+suffix);
+            }
+        })
+
+        $("#suffix").blur(function () {
+            var suffix = $("#suffix").val();
+            var op = $("#sex").val();
+            if(op == 1)
+                $("#res").attr("href","/getByName/"+suffix);
+            if(op == 2)
+                $("#res").attr("href","/getByIdcard/"+suffix);
+
+        })
+
+    </script>
+</body>
+</html>

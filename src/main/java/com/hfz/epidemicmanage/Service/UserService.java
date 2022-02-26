@@ -36,10 +36,14 @@ public class UserService implements EpidemicConstant {
         }
         user.setAccountid(account.getId());
         userMapper.insertUser(user);
-        //account.setStatus(INFORMATION_PERFECT);
         accountMapper.updateStatus(account.getId(),INFORMATION_PERFECT);
         map.put("userMessage","添加成功");
         return map;
+    }
+
+    public void deleteUser(int id)
+    {
+        userMapper.deleteUser(id);
     }
 
 }

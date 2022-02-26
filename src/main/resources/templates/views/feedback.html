@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../css/layui.css">
+    <link rel="stylesheet" href="../css/view.css"/>
+    <link rel="icon" href="/favicon.ico">
+    <title>管理后台</title>
+</head>
+<body class="layui-view-body">
+    <div class="layui-content">
+        <div class="layui-page-header">
+            <div class="pagewrap">
+                <span class="layui-breadcrumb">
+                  <a href="">首页</a>
+                  <a href="">用户</a>
+                  <a><cite>用户组</cite></a>
+                </span>
+                <h2 class="title">用户组</h2>
+            </div>
+        </div>
+        <div class="layui-row">
+            <div class="layui-card">
+                <div class="layui-card-body">
+                    <div class="form-box">
+                        <tr>
+                            <th><a th:href="@{/Resolved}"><button class="layui-btn layui-btn-normal layui-btn-mini" type="button">已读</button></a></th>
+                            <th> <a th:href="@{/unResolved}"><button class="layui-btn layui-btn-normal layui-btn-mini" type="button">未读</button></a></th>
+                            <th><a target="_blank" href="/addfeedback" ><span class="layui-btn layui-btn-normal layui-btn-mini">添加</span></a></th>
+                        </tr>
+                        <div class="layui-card-body ">
+                          <table class="layui-table layui-form">
+                            <thead>
+                              <tr>
+                                <th>标题</th>
+                                <th>登录名</th>
+                                <th>地址</th>
+                                <th>发表时间</th>
+                                <th>状态</th>
+                                <th>操作</th>
+                            </tr></thead>
+                            <tbody th:each="map:${postListMap}">
+                              <tr>
+                                  <td>
+                                      <a th:href="@{|/postdetail/${map.post.id}|}" th:text="${map.post.title}"></a>
+                                  </td>
+                                <td th:text="${map.user.name}">admin</td>
+                                <td th:text="${map.user.locale}">地址</td>
+                                  <td th:text="${#dates.format(map.post.createTime,'yyyy-MM-dd HH:mm:ss')}">2017-01-01 11:11:42</td>
+                                <td class="td-status">
+                                  <span class="layui-btn layui-btn-normal layui-btn-mini" th:text="${map.post.status == 1?'已读':'未读'}">未读</span>
+                                </td>
+                                  <td class="td-status">
+                                      <a target="_blank" href="#" ><span class="layui-btn layui-btn-normal layui-btn-mini">详情</span></a>
+                                      <a target="_blank" th:href="@{|/updatestatus/${map.post.id}/${map.post.status}|}" th:if="${map.post.status == 0}" ><span class="layui-btn layui-btn-normal layui-btn-mini">修改</span></a>
+                                      <a target="_blank" href="/addfeedback" ><span class="layui-btn layui-btn-normal layui-btn-mini">添加</span></a>
+                                  </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                      </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="digg" th:fragment="pagedemo">
+        <span class="disabled"> <a th:href="@{${page.path}(current=${page.current-1})}">&lt;</a></span>
+        <span class="current" th:href="@{${page.path}(current=1)}">1</span>
+        <a th:href="@{${page.path}(current=2)}">2</a>
+        <a th:href="@{${page.path}(current=3)}">3</a>
+        <a th:href="@{${page.path}(current=4)}">4</a>
+        <a th:href="@{${page.path}(current=5)}">5</a>
+        <a th:href="@{${page.path}(current=${page.total})}" >末页</a>
+        <a th:href="@{${page.path}(current=${page.current+1})}">
+            &gt; </a></div>
+    <script src="../layui.all.js"></script>
+    <script type="text/javascript" src="../jquery-3.6.0.min.js"></script>
+
+</body>
+</html>

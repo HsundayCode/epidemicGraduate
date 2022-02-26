@@ -1,5 +1,7 @@
 package com.hfz.epidemicmanage.Entity;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 
 //意见
@@ -11,6 +13,7 @@ public class Post {
     private String title;
     private String content;
     private int status;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
 
     public Post() {

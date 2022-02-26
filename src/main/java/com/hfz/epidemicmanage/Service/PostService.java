@@ -35,7 +35,7 @@ public class PostService implements EpidemicConstant {
         post.setContent(content);//内容
         post.setTitle(title);//标题
         post.setCreateTime(new Date());//创建时间
-        post.setStatus(POST_UNRESOLVED);//消息状态
+        post.setStatus(POST_UNREAD);//消息状态
 
         postMapper.insertPost(post);
         return map;
@@ -63,36 +63,37 @@ public class PostService implements EpidemicConstant {
         return postvo;
     }
 
-    public void updateStatus(int accountid,int status)
+    public void updateStatus(int posttid,int status)
     {
-        postMapper.updateStatus(accountid,status);
+        if(status == POST_UNREAD)
+        postMapper.updateStatus(posttid,POST_READ);
     }
 
     //未解决反馈信息列表
-    public List<Map<String,Object>> getUnResolvedList(String accountname,int limit,int offset)
+    public List<Map<String,Object>> getUnResolvedList(int limit,int offset)
     {
-        int accountid = accountMapper.selectByName(accountname).getId();
-        List<Post> UnResolvedList = postMapper.selectUnResolvedList(accountid,limit,offset);
+
+        List<Post> UnResolvedList = postMapper.selectUnResolvedList(limit,offset);
         List<Map<String,Object>> unresolved = new ArrayList<>();
         for(Post post : UnResolvedList)
         {
             Map<String,Object> map = new HashMap<>();
-            map.put("account",accountMapper.selectById(post.getAccountid()));
+            map.put("user",userMapper.selectByAccountid(post.getAccountid()));
             map.put("post",post);
             unresolved.add(map);
         }
         return unresolved;
     }
     //已解决反馈信息列表
-    public List<Map<String,Object>> getResolvedList(String accountname,int limit,int offset)
+    public List<Map<String,Object>> getResolvedList(int limit,int offset)
     {
-        int accountid = accountMapper.selectByName(accountname).getId();
-        List<Post> ResolvedList = postMapper.selectResolvedList(accountid,5,0);
+
+        List<Post> ResolvedList = postMapper.selectResolvedList(limit,offset);
         List<Map<String,Object>> resolved = new ArrayList<>();
         for(Post post : ResolvedList)
         {
             Map<String,Object> map = new HashMap<>();
-            map.put("account",accountMapper.selectById(post.getAccountid()));
+            map.put("user",userMapper.selectByAccountid(post.getAccountid()));
             map.put("post",post);
             resolved.add(map);
         }

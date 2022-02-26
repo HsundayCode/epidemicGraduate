@@ -2,32 +2,115 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>首页</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="css/layui.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="icon" href="/favicon.ico">
+    <title>社区管理</title>
 </head>
-<body>
-<div>
-    <ul>
-        <li><a th:href="@{/logout}">退出登录</a></li>
-        <li><a th:href="@{/addinformation}">完善信息</a></li>
-        <li> <a th:href="@{/regist}">注册</a></li>
-        <li><a th:href="@{/login}">登录</a></li>
-        <li><a th:href="@{/patientList}">用户列表</a></li>
-        <li><a th:href="@{/change}">需要点进用户列表里的用户详情才能修改用户信息</a></li>
-    </ul>
+<body class="layui-layout-body">
+    <div class="layui-layout layui-layout-admin">
+        <div class="layui-header custom-header">
+            
+            <ul class="layui-nav layui-layout-left">
+                <li class="layui-nav-item slide-sidebar" lay-unselect>
+                    <a href="javascript:;" class="icon-font"><i class="ai ai-menufold"></i></a>
+                </li>
+            </ul>
+
+            <ul class="layui-nav layui-layout-right">
+                <li class="layui-nav-item">
+                    <a href="javascript:;">BieJun</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="">帮助中心</a></dd>
+                        <dd><a href="login.html">退出</a></dd>
+                    </dl>
+                </li>
+            </ul>
+        </div>
+
+        <div class="layui-side custom-admin">
+            <div class="layui-side-scroll">
+
+                <div class="custom-logo" style="height: 100px">
+                    <img src="images/logo.png" alt=""/>
+                    <h1>社区管理</h1>
+                    <p><td id="account" th:if="${account !=null}" th:text="${account.id}"></td>
+                    <td th:if="${user!= null}" th:text="${user.name}"></td></p>
+
+                </div>
+
+                <ul id="Nav" class="layui-nav layui-nav-tree">
+                    <li class="layui-nav-item">
+                        <a href="javascript:;">
+                            <i class="layui-icon">&#xe609;</i>
+                            <em>主页</em>
+                        </a>
+                        <dl class="layui-nav-child">
+                            <dd><a th:href="@{/getconsole}">社区信息</a></dd>
+                            <dd><a href="#">意见反馈</a></dd>
+                        </dl>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a href="javascript:;">
+                            <i class="layui-icon">&#xe857;</i>
+                            <em>填写个人信息</em>
+                        </a>
+                        <dl class="layui-nav-child">
+                            <dd><a th:href="@{/addinformation}">信息</a></dd>
+                            <dd>
+                                <a th:href="@{/login}">登录页</a>
+                            </dd>
+                            <dd><a th:href="@{/addOutsider}">外来人员登记</a></dd>
+                        </dl>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a href="javascript:;">
+                            <i class="layui-icon">&#xe612;</i>
+                            <em>管理员模块</em>
+                        </a>
+                        <dl class="layui-nav-child">
+                            <dd><a th:href="@{/patientList}">用户列表</a></dd>
+                            <dd><a th:href="@{/postList}">反馈列表</a></dd>
+                            <dd><a th:href="@{/getRecentlyRecordList}">打卡列表</a></dd>
+                            <dd><a th:href="@{/getAcAll}">活动列表</a></dd>
+                            <dd><a th:href="@{/getGoodsAll}">物资列表</a></dd>
+                            <dd><a th:href="@{/getOutsiderAll}">外来人员列表</a></dd>
+
+<!--                            <dd><a href="views/operaterule.html">权限配置</a></dd>-->
+                            
+                        </dl>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+
+        <div class="layui-body">
+             <div class="layui-tab app-container" lay-allowClose="true" lay-filter="tabs">
+                <ul id="appTabs" class="layui-tab-title custom-tab"></ul>
+                <div id="appTabPage" class="layui-tab-content"></div>
+            </div>
+        </div>
 
 
+        <div class="mobile-mask"></div>
+    </div>
+    <script src="layui.js"></script>
+    <script src="index.js" data-main="home"></script>
+    <script type="text/javascript" src="../jquery-3.6.0.min.js"></script>
+    <script language="JavaScript">
 
+        if (window != top)
+        {
+            top.location.href = location.href;
+        }
+        if($("#account").text() == ''&&window == top )
+        {
+            alert("先登录")
+        }
 
-
-
-
-<!--    <p th:text="${msg}"></p>-->
-<!--    <p th:text="${target}"></p>-->
-
-<!--    死亡人数:<tr th:text="${event.deathNum}"></tr>-->
-<!--    感染人数:<tr th:text="${event.doubtNUm}"></tr>-->
-<!--    隔离人数:<tr th:text="${event.divideNum}"></tr>-->
-
-</div>
+    </script>
 </body>
 </html>

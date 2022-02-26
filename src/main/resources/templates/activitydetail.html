@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>活动详情</title>
+</head>
+<body>
+<p th:text="${AcList.title}"></p>
+<p th:text="${AcList.status}"></p>
+<span th:if="${AcList.status==0}" >未开始</span>
+<span  th:if="${AcList.status==1}" >开始</span>
+<span  th:if="${AcList.status==2}" >结束</span>
+</body>
+</html>

@@ -13,6 +13,7 @@ import com.hfz.epidemicmanage.annotation.ManageRequire;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -45,13 +46,11 @@ public class RecordController {
     //获取某人历史打卡记录
     @LoginRequire
     @ManageRequire
-    @RequestMapping(path = "/HistoryRecord",method = RequestMethod.POST)
+    @RequestMapping(path = "/HistoryRecord",method = RequestMethod.GET)
     public String getHistoryRecordList(Model model, Page page,int accountid){
-        List<Record> recordList = recordService.findHistoryRecordList(accountid,page.getLimit(),0);
-//        if(recordList == null)
-//        {
-//            return "无此人";
-//        }
+        page.setPath("/HistoryRecord?accountid="+accountid);
+        page.setLimit(5);
+        List<Record> recordList = recordService.findHistoryRecordList(accountid,page.getLimit(),page.getoffset());
         model.addAttribute("RecordList",recordList);
         return "views/record";
     }
@@ -73,6 +72,7 @@ public class RecordController {
         record.setName(user.getName());//名字
         record.setPhone(user.getPhone());//联系
         String result = recordService.addRecord(record);//
+//        System.out.println(result);
         //model.addAttribute("result",result);
         //return "/record";
         return result;
@@ -82,7 +82,9 @@ public class RecordController {
     @LoginRequire
     @RequestMapping(path = "/getRecentlyRecordList",method = RequestMethod.GET)
     public String getRecentlyRecordList(Model model,Page page){
-        List<Record> RecentlyRecordList = recordService.findRecentlyRecordList(page.getLimit(),0);
+        page.setLimit(5);
+        page.setPath("/getRecentlyRecordList");
+        List<Record> RecentlyRecordList = recordService.findRecentlyRecordList(page.getLimit(),page.getoffset());
         model.addAttribute("RecordList",RecentlyRecordList);
         return "views/record";
     }

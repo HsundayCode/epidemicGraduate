@@ -29,9 +29,9 @@ public class PostController implements EpidemicConstant {
     AccountMapper accountMapper;
 
 
-    @RequestMapping(path = "/add",method = RequestMethod.GET)
+    @RequestMapping(path = "/addfeedback",method = RequestMethod.GET)
     public String getAddPostPage(){
-        return "/post";
+        return "/addfeedback";
     }
     //提出问题
     //这里应该返回个状态码，表示是否提交成功，要改成ajax返回json
@@ -39,7 +39,7 @@ public class PostController implements EpidemicConstant {
     @RequestMapping(path = "/addPost",method = RequestMethod.POST)
     public String addPost(Model model,String title,String content){
         postService.addPost(title,content);
-        return "index";
+        return "/addresult";
     }
 
     //获取详细信息
@@ -58,10 +58,10 @@ public class PostController implements EpidemicConstant {
     //这里应该返回个状态码，表示是否成功，要改成ajax返回json
     @LoginRequire
     @ManageRequire
-    @RequestMapping(path = "/updatestatus/{postid}",method = RequestMethod.GET)
-    public String updateStatus(Model model,@PathVariable("postid")int accountid){
-        postService.updateStatus(accountid,POST_RESOLVED);
-        return "redirect:/postdetail/"+accountid;
+    @RequestMapping(path = "/updatestatus/{postid}/{poststatus}",method = RequestMethod.GET)
+    public String updateStatus(Model model,@PathVariable("postid")int postid,@PathVariable("poststatus")int status){
+        postService.updateStatus(postid,status);
+        return "redirect:/postdetail/"+postid;
     }
 
     //获取全部反馈信息列表
@@ -71,7 +71,7 @@ public class PostController implements EpidemicConstant {
     public String getPostList(Model model,Page page){
         page.setPath("/postList");
         page.setLimit(5);
-        List<Map<String,Object>> postListMap =  postService.getPostList(page.getLimit(),0);
+        List<Map<String,Object>> postListMap =  postService.getPostList(page.getLimit(),page.getoffset());
         model.addAttribute("postListMap",postListMap);
         return "views/feedback";
     }
@@ -81,20 +81,20 @@ public class PostController implements EpidemicConstant {
     //查询未解决反馈信息
     @LoginRequire
     @ManageRequire
-    @RequestMapping(path = "/unResolved",method = RequestMethod.POST)
-    public String getUnResolvedList(Model model,String accountname,Page page){
-        List<Map<String,Object>> postUnresolvedListMap = postService.getUnResolvedList(accountname,page.getLimit(),page.getoffset());
+    @RequestMapping(path = "/unResolved",method = RequestMethod.GET)
+    public String getUnResolvedList(Model model,Page page){
+        List<Map<String,Object>> postUnresolvedListMap = postService.getUnResolvedList(page.getLimit(),page.getoffset());
         model.addAttribute("postListMap",postUnresolvedListMap);
-        return "/unresolved";
+        return "views/feedback";
     }
 
     //查询已解决反馈信息
     @LoginRequire
     @ManageRequire
     @RequestMapping(path = "/Resolved",method = RequestMethod.GET)
-    public String getResolvedList(Model model,String accountname,Page page){
-        List<Map<String,Object>> postresolvedListMap = postService.getResolvedList(accountname,page.getLimit(),page.getoffset());
+    public String getResolvedList(Model model,Page page){
+        List<Map<String,Object>> postresolvedListMap = postService.getResolvedList(page.getLimit(),page.getoffset());
         model.addAttribute("postListMap",postresolvedListMap);
-        return "/resolved";
+        return "views/feedback";
     }
 }

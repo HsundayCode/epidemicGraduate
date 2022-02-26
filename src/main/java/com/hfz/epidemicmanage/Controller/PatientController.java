@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -25,20 +26,10 @@ public class PatientController {
     @Autowired
     HostHolder hostHolder;
 
-//    //获得用户详情页面
-//    @RequestMapping(path = "/change",method = RequestMethod.GET)
-//    public String getAddPage(){return "/patientdetail"; }
-
-    //获得用户列表页面
-//    @LoginRequire
-//    @RequestMapping(path = "/patientList",method = RequestMethod.GET)
-//    public String getPatientListPage(){
-//        return "/patients";
-//    }
 
     //修改(用户)病人信息
     @LoginRequire
-    @RequestMapping(path = "/add",method = RequestMethod.POST)
+    @RequestMapping(path = "/change",method = RequestMethod.POST)
     public String addPatient(Model model,int userid,String status,String place,String divide,String trail,String occurrencetime){
         Account account = hostHolder.getAccount();
         if(account == null)
@@ -51,16 +42,15 @@ public class PatientController {
         return "/patientdetail";
     }
     //因为分页的原因条件查询要分开不能用post来分页？
+    //获得全体列表
     @LoginRequire
     @RequestMapping(path = "/patientList",method = RequestMethod.GET)
     public String getPatientsList(Model model, Page page){
         page.setLimit(5);
         page.setPath("/patientList");
-        //List<Map<String,Object>> patients = new ArrayList<>();
-            //返回的map里有List<Map<String,Object>>
-            Map<String,Object> map = patientService.findPatients(page.getLimit(),page.getoffset());
-            model.addAttribute("patientList",map.get("patientList"));
-            return "views/users";//返回全部列表
+        List<Map<String,Object>> maplist = patientService.findPatients(page.getLimit(),page.getoffset());
+        model.addAttribute("maplist",maplist);
+        return "views/users";//返回全部列表
     }
 
     //根据id获得用户详情
@@ -79,6 +69,25 @@ public class PatientController {
     public void updateStatus(@PathVariable("accountid") int accountid,String status)
     {
         patientService.updateStatus(accountid,status);
+    }
+
+    //通关名字查找
+    @RequestMapping(path = "/getByName/{name}",method = RequestMethod.GET)
+    public String getPatientByName(Model model,@PathVariable("name") String name,Page page)
+    {
+        List<Map<String,Object>> maplist = patientService.findPatientByName(name,page.getLimit(),page.getoffset());
+        model.addAttribute("maplist",maplist);
+        return "views/users";//返回全部列表
+    }
+
+    //通关身份证查找
+    @RequestMapping(path = "/getByIdcard/{idcard}",method = RequestMethod.GET)
+    public String getPatientByIdcard(Model model,@PathVariable("idcard") int idcard,Page page)
+    {
+
+        List<Map<String,Object>> maplist = patientService.findPatientByIdcard(idcard);
+        model.addAttribute("maplist",maplist);
+        return "views/users";//返回全部列表
     }
 
 }

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+</head>
+<body>
+<div>
+    <ul>
+        <li><a th:href="@{/logout}">退出登录</a></li>
+        <li><a th:href="@{/addinformation}">完善信息</a></li>
+        <li> <a th:href="@{/regist}">注册</a></li>
+        <li><a th:href="@{/login}">登录</a></li>
+        <li><a th:href="@{/patientList}">用户列表</a></li>
+        <li><a th:href="@{/change}">需要点进用户列表里的用户详情才能修改用户信息</a></li>
+    </ul>
+
+
+
+
+
+
+
+<!--    <p th:text="${msg}"></p>-->
+<!--    <p th:text="${target}"></p>-->
+
+<!--    死亡人数:<tr th:text="${event.deathNum}"></tr>-->
+<!--    感染人数:<tr th:text="${event.doubtNUm}"></tr>-->
+<!--    隔离人数:<tr th:text="${event.divideNum}"></tr>-->
+
+</div>
+</body>
+</html>
