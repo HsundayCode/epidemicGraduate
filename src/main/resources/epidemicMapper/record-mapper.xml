@@ -25,7 +25,7 @@
         where accountid = #{accountid}
     </select>
     <update id="updateToday">
-        update todayrecord set temperature=#{temperature},local=#{locale},createtime=#{createtime}
+        update todayrecord set temperature=#{temperature},locale=#{locale},createtime=#{createtime}
         where accountid = #{accountid}
     </update>
     <select id="selectTodayRecordRow" resultType="int">
@@ -34,4 +34,18 @@
         where createtime = #{createtime}
     </select>
 
+    <select id="selectTodayRecordList" resultType="Record">
+        select <include refid="selectFiles"></include>
+        from todayrecord
+        order by createtime desc
+        limit #{offset},#{limit}
+    </select>
+
+    <select id="selectHistoryRecord" resultType="Record">
+        select <include refid="selectFiles"></include>
+        from record
+        where accountid = #{accountid}
+        order by createtime desc
+        limit #{offset},#{limit}
+    </select>
 </mapper>

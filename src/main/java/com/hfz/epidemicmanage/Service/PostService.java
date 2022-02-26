@@ -56,7 +56,7 @@ public class PostService implements EpidemicConstant {
         for(Post post : postList)
         {
             Map<String,Object> map = new HashMap<>();
-            map.put("account",accountMapper.selectById(post.getAccountid()));
+            map.put("user",userMapper.selectByAccountid(post.getAccountid()));
             map.put("post",post);
             postvo.add(map);
         }

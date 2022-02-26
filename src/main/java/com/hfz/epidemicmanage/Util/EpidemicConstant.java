@@ -28,6 +28,14 @@ public interface EpidemicConstant {
      */
     int POST_RESOLVED = 1;
 
+    /**
+     * 未使用
+     */
+    int GOODS_UNUSE = 0;
+    /**
+     * 已使用
+     */
+    int GOODS_USE = 1;
 
 
 

@@ -20,7 +20,7 @@ public class EventController {
     public String getPatientNum(Model model){
         Event event = eventService.getPatientNum();
         model.addAttribute("event",event);
-        return "/index";
+        return "views/console";
     }
 
 }

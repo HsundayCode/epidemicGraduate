@@ -5,7 +5,6 @@ import com.hfz.epidemicmanage.Dao.UserMapper;
 import com.hfz.epidemicmanage.Entity.Account;
 import com.hfz.epidemicmanage.Entity.Page;
 import com.hfz.epidemicmanage.Entity.Post;
-import com.hfz.epidemicmanage.Entity.User;
 import com.hfz.epidemicmanage.Service.PostService;
 import com.hfz.epidemicmanage.Util.EpidemicConstant;
 import com.hfz.epidemicmanage.annotation.LoginRequire;
@@ -40,7 +39,7 @@ public class PostController implements EpidemicConstant {
     @RequestMapping(path = "/addPost",method = RequestMethod.POST)
     public String addPost(Model model,String title,String content){
         postService.addPost(title,content);
-        return "/index";
+        return "index";
     }
 
     //获取详细信息
@@ -72,9 +71,9 @@ public class PostController implements EpidemicConstant {
     public String getPostList(Model model,Page page){
         page.setPath("/postList");
         page.setLimit(5);
-        List<Map<String,Object>> postListMap =  postService.getPostList(page.getLimit(),page.getoffset());
+        List<Map<String,Object>> postListMap =  postService.getPostList(page.getLimit(),0);
         model.addAttribute("postListMap",postListMap);
-        return "/postList";
+        return "views/feedback";
     }
 
 

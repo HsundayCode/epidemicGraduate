@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -29,23 +30,35 @@ public class RecordController {
     @Autowired
     UserMapper userMapper;
 
-    @RequestMapping(path = "/addRecord",method = RequestMethod.GET)
-    public String getaddRecordPage(){
-        return "/record";
-    }
+//    @RequestMapping(path = "/addRecord",method = RequestMethod.GET)
+//    public String getaddRecordPage(){
+//        return "/record";
+//    }
 
+    //今天打卡人数
+    //后需用ajax把
+    public String gettodayRecordNum(Model model){
+        int num =  recordService.findTodayRecordRow(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+        model.addAttribute("recordNum",num);
+        return "/index";
+    }
     //获取某人历史打卡记录
     @LoginRequire
     @ManageRequire
     @RequestMapping(path = "/HistoryRecord",method = RequestMethod.POST)
     public String getHistoryRecordList(Model model, Page page,int accountid){
-        List<Record> recordList = recordService.findHistoryRecordList(accountid,page.getLimit(),page.getoffset());
-        model.addAttribute("recordList",recordList);
-        return "/History";
+        List<Record> recordList = recordService.findHistoryRecordList(accountid,page.getLimit(),0);
+//        if(recordList == null)
+//        {
+//            return "无此人";
+//        }
+        model.addAttribute("RecordList",recordList);
+        return "views/record";
     }
 
     //添加打卡记录
     @LoginRequire
+    @ResponseBody
     @RequestMapping(path = "/addRecord",method = RequestMethod.POST)
     public String addRecord(Model model,String temperature,String locale)
     {
@@ -53,21 +66,25 @@ public class RecordController {
         Record record = new Record();
         //需要姓名和联系方式
         record.setTemperature(temperature);//体温
+        record.setAccountid(accountid);
         record.setLocale(locale);//当前地址
         record.setCreatetime(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));//当前日期
         User user = userMapper.selectByAccountid(accountid);
         record.setName(user.getName());//名字
-        record.setPhone(user.getPhone());//联系r
+        record.setPhone(user.getPhone());//联系
         String result = recordService.addRecord(record);//
-        model.addAttribute("result",result);
-        return "/record";
+        //model.addAttribute("result",result);
+        //return "/record";
+        return result;
     }
 
     //最近打卡列表
+    @LoginRequire
+    @RequestMapping(path = "/getRecentlyRecordList",method = RequestMethod.GET)
     public String getRecentlyRecordList(Model model,Page page){
-        List<Record> RecentlyRecordList = recordService.findRecentlyRecordList(page.getLimit(),page.getoffset());
-        model.addAttribute("RecentlyRecordList",RecentlyRecordList);
-        return "/recordList";
+        List<Record> RecentlyRecordList = recordService.findRecentlyRecordList(page.getLimit(),0);
+        model.addAttribute("RecordList",RecentlyRecordList);
+        return "views/record";
     }
 
 }

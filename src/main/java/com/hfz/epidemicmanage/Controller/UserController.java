@@ -1,5 +1,6 @@
 package com.hfz.epidemicmanage.Controller;
 
+import com.hfz.epidemicmanage.Entity.Account;
 import com.hfz.epidemicmanage.Entity.User;
 import com.hfz.epidemicmanage.Service.UserService;
 import com.hfz.epidemicmanage.Util.HostHolder;
@@ -10,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @Controller
@@ -23,7 +25,7 @@ public class UserController {
     @LoginRequire
     @RequestMapping(path = "/addinformation",method = RequestMethod.GET)
     public String getInformation(){
-        return "/information";
+        return "views/form";
     }
 
     //用户添加信息
@@ -32,13 +34,21 @@ public class UserController {
     @LoginRequire
     @RequestMapping(path = "/information",method = RequestMethod.POST)
     public String information(Model model, User user){
-        Map<String,Object> map = userService.addUser(user);
+        Map<String,Object> map = new HashMap<>();
+        Account account = hostHolder.getAccount();
+        if(account.getStatus() == 3)
+        {
+            map.put("userMessage","信息重复添加");
+            model.addAttribute("userMessage",map.get("userMessage"));
+            return "views/form";
+        }
+       map = userService.addUser(user);
         //判断map是否为空，返回指定页面
         if(map != null)
         {
             model.addAttribute("userMessage",map.get("userMessage"));
             return "/information";
         }
-       return "/index";
+       return "index";
     }
 }

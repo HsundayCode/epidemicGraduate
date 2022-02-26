@@ -26,6 +26,11 @@
         from user
         where id = #{userid}
     </select>
+    <select id="selectByIdcard" resultType="User">
+        select <include refid="selectFiles"></include>
+        from user
+        where idcard = #{idcard}
+    </select>
     <select id="selectByKey" resultType="User">
         select <include refid="selectFiles"></include>
         from user

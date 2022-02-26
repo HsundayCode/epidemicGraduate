@@ -22,7 +22,7 @@ public class UserService implements EpidemicConstant {
     @Autowired
     HostHolder hostHolder;
 
-    //注册账号
+    //添加个人信息
     public Map<String,Object> addUser(User user){
         Map<String,Object> map = new HashMap<>();
         Account account = hostHolder.getAccount();
@@ -36,12 +36,8 @@ public class UserService implements EpidemicConstant {
         }
         user.setAccountid(account.getId());
         userMapper.insertUser(user);
-        if(account.getStatus() == 3)
-        {
-            map.put("userMessage","信息重复添加");
-            return map;
-        }
-        account.setStatus(INFORMATION_PERFECT);
+        //account.setStatus(INFORMATION_PERFECT);
+        accountMapper.updateStatus(account.getId(),INFORMATION_PERFECT);
         map.put("userMessage","添加成功");
         return map;
     }

@@ -62,6 +62,7 @@ public class PatientService implements EpidemicConstant {
     public User findPatientById(int id){
         return patientMapper.selectById(id);
     }
+    //用于判断用户不可以（修改）二次输入信息
     public User findPatientByIdcard(int idcard)
     {
         return patientMapper.selectByIdcard(idcard);

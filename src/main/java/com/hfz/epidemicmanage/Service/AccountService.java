@@ -122,14 +122,16 @@ public class AccountService implements EpidemicConstant {
         //String code = account.getActivationcode();
         String ActivationcodeKey = RedisKeyUtil.getActivationcodeKey(Activationcode);//获得激活码再redis里的key
         Account account = (Account) redisTemplate.opsForValue().get(ActivationcodeKey);//获得account实体
+        Account accountDB = accountMapper.selectByName(account.getName());
         //注册出了点问题，多次点击激活会数据库会有多个相同账号，因为缓存里的状态码没变，判断会出现问题，激活后要删除缓存，
-        if(account.getStatus() == 1)//是否已激活，判断是否已激活要考虑到数据库是否已存在
+        if(account == null || accountDB.getStatus() == 1)//是否已激活，判断是否已激活要考虑到数据库是否已存在
         {
             return ACTIVATION_REPEAT;
         }else if(Activationcode.equals(account.getActivationcode()))//激活码是否一致
         {
             account.setStatus(1);//设置激活状态
             accountMapper.insertAccount(account);//添加进数据库
+            redisTemplate.delete(ActivationcodeKey);//删除缓存
             return ACTIVATION_SUCCESS;
         }else {
             return ACTIVATION_FAILURE;
@@ -155,7 +157,7 @@ public class AccountService implements EpidemicConstant {
             map.put("accountMessage","账号不存在");
             return map;
         }
-        if(accountDB.getStatus() != 1)
+        if(accountDB.getStatus() == 2)
         {
             map.put("accountMessage","账号还未激活");
             return map;

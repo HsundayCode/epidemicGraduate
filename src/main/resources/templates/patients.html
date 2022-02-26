@@ -5,7 +5,7 @@
     <title>用户列表</title>
 </head>
 <body>
-<form method="post" th:action="@{/patientList}" >
+<form method="get" th:action="@{/patientList}" >
     条件:<input type="text" name="factor" id=" factor">
     关键字:<input type="text" name="key" id=" key">
     <button type="submit">条件查询</button>

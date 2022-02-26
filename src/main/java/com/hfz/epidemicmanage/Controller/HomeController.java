@@ -22,8 +22,8 @@ public class HomeController {
 
     @RequestMapping(path = "/index",method = RequestMethod.GET)
     public String getIndex(Model model){
-        Event event = eventService.getPatientNum();
-        model.addAttribute("event",event);
+//        Event event = eventService.getPatientNum();
+//        model.addAttribute("event",event);
         return "index";
     }
 
