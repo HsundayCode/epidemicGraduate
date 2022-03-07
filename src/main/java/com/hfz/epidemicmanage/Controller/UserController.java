@@ -80,7 +80,7 @@ public class UserController {
     @RequestMapping(path = "/getByName/{name}",method = RequestMethod.GET)
     public String getUserByName(Model model, @PathVariable("name") String name, Page page)
     {
-        List<Map<String,Object>> maplist = userService.findUserByName(name,page.getLimit(),page.getoffset());
+        List<Map<String,Object>> maplist = userService.findUserByName(name);
         model.addAttribute("maplist",maplist);
         return "views/users";//返回全部列表
     }
@@ -101,8 +101,8 @@ public class UserController {
     @RequestMapping(path = "/UserList",method = RequestMethod.GET)
     public String getUsersList(Model model, Page page){
         page.setLimit(5);
-        page.setPath("/patientList");
-        List<Map<String,Object>> maplist = userService.findUser(page.getLimit(),page.getoffset());
+        page.setPath("/UserList");
+        List<Map<String,Object>> maplist = userService.findUsers(page.getLimit(),page.getoffset());
         model.addAttribute("maplist",maplist);
         return "views/users";//返回全部列表
     }
@@ -110,10 +110,10 @@ public class UserController {
     //根据id获得用户详情
     //用户列表中会有用户id
     @LoginRequire
-    @RequestMapping(path = "/Usersdetail/{Usersid}",method = RequestMethod.GET)
-    public String getPatientDetail(Model model, @PathVariable("Usersid") int patientid){
-        User patient= userService.findUserById(patientid);
-        model.addAttribute("Patient",patient);
+    @RequestMapping(path = "/Userdetail/{Userid}",method = RequestMethod.GET)
+    public String getPatientDetail(Model model, @PathVariable("Userid") int patientid){
+        User user= userService.findUserById(patientid);
+        model.addAttribute("user",user);
         return "/patientdetail";//返回一个用户实体类
     }
 

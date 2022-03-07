@@ -47,7 +47,7 @@ public class UserService implements EpidemicConstant {
 
     //获得用户列表页面
     //一次性查询 列表
-    public List<Map<String,Object>> findUser(int limit, int offset){
+    public List<Map<String,Object>> findUsers(int limit, int offset){
 
         List<User> patientslist = userMapper.selectUsers(limit,offset);
         List<Map<String,Object>> reslist = new ArrayList<>();
@@ -55,21 +55,21 @@ public class UserService implements EpidemicConstant {
         {
             Map<String,Object> map = new HashMap<>();
             map.put("account",accountMapper.selectById(user.getAccountid()));
-            map.put("patient",user);
+            map.put("user",user);
             reslist.add(map);
         }
         return reslist;
     }
 
-    public List<Map<String,Object>> findUserByName(String name,int limit,int offset)
+    public List<Map<String,Object>> findUserByName(String name)
     {
-        List<User> ByNameList =userMapper.selectByName(name,limit,offset);
+        List<User> ByNameList =userMapper.selectByName(name);
         List<Map<String,Object>> reslist = new ArrayList<>();
         for(User user : ByNameList)
         {
             Map<String,Object> map = new HashMap<>();
             map.put("account",accountMapper.selectById(user.getAccountid()));
-            map.put("User",user);
+            map.put("user",user);
             reslist.add(map);
         }
         return reslist;
@@ -79,7 +79,7 @@ public class UserService implements EpidemicConstant {
     {
         Map<String,Object> map = new HashMap<>();
         User patient = userMapper.selectByIdcard(idcard);
-        map.put("patient",patient);
+        map.put("user",patient);
         map.put("account",accountMapper.selectById(patient.getAccountid()));
         List<Map<String,Object>> reslist = new ArrayList<>();
         reslist.add(map);

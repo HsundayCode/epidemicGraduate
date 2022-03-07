@@ -43,10 +43,10 @@ public class OutsiderController {
         if(outsider == null)
             throw new RuntimeException("没有填写信息");
         int accountid = hostHolder.getAccount().getId();
-        if(accountid == 1 || accountid == 3)
-        {
-            outsider.setAccountid(userMapper.selectByName(outsider.getName()).getId());
-        }
+//        if(accountid == 1 || accountid == 3)
+//        {
+//            outsider.setAccountid(userMapper.selectByName(outsider.getName()).getId());
+//        }
         outsider.setAccountid(accountid);
         outsiderService.addOutsider(outsider);
         model.addAttribute("res","添加成功");

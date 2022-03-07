@@ -22,9 +22,8 @@ public class User {
     public User() {
     }
 
-    public User(int id, int accountid, String name, String sex, String age,
-                int idcard, String locale, int phone, String birthday, String status,
-                String place, String divide, String trail, String occurrencetime) {
+    public User(int id, int accountid, String name, String sex, String age, int idcard, String locale, int phone, String birthday,
+                int userType, String status, String place, String divide, String trail, String occurrencetime) {
         this.id = id;
         this.accountid = accountid;
         this.name = name;
@@ -34,11 +33,20 @@ public class User {
         this.locale = locale;
         this.phone = phone;
         this.birthday = birthday;
+        this.userType = userType;
         this.status = status;
         this.place = place;
         this.divide = divide;
         this.trail = trail;
         this.occurrencetime = occurrencetime;
+    }
+
+    public int getUserType() {
+        return userType;
+    }
+
+    public void setUserType(int userType) {
+        this.userType = userType;
     }
 
     public int getId() {
@@ -165,6 +173,7 @@ public class User {
                 ", locale='" + locale + '\'' +
                 ", phone=" + phone +
                 ", birthday='" + birthday + '\'' +
+                ", userType=" + userType +
                 ", status='" + status + '\'' +
                 ", place='" + place + '\'' +
                 ", divide='" + divide + '\'' +

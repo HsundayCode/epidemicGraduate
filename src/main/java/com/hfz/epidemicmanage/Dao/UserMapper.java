@@ -12,7 +12,7 @@ import java.util.List;
 public interface UserMapper {
     //因为用户表和病人表一起的 两个查询方法重复了
     User selectById(int id);
-    List<User> selectByName(String name,int limit,int offset);
+    List<User> selectByName(String name);
     User selectByAccountid(int accountid);
     int insertUser(User user);//用户信息添加
     int deleteUser(int id);

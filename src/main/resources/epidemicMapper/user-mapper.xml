@@ -4,10 +4,10 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hfz.epidemicmanage.Dao.UserMapper">
     <sql id="selectFiles">
-        id,accountid,name,sex,age,idcard,locale,phone,birthday,status,place,divide,trail,occurrencetime
+        id,accountid,name,sex,age,idcard,locale,phone,birthday,userType,status,place,divide,trail,occurrencetime
     </sql>
     <sql id="insertFiles">
-        accountid,name,sex,age,idcard,locale,phone,birthday,status,place,divide,trail,occurrencetime
+        accountid,name,sex,age,idcard,locale,phone,birthday,userType,status,place,divide,trail,occurrencetime
     </sql>
 
     <select id="selectById" parameterType="int" resultType="User">
@@ -19,7 +19,7 @@
         select <include refid="selectFiles"></include>
         from user
         where name = #{name}
-        limit #{offset} #{limit}
+
     </select>
     <select id="selectByAccountid" resultType="User">
         select <include refid="selectFiles"></include>
@@ -29,7 +29,8 @@
 
     <insert id="insertUser" parameterType="User" keyProperty="id">
         insert into User(<include refid="insertFiles"></include>)
-        values (#{accountid},#{name},#{sex},#{age},#{idcard},#{locale},#{phone},#{birthday},#{status},#{place},#{divide},#{trail},#{occurrencetime})
+        values (#{accountid},#{name},#{sex},#{age},#{idcard},#{locale},#{phone},#{birthday},
+        #{userType},#{status},#{place},#{divide},#{trail},#{occurrencetime})
     </insert>
 
     <delete id="deleteUser">

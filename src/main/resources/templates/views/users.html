@@ -66,19 +66,19 @@
                             </tr></thead>
                             <tbody th:each="res:${maplist}">
                               <tr >
-                                <td th:text="${res.patient.id}">1</td>
-                                <td th:text="${res.patient.name}">admin</td>
-                                <td th:text="${res.patient.phone}">18925139194</td>
+                                <td th:text="${res.user.id}">1</td>
+                                <td th:text="${res.user.name}">admin</td>
+                                <td th:text="${res.user.phone}">18925139194</td>
                                 <td th:text="${res.account.email}">113664000@qq.com</td>
-                                <td th:text="${res.account.type==1?'管理员':'一般用户'}">超级管理员</td>
+                                <td th:text="${res.user.userType==1?'住户':'外来人员'}">超级管理员</td>
                                 <td th:text="${#dates.format(res.account.createtime,'yyyy-MM-dd HH:mm:ss')}">2017-01-01 11:11:42</td>
                                 <td class="td-status">
-                                    <a th:href="@{|/patientdetail/${res.patient.id}|}" ><span class="layui-btn layui-btn-normal layui-btn-mini">详情</span></a>
+                                    <a><span class="layui-btn layui-btn-normal layui-btn-mini" th:text="${res.user.status}"></span></a>
                                 </td>
                                   <td class="td-status">
-                                      <a href="#" ><span class="layui-btn layui-btn-normal layui-btn-mini">详情</span></a>
-                                      <a href="#" ><span class="layui-btn layui-btn-normal layui-btn-mini">修改</span></a>
-                                      <a th:href="@{|/deleteuser/${res.patient.id}|}" ><span class="layui-btn layui-btn-normal layui-btn-mini">删除</span></a>
+                                      <a th:href="@{|/Userdetail/${res.user.id}|}" ><span class="layui-btn layui-btn-normal layui-btn-mini">详情</span></a>
+                                      <a  ><span class="layui-btn layui-btn-normal layui-btn-mini">修改</span></a>
+                                      <a th:href="@{|/deleteuser/${res.user.id}|}" ><span class="layui-btn layui-btn-normal layui-btn-mini">删除</span></a>
                                   </td>
                               </tr>
                             </tbody>
