@@ -19,6 +19,7 @@
         select <include refid="selectFiles"></include>
         from user
         where name = #{name}
+        limit #{offset} #{limit}
     </select>
     <select id="selectByAccountid" resultType="User">
         select <include refid="selectFiles"></include>
@@ -34,5 +35,22 @@
     <delete id="deleteUser">
         delete from user where id =  #{id}
     </delete>
+
+    <select id="selectByIdcard" resultType="User">
+        select <include refid="selectFiles"></include>
+        from user
+        where idcard = #{idcard}
+    </select>
+
+    <select id="selectUsers" resultType="User">
+        select <include refid="selectFiles"></include>
+        from user
+        limit #{offset},#{limit}
+    </select>
+
+    <update id="updateStatus">
+        update user set status = #{status}
+        where id = #{userid]}
+    </update>
 
 </mapper>

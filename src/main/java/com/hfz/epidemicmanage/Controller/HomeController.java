@@ -1,6 +1,5 @@
 package com.hfz.epidemicmanage.Controller;
 
-import com.hfz.epidemicmanage.Dao.PatientMapper;
 import com.hfz.epidemicmanage.Dao.UserMapper;
 import com.hfz.epidemicmanage.Entity.Account;
 import com.hfz.epidemicmanage.Entity.Activity;
@@ -9,7 +8,6 @@ import com.hfz.epidemicmanage.Entity.Event;
 import com.hfz.epidemicmanage.Entity.User;
 import com.hfz.epidemicmanage.Service.ActivityService;
 import com.hfz.epidemicmanage.Service.EventService;
-import com.hfz.epidemicmanage.Service.PatientService;
 import com.hfz.epidemicmanage.Service.PostService;
 import com.hfz.epidemicmanage.Util.HostHolder;
 import com.hfz.epidemicmanage.WebScoket.WebSocketServer;
@@ -30,8 +28,7 @@ public class HomeController {
     WebSocketServer webSocketServer;
     @Autowired
     EventService eventService;
-    @Autowired
-    PatientMapper patientMapper;
+
     @Autowired
     PostService postService;
     @Autowired

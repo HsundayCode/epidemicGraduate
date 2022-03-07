@@ -11,8 +11,9 @@ public class User {
     private String locale;//地址
     private int phone;//手机号码
     private String birthday;//出生日期
+    private int userType;//1-住户 2-外来
 
-    private String status;//隔离情况级别
+    private String status;//1-正常  2-中度 3-高危 4-感染
     private String place;//感染地方
     private String divide;//隔离地址
     private String trail;//轨迹

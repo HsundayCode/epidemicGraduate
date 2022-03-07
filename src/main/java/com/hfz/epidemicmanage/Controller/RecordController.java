@@ -1,19 +1,16 @@
 package com.hfz.epidemicmanage.Controller;
 
-import com.hfz.epidemicmanage.Dao.PatientMapper;
 import com.hfz.epidemicmanage.Dao.UserMapper;
 import com.hfz.epidemicmanage.Entity.Page;
 import com.hfz.epidemicmanage.Entity.Record;
 import com.hfz.epidemicmanage.Entity.User;
 import com.hfz.epidemicmanage.Service.RecordService;
-import com.hfz.epidemicmanage.Service.UserService;
 import com.hfz.epidemicmanage.Util.HostHolder;
 import com.hfz.epidemicmanage.annotation.LoginRequire;
 import com.hfz.epidemicmanage.annotation.ManageRequire;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
