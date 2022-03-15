@@ -35,19 +35,18 @@
                                         <label class="layui-form-label">条件</label>
                                         <div class="layui-inline">
                                             <select  id="sex" style="width: 100px;" class="layui-select">
-                                                <option value="1">姓名</option>
-                                                <option value="2">来处</option>
-                                                <option value="3">身份证</option>
+                                                <option value="1">体温</option>
+                                                <option value="2">账号id</option>
                                             </select>
                                         </div>
                                         <div class="layui-inline">
                                             <input type="text" id="suffix" class="layui-input" style="width: 300px">
                                         </div>
                                         <div class="layui-inline">
-                                            <a href="/getOutsiderAll" id="res"><button type="submit" class="layui-btn layui-btn-primary"  lay-submit lay-filter="data-search-btn"><i class="layui-icon"></i> 搜 索</button></a>
+                                            <a href="/getRecentlyRecordList" id="res"><button type="submit" class="layui-btn layui-btn-primary"  lay-submit lay-filter="data-search-btn"><i class="layui-icon"></i> 搜 索</button></a>
                                         </div>
                                         <div class="layui-inline">
-                                            <a target="_blank" href="#" ><span class="layui-btn layui-btn-normal layui-btn-mini">添加</span></a>
+                                            今日打卡人数:<span class="layui-btn layui-btn-normal layui-btn-mini" id="recordnum"></span>
                                         </div>
 
                                     </div>
@@ -79,7 +78,7 @@
                                 <td th:text="${recentlylist.name}">admin</td>
                                 <td th:text="${recentlylist.phone}">18925139194</td>
                                 <td th:text="${recentlylist.locale}">超级管理员</td>
-                                <td th:text="${recentlylist.createtime}">2017-01-01 11:11:42</tdth>
+                                <td th:text="${recentlylist.createtime}">2017-01-01 11:11:42</td>
                                 <td class="td-status">
                                   <span class="layui-btn layui-btn-normal layui-btn-mini" th:text="${recentlylist.temperature}">已启用</span>
                                 </td>
@@ -87,7 +86,6 @@
                                       <a href="#" ><span class="layui-btn layui-btn-normal layui-btn-mini">详情</span></a>
                                       <a href="#" ><span class="layui-btn layui-btn-normal layui-btn-mini">修改</span></a>
                                       <a href="#" ><span class="layui-btn layui-btn-normal layui-btn-mini">删除</span></a>
-
                                   </td>
                               </tr>
                             </tbody>
@@ -109,5 +107,41 @@
         <a th:href="@{${page.path}(current=${page.current+1})}">
             &gt; </a></div>
     <script src="../layui.all.js"></script>
+    <script type="text/javascript" src="../jquery-3.6.0.min.js"></script>
+    <script type="text/javascript">
+        $.ajax({
+            url:'/todayRecordNum',
+            type:'get',
+            success:function (data) {
+
+                $("#recordnum").text(data)
+            }
+        })
+
+        $("#sex").change(function () {
+            var suffix = $("#suffix").val();
+            var op = $("#sex").val()
+            if(op == 1)
+            {
+                $("#res").attr("href","/getRecordByTem/"+suffix);
+            }
+            if(op == 2)
+            {
+                $("#res").attr("href","/HistoryRecord/"+suffix);
+            }
+        })
+
+        $("#suffix").blur(function () {
+            var suffix = $("#suffix").val();
+            var op = $("#sex").val();
+            if(op == 1)
+                $("#res").attr("href","/getRecordByTem/"+suffix);
+            if(op == 2)
+                $("#res").attr("href","/HistoryRecord/"+suffix);
+
+        })
+
+
+    </script>
 </body>
 </html>

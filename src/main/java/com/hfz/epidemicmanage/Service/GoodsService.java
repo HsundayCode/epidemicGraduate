@@ -53,4 +53,13 @@ public class GoodsService {
     {
         goodsMapper.deleteGoods(id);
     }
+
+    public void updatePlace(int id,String place){
+        goodsMapper.updatePlace(id,place);
+    }
+    public void updateSource(int id,String source)
+    {
+        goodsMapper.updateSource(id,source);
+    }
+
 }

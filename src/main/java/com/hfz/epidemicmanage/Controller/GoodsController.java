@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
@@ -78,11 +79,28 @@ public class GoodsController implements EpidemicConstant {
         return "views/goods";
     }
 
+    //删除
     @RequestMapping(path = "/deletegoods/{goodsid}",method = RequestMethod.GET)
     public String deleteGoods(@PathVariable("goodsid") int id, Model model)
     {
         goodsService.deleteGoods(id);
         model.addAttribute("res","删除成功");
         return "/addresult";
+    }
+
+    @RequestMapping(path = "/changePlace",method = RequestMethod.GET)
+    @ResponseBody
+    public String updatePlace(String place,int id)
+    {
+        goodsService.updatePlace(id,place);
+        return "修改成功";
+    }
+
+    @RequestMapping(path = "/changeSource",method = RequestMethod.GET)
+    @ResponseBody
+    public String updateSource(String source,int id)
+    {
+        goodsService.updateSource(id,source);
+        return "修改成功";
     }
 }

@@ -18,8 +18,10 @@ public class EventService {
         event.setCreatetime(new Date());
         //其实可以查询出所有数据再分，而不是进程三次查询
         event.setDeathNum(eventMapper.findPatientNum("死亡"));//通过关键字查询人数
-        event.setDivideNum(eventMapper.findPatientNum("隔离"));
+        event.setDivideNum(eventMapper.findPatientNum("高危"));
         event.setDoubtNUm(eventMapper.findPatientNum("感染"));
+        event.setNormalNum(eventMapper.findPatientNum("正常"));
+        event.setOutsiderNum(eventMapper.findOutsiderNum());
         return event;
     }
 }

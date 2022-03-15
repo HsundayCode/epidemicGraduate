@@ -8,4 +8,11 @@
         from user
         where status = #{status}
     </select>
+
+<!--    count()中间不能有空格-->
+    <select id="findOutsiderNum" resultType="int">
+        select count(id)
+        from user
+        where userType = 2
+    </select>
 </mapper>

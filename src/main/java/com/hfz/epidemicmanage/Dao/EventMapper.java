@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 public interface EventMapper {
 
     int findPatientNum(String status);//查询人数
+    int findOutsiderNum();
 
 
 }

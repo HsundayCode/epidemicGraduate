@@ -8,9 +8,11 @@ import com.hfz.epidemicmanage.Service.RecordService;
 import com.hfz.epidemicmanage.Util.HostHolder;
 import com.hfz.epidemicmanage.annotation.LoginRequire;
 import com.hfz.epidemicmanage.annotation.ManageRequire;
+import org.apache.ibatis.annotations.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -35,16 +37,17 @@ public class RecordController {
 
     //今天打卡人数
     //后需用ajax把
-    public String gettodayRecordNum(Model model){
+    @RequestMapping(path = "/todayRecordNum",method = RequestMethod.GET)
+    @ResponseBody
+    public int gettodayRecordNum(){
         int num =  recordService.findTodayRecordRow(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
-        model.addAttribute("recordNum",num);
-        return "/index";
+        return num;
     }
     //获取某人历史打卡记录
     @LoginRequire
     @ManageRequire
-    @RequestMapping(path = "/HistoryRecord",method = RequestMethod.GET)
-    public String getHistoryRecordList(Model model, Page page,int accountid){
+    @RequestMapping(path = "/HistoryRecord/{accountid}",method = RequestMethod.GET)
+    public String getHistoryRecordList(Model model, Page page,@PathVariable("accountid") int accountid){
         page.setPath("/HistoryRecord?accountid="+accountid);
         page.setLimit(5);
         List<Record> recordList = recordService.findHistoryRecordList(accountid,page.getLimit(),page.getoffset());
@@ -83,6 +86,16 @@ public class RecordController {
         page.setPath("/getRecentlyRecordList");
         List<Record> RecentlyRecordList = recordService.findRecentlyRecordList(page.getLimit(),page.getoffset());
         model.addAttribute("RecordList",RecentlyRecordList);
+        return "views/record";
+    }
+
+    @RequestMapping(path = "/getRecordByTem/{tem}", method = RequestMethod.GET)
+    public String getRecordByTem(@PathVariable("tem")int tem, Model model,Page page)
+    {
+        page.setLimit(5);
+        page.setPath("/getRecordByTem/"+tem);
+        List<Record> BytemRecordList = recordService.findRecordtem(tem,page.getLimit(),page.getoffset());
+        model.addAttribute("RecordList",BytemRecordList);
         return "views/record";
     }
 

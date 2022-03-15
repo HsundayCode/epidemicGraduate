@@ -26,5 +26,7 @@ public interface RecordSMapper {
     //查询当天记录人数
     int selectTodayRecordRow(String createtime);
 
+    List<Record> selectRecordByTemperature(@Param("temperature") int temperature,@Param("limit") int limit,@Param("offset")int offset);
+
 
 }

@@ -8,17 +8,27 @@ public class Goods {
     private String source;
     private String place;
     private int status;
+    private int accountid;
 
     public Goods() {
     }
 
-    public Goods(int id, String name, int number, String source, String place, int status) {
+    public Goods(int id, String name, int number, String source, String place, int status, int accountid) {
         this.id = id;
         this.name = name;
         this.number = number;
         this.source = source;
         this.place = place;
         this.status = status;
+        this.accountid = accountid;
+    }
+
+    public int getAccountid() {
+        return accountid;
+    }
+
+    public void setAccountid(int accountid) {
+        this.accountid = accountid;
     }
 
     public int getId() {

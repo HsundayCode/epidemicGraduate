@@ -63,4 +63,8 @@ public class RecordService {
     public int findTodayRecordRow(String createtime){
         return recordSMapper.selectTodayRecordRow(createtime);
     }
+
+    public List<Record> findRecordtem(int temperature,int limit,int offset){
+        return recordSMapper.selectRecordByTemperature(temperature,limit,offset);
+    }
 }

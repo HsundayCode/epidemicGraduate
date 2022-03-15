@@ -10,18 +10,39 @@ public class Event {
     private int doubtNUm;//疑似人数
     private int divideNum;//隔离人数
     private int deathNum;//死亡人数
+    private int NormalNum;//正常
+    private int outsiderNum;//外来人员数量
     private Date createtime;//刷新时间
 
     public Event() {
     }
 
-    public Event(int id, int patientNum, int doubtNUm, int divideNum, int deathNum, Date createtime) {
+    public Event(int id, int patientNum, int doubtNUm, int divideNum,
+                 int deathNum, int normalNum, int outsiderNum, Date createtime) {
         this.id = id;
         this.patientNum = patientNum;
         this.doubtNUm = doubtNUm;
         this.divideNum = divideNum;
         this.deathNum = deathNum;
+        NormalNum = normalNum;
+        this.outsiderNum = outsiderNum;
         this.createtime = createtime;
+    }
+
+    public int getNormalNum() {
+        return NormalNum;
+    }
+
+    public void setNormalNum(int normalNum) {
+        NormalNum = normalNum;
+    }
+
+    public int getOutsiderNum() {
+        return outsiderNum;
+    }
+
+    public void setOutsiderNum(int outsiderNum) {
+        this.outsiderNum = outsiderNum;
     }
 
     public int getId() {

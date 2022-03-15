@@ -34,7 +34,7 @@ public class GetJSONUtil {
     public static String toJSON(String msg)
     {
         JSONObject json = new JSONObject();
-        json.put("msg",json);
+        json.put("msg",msg);
         return json.toJSONString();
     }
 }

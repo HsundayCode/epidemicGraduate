@@ -59,4 +59,13 @@
     <delete id="deleteGoods">
         delete from goods where id = #{id}
     </delete>
+
+    <update id="updatePlace">
+        update goods set place = #{place}
+        where id = #{id}
+    </update>
+    <update id="updateSource">
+        update goods set source = #{source}
+        where id = #{id}
+    </update>
 </mapper>

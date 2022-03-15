@@ -43,9 +43,6 @@
                                         <div class="layui-inline">
                                             <a href="/patientList" id="res"><button type="submit" class="layui-btn layui-btn-primary"  lay-submit lay-filter="data-search-btn"><i class="layui-icon"></i> 搜 索</button></a>
                                         </div>
-                                        <div class="layui-inline">
-                                            <a target="_blank" href="#" ><span class="layui-btn layui-btn-normal layui-btn-mini">添加</span></a>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -66,7 +63,7 @@
                             </tr></thead>
                             <tbody th:each="res:${maplist}">
                               <tr >
-                                <td th:text="${res.user.id}">1</td>
+                                <td id="userid" th:text="${res.user.id}">1</td>
                                 <td th:text="${res.user.name}">admin</td>
                                 <td th:text="${res.user.phone}">18925139194</td>
                                 <td th:text="${res.account.email}">113664000@qq.com</td>
@@ -77,7 +74,14 @@
                                 </td>
                                   <td class="td-status">
                                       <a th:href="@{|/Userdetail/${res.user.id}|}" ><span class="layui-btn layui-btn-normal layui-btn-mini">详情</span></a>
-                                      <a  ><span class="layui-btn layui-btn-normal layui-btn-mini">修改</span></a>
+                                      <div class="layui-inline" style="width: 100px;" >
+                                          <select  id="grade" style="width: 100px;" class="layui-select">
+                                              <option value="感染">感染</option>
+                                              <option value="高危">高危</option>
+                                              <option value="中度">中度</option>
+                                              <option value="正常">正常</option>
+                                          </select>
+                                      </div><span class="layui-btn layui-btn-normal layui-btn-mini" onclick="chgrade()">修改</span>
                                       <a th:href="@{|/deleteuser/${res.user.id}|}" ><span class="layui-btn layui-btn-normal layui-btn-mini">删除</span></a>
                                   </td>
                               </tr>
@@ -102,6 +106,19 @@
     <script src="layui.all.js"></script>
     <script type="text/javascript" src="../jquery-3.6.0.min.js"></script>
     <script type="text/javascript">
+        function chgrade(){
+            var userid = $("#userid").text();
+            var grade = $("#grade").val();
+            $.ajax({
+                url:'/updateStatus',
+                type:'post',
+                data:{userid:userid,status:grade},
+                success:function (data) {
+                    alert(data)
+                }
+            })
+        }
+
         $("#sex").change(function () {
             var suffix = $("#suffix").val();
             var op = $("#sex").val()

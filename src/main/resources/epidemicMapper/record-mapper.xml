@@ -29,7 +29,7 @@
         where accountid = #{accountid}
     </update>
     <select id="selectTodayRecordRow" resultType="int">
-        select count (id)
+        select count(id)
         from todayrecord
         where createtime = #{createtime}
     </select>
@@ -45,6 +45,14 @@
         select <include refid="selectFiles"></include>
         from record
         where accountid = #{accountid}
+        order by createtime desc
+        limit #{offset},#{limit}
+    </select>
+
+    <select id="selectRecordByTemperature" resultType="Record">
+        select <include refid="selectFiles"></include>
+        from record
+        where temperature >= #{temperature}
         order by createtime desc
         limit #{offset},#{limit}
     </select>

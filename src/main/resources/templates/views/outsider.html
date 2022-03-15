@@ -68,16 +68,16 @@
                             </tr></thead>
                             <tbody th:each="outlist:${outsiderList}">
                               <tr>
-                                <td th:text="${outlist.id}">1</td>
+                                <td id="outid" th:text="${outlist.id}">1</td>
                                 <td th:text="${outlist.name}">admin</td>
                                 <td th:text="${outlist.phone}">18925139194</td>
                                 <td th:text="${outlist.source}">113664000@qq.com</td>
                                 <td th:text="${outlist.place}">超级管理员</td>
                                 <td th:text="${outlist.cometime}">2017-01-01 11:11:42</td>
                                   <td class="td-status">
-                                      <a href="#" ><span class="layui-btn layui-btn-normal layui-btn-mini">详情</span></a>
+                                      <a href="#" onclick="detail()"><span class="layui-btn layui-btn-normal layui-btn-mini">详情</span></a>
                                       <a href="#" ><span class="layui-btn layui-btn-normal layui-btn-mini">修改</span></a>
-                                      <a th:href="@{|/deleteoutsider/${outlist.id}|}" ><span class="layui-btn layui-btn-normal layui-btn-mini">修改</span></a>
+                                      <a th:href="@{|/deleteoutsider/${outlist.id}|}" ><span class="layui-btn layui-btn-normal layui-btn-mini">删除</span></a>
 
                                   </td>
                               </tr>
@@ -102,6 +102,18 @@
     <script type="text/javascript" src="../layui.all.js"></script>
     <script type="text/javascript" src="../jquery-3.6.0.min.js"></script>
     <script type="text/javascript">
+
+        function detail() {
+            $.ajax({
+                type:'get',
+                url:'/getDetail/'+$("#outid").text(),
+                success:function (data) {
+                    datajson = $.parseJSON(data)
+                    alert(datajson.msg);
+                }
+            })
+        }
+
             $("#sex").change(function () {
                 var suffix = $("#suffix").val();
                 var op = $("#sex").val();

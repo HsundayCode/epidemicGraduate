@@ -7,6 +7,7 @@ import com.hfz.epidemicmanage.Entity.Page;
 import com.hfz.epidemicmanage.Entity.Post;
 import com.hfz.epidemicmanage.Service.PostService;
 import com.hfz.epidemicmanage.Util.EpidemicConstant;
+import com.hfz.epidemicmanage.Util.GetJSONUtil;
 import com.hfz.epidemicmanage.annotation.LoginRequire;
 import com.hfz.epidemicmanage.annotation.ManageRequire;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 import java.util.Map;
@@ -31,7 +33,7 @@ public class PostController implements EpidemicConstant {
 
     @RequestMapping(path = "/addfeedback",method = RequestMethod.GET)
     public String getAddPostPage(){
-        return "/addfeedback";
+        return "addTemplate/addfeedback";
     }
     //提出问题
     //这里应该返回个状态码，表示是否提交成功，要改成ajax返回json
@@ -39,19 +41,24 @@ public class PostController implements EpidemicConstant {
     @RequestMapping(path = "/addPost",method = RequestMethod.POST)
     public String addPost(Model model,String title,String content){
         postService.addPost(title,content);
+        model.addAttribute("res","反馈到位");
         return "/addresult";
     }
 
     //获取详细信息
     @LoginRequire
     @ManageRequire
+    @ResponseBody
     @RequestMapping(path = "/postdetail/{postid}",method = RequestMethod.GET)
     public String PostDetail(Model model,@PathVariable("postid") int postid){
         Post postdetail = postService.FindPostDetail(postid);
-        model.addAttribute("postdetail",postdetail);//病人详情
+        model.addAttribute("postdetail",postdetail);//反馈详情
+
         Account account = accountMapper.selectById(postdetail.getAccountid());
         model.addAttribute("account",account);//账号显示
-        return "/postdetail";//因为账号和用户是分开两个表，所以要查询两次，返回两个对象
+
+        return GetJSONUtil.toJSON(postdetail.getContent());
+        //return "/postdetail";//因为账号和用户是分开两个表，所以要查询两次，返回两个对象
     }
 
     //修改解决未解决状态

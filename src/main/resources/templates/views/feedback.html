@@ -43,6 +43,7 @@
                             </tr></thead>
                             <tbody th:each="map:${postListMap}">
                               <tr>
+                                  <p hidden="hidden" id="postid" th:text="${map.post.id}"></p>
                                   <td>
                                       <a th:href="@{|/postdetail/${map.post.id}|}" th:text="${map.post.title}"></a>
                                   </td>
@@ -53,7 +54,7 @@
                                   <span class="layui-btn layui-btn-normal layui-btn-mini" th:text="${map.post.status == 1?'已读':'未读'}">未读</span>
                                 </td>
                                   <td class="td-status">
-                                      <a target="_blank" href="#" ><span class="layui-btn layui-btn-normal layui-btn-mini">详情</span></a>
+                                      <a target="_blank"  onclick="detail()"><span class="layui-btn layui-btn-normal layui-btn-mini">详情</span></a>
                                       <a target="_blank" th:href="@{|/updatestatus/${map.post.id}/${map.post.status}|}" th:if="${map.post.status == 0}" ><span class="layui-btn layui-btn-normal layui-btn-mini">修改</span></a>
                                       <a target="_blank" href="/addfeedback" ><span class="layui-btn layui-btn-normal layui-btn-mini">添加</span></a>
                                   </td>
@@ -78,6 +79,18 @@
             &gt; </a></div>
     <script src="../layui.all.js"></script>
     <script type="text/javascript" src="../jquery-3.6.0.min.js"></script>
+    <script type="text/javascript">
+        function detail() {
+            $.ajax({
+                type:'get',
+                url:'/postdetail/'+$("#postid").text(),
+                success:function (data) {
+                    datajson = $.parseJSON(data)
+                    alert(datajson.msg);
+                }
+            })
+        }
+    </script>
 
 </body>
 </html>

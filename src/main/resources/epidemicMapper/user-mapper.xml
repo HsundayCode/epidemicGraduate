@@ -51,7 +51,7 @@
 
     <update id="updateStatus">
         update user set status = #{status}
-        where id = #{userid]}
+        where id = #{userid}
     </update>
 
 </mapper>

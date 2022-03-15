@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.HashMap;
 import java.util.List;
@@ -70,10 +71,12 @@ public class UserController {
 
     //修改用户状态
     @LoginRequire
-    @RequestMapping(path = "/updateStatus/{accountid}",method = RequestMethod.GET)
-    public void updateStatus(@PathVariable("accountid") int accountid,String status)
+    @ResponseBody
+    @RequestMapping(path = "/updateStatus",method = RequestMethod.POST)
+    public String updateStatus( int userid,String status)
     {
-        userService.updateStatus(accountid,status);
+        userService.updateStatus(userid,status);
+        return "修改成功";
     }
 
     //通关名字查找
@@ -114,7 +117,7 @@ public class UserController {
     public String getPatientDetail(Model model, @PathVariable("Userid") int patientid){
         User user= userService.findUserById(patientid);
         model.addAttribute("user",user);
-        return "/patientdetail";//返回一个用户实体类
+        return "/userdetail";//返回一个用户实体类
     }
 
 }

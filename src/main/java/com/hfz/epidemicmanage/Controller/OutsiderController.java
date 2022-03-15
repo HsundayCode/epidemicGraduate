@@ -4,6 +4,7 @@ import com.hfz.epidemicmanage.Dao.UserMapper;
 import com.hfz.epidemicmanage.Entity.Outsider;
 import com.hfz.epidemicmanage.Entity.Page;
 import com.hfz.epidemicmanage.Service.OutsiderService;
+import com.hfz.epidemicmanage.Util.GetJSONUtil;
 import com.hfz.epidemicmanage.Util.HostHolder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
@@ -81,11 +83,13 @@ public class OutsiderController {
     }
 
     //外来人员详情，来的原因不能在表单里展示
-    @RequestMapping(path = "/getDetail/{id}")
+    @ResponseBody
+    @RequestMapping(path = "/getDetail/{id}",method = RequestMethod.GET)
     public String outsiderDetail(Model model, @PathVariable("id")int id){
        Outsider detail =  outsiderService.getDetail(id);
        model.addAttribute("outsiderDetail",detail);
-        return "outsiderdetail";
+       return GetJSONUtil.toJSON(detail.getContent());
+
     }
 
     @RequestMapping(path = "/deleteoutsider/{outsiderid}",method = RequestMethod.GET)

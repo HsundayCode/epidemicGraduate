@@ -10,7 +10,6 @@ import com.hfz.epidemicmanage.Service.ActivityService;
 import com.hfz.epidemicmanage.Service.EventService;
 import com.hfz.epidemicmanage.Service.PostService;
 import com.hfz.epidemicmanage.Util.HostHolder;
-import com.hfz.epidemicmanage.WebScoket.WebSocketServer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,8 +23,7 @@ import java.util.List;
 @Controller
 public class HomeController {
 
-    @Autowired
-    WebSocketServer webSocketServer;
+
     @Autowired
     EventService eventService;
 

@@ -18,7 +18,7 @@ public interface UserMapper {
     int deleteUser(int id);
     User selectByIdcard(int idcard);//身份证
     List<User> selectUsers(@Param("limit") int limit, @Param("offset") int offset);//全部
-    int updateStatus(int userid,String Status);//修改级别
+    int updateStatus(@Param("userid") int userid,@Param("status") String Status);//修改级别
 
     int updateUser();
 }
