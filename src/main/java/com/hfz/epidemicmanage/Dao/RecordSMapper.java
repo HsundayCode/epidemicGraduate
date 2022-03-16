@@ -28,5 +28,5 @@ public interface RecordSMapper {
 
     List<Record> selectRecordByTemperature(@Param("temperature") int temperature,@Param("limit") int limit,@Param("offset")int offset);
 
-
+    int deleteRecord(int id);
 }

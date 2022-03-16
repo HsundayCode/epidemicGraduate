@@ -54,4 +54,11 @@
         where id = #{userid}
     </update>
 
+    <update id="updateUser" parameterType="User">
+        update user set accountid=#{accountid},name=#{name},sex=#{sex},age=#{age},idcard=#{idcard},locale=#{locale},phone=#{phone},birthday=#{birthday},userType=#{userType},
+        status=#{status},place=#{place},divide=#{divide},trail=#{trail},occurrencetime=#{occurrencetime}
+        where id = #{id}
+
+    </update>
+
 </mapper>

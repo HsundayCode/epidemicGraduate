@@ -93,10 +93,10 @@ public class UserService implements EpidemicConstant {
     //用于判断用户不可以（修改）二次输入信息
     //添加用户信息
     //修该用户信息
-//    public void updateUser(int userid,String status,String place,String divide,String trail,String occurrencetime)
-//    {
-//        userMapper.updateUser(userid,status,place,divide,trail,occurrencetime);
-//    }
+    public void updateUser(User user)
+    {
+        userMapper.updateUser(user);
+    }
     //修改用户状态
     public void updateStatus(int id,String status)
     {

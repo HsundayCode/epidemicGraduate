@@ -99,4 +99,11 @@ public class RecordController {
         return "views/record";
     }
 
+    @RequestMapping(path = "/deleteRecord/{id}",method = RequestMethod.GET)
+    @ResponseBody
+    public String deleteRecord(@PathVariable("id") int id)
+    {
+        recordService.deleteRecord(id);
+        return "删除成功";
+    }
 }

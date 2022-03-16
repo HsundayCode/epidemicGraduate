@@ -88,11 +88,11 @@ public class GoodsController implements EpidemicConstant {
 
     //删除
     @RequestMapping(path = "/deletegoods/{goodsid}",method = RequestMethod.GET)
+    @ResponseBody
     public String deleteGoods(@PathVariable("goodsid") int id, Model model)
     {
         goodsService.deleteGoods(id);
-        model.addAttribute("res","删除成功");
-        return "/addresult";
+        return "删除成功";
     }
 
     //修改用途
@@ -113,5 +113,12 @@ public class GoodsController implements EpidemicConstant {
         String Modifier = userMapper.selectByAccountid(hostHolder.getAccount().getId()).getName();
         goodsService.updateSource(id,source,Modifier);
         return "修改成功";
+    }
+
+    //修改状态
+    @RequestMapping(path = "/changeStatus/{id}",method = RequestMethod.GET)
+    public String updateStatus(@PathVariable("id")int id){
+        goodsService.updateStatus(id,1);
+        return "redirect:/getGoodsAll";
     }
 }

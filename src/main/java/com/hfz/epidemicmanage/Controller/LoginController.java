@@ -62,6 +62,6 @@ public class LoginController {
     @RequestMapping(path = "/logout",method = RequestMethod.GET)
     public String logout(Model model, HttpServletRequest request){
         accountService.logout(request);
-        return "login";
+        return "index";
     }
 }

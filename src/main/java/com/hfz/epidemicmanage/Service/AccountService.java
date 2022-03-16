@@ -196,6 +196,8 @@ public class AccountService implements EpidemicConstant {
         String ticketKey = RedisKeyUtil.getTicketKey(ticket);
         LoginTicket loginTicket=(LoginTicket) redisTemplate.opsForValue().get(ticketKey);//再从redis中取出loginTicket 删除
         loginTicket.setStatus(1);//设置账号登录状态
+        redisTemplate.opsForValue().set(ticketKey,loginTicket);
+
     }
 
 }

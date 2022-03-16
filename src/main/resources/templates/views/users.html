@@ -74,7 +74,7 @@
                                     <a><span class="layui-btn layui-btn-normal layui-btn-mini" th:text="${res.user.status}"></span></a>
                                 </td>
                                   <td class="td-status">
-                                      <a th:href="@{|/Userdetail/${res.user.id}|}" ><span class="layui-btn layui-btn-normal layui-btn-mini">详情</span></a>
+                                      <a target="_blank" th:href="@{|/Userdetail/${res.user.id}|}" ><span class="layui-btn layui-btn-normal layui-btn-mini">详情</span></a>
                                       <div class="layui-inline" style="width: 100px;" >
                                           <select  id="grade" style="width: 100px;" class="layui-select">
                                               <option value="感染">感染</option>

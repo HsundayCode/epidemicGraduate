@@ -20,5 +20,5 @@ public interface UserMapper {
     List<User> selectUsers(@Param("limit") int limit, @Param("offset") int offset);//全部
     int updateStatus(@Param("userid") int userid,@Param("status") String Status);//修改级别
 
-    int updateUser();
+    int updateUser(User user);
 }

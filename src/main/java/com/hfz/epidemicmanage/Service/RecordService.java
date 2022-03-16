@@ -67,4 +67,9 @@ public class RecordService {
     public List<Record> findRecordtem(int temperature,int limit,int offset){
         return recordSMapper.selectRecordByTemperature(temperature,limit,offset);
     }
+
+    public void deleteRecord(int id)
+    {
+        recordSMapper.deleteRecord(id);
+    }
 }

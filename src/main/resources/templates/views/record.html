@@ -83,9 +83,7 @@
                                   <span class="layui-btn layui-btn-normal layui-btn-mini" th:text="${recentlylist.temperature}">已启用</span>
                                 </td>
                                   <td class="td-status">
-                                      <a href="#" ><span class="layui-btn layui-btn-normal layui-btn-mini">详情</span></a>
-                                      <a href="#" ><span class="layui-btn layui-btn-normal layui-btn-mini">修改</span></a>
-                                      <a href="#" ><span class="layui-btn layui-btn-normal layui-btn-mini">删除</span></a>
+                                      <a th:href="@{|/deleteRecord/${recentlylist.id}|}" ><span class="layui-btn layui-btn-normal layui-btn-mini">删除</span></a>
                                   </td>
                               </tr>
                             </tbody>

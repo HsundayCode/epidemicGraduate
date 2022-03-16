@@ -1,11 +1,10 @@
 package com.hfz.epidemicmanage.Controller;
 
+import com.hfz.epidemicmanage.Dao.OutInMapper;
+import com.hfz.epidemicmanage.Dao.OutsidersMapper;
 import com.hfz.epidemicmanage.Dao.UserMapper;
-import com.hfz.epidemicmanage.Entity.Account;
-import com.hfz.epidemicmanage.Entity.Activity;
-import com.hfz.epidemicmanage.Entity.Event;
+import com.hfz.epidemicmanage.Entity.*;
 
-import com.hfz.epidemicmanage.Entity.User;
 import com.hfz.epidemicmanage.Service.ActivityService;
 import com.hfz.epidemicmanage.Service.EventService;
 import com.hfz.epidemicmanage.Service.PostService;
@@ -35,22 +34,25 @@ public class HomeController {
     HostHolder hostHolder;
     @Autowired
     UserMapper userMapper;
+    @Autowired
+    OutsidersMapper outsidersMapper;
 
 
 
     @RequestMapping(path = "/index",method = RequestMethod.GET)
     public String getIndex(Model model){
         User user = null;
-        Account account = hostHolder.getAccount();
+        Account account= null;
+        Outsider outsider = null;
+        account = hostHolder.getAccount();
         if(account != null)
         {
             user = userMapper.selectByAccountid(account.getId());
+            outsider = outsidersMapper.selectOutsiderByAccountid(account.getId());
         }
-
-
-
         model.addAttribute("account",account);
         model.addAttribute("user",user);
+        model.addAttribute("outsider",outsider);
         return "/index";
     }
 

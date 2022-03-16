@@ -36,6 +36,11 @@ public class UserController {
         return "addTemplate/addUser";
     }
 
+    @RequestMapping(path = "/getdetailpage",method = RequestMethod.GET)
+    public String getdetailpage(){
+        return "/detailTemplate/userdetail";
+    }
+
     //用户添加信息
     //需要判断用户是否已经存在信息，不能重复提交，判断账号id是否在user里存在
     //添加完信息后应该返回首页
@@ -55,7 +60,7 @@ public class UserController {
         if(map != null)
         {
             model.addAttribute("userMessage",map.get("userMessage"));
-            return "/userdetail";
+            return "/detailTemplate/userdetail";
         }
        return "index";
     }
@@ -117,7 +122,14 @@ public class UserController {
     public String getPatientDetail(Model model, @PathVariable("Userid") int patientid){
         User user= userService.findUserById(patientid);
         model.addAttribute("user",user);
-        return "/userdetail";//返回一个用户实体类
+        return "/detailTemplate/userdetail";//返回一个用户实体类
+    }
+
+    @RequestMapping(path = "/updatedetail",method = RequestMethod.POST)
+    @ResponseBody
+    public String updatedetail(User user){
+        userService.updateUser(user);
+        return "修改成功";
     }
 
 }

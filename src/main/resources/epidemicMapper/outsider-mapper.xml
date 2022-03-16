@@ -52,6 +52,11 @@
         from outsider
         where id = #{id}
     </select>
+    <select id="selectOutsiderByAccountid" resultType="Outsider">
+        select <include refid="selectFiles"></include>
+        from outsider
+        where accountid = #{accountid}
+    </select>
 
     <delete id="deleteOutsider">
         delete from outsider where id = #{id}

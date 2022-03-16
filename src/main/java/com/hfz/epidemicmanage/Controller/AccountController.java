@@ -61,4 +61,6 @@ public class AccountController {
 
         return "/regist_result";
     }
+
+
 }
