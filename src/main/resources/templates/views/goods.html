@@ -72,6 +72,8 @@
                                 <th>数量</th>
                                 <th>来源</th>
                                 <th>去处</th>
+                                  <th>添加者账号id</th>
+                                  <th>负责人</th>
                                 <th>状态</th>
                                 <th>操作</th>
                             </tr></thead>
@@ -80,17 +82,28 @@
                                 <td>
                                   <input type="checkbox" name="" lay-skin="primary"><div class="layui-unselect layui-form-checkbox" lay-skin="primary"><i class="layui-icon layui-icon-ok"></i></div>
                                 </td>
-                                <td th:text="${goodslist.id}">1</td>
+                                <td id="goodid" th:text="${goodslist.id}">1</td>
                                 <td th:text="${goodslist.name}">admin</td>
                                 <td th:text="${goodslist.number}">18925139194</td>
                                 <td th:text="${goodslist.source}">113664000@qq.com</td>
                                 <td th:text="${goodslist.place}">超级管理员</td>
+                                  <td th:text="${goodslist.accountid}">11</td>
+                                  <td th:text="${goodslist.modifier}"></td>
                                 <td class="td-status">
                                   <span class="layui-btn layui-btn-normal layui-btn-mini" th:text="${goodslist.status==0?'未使用':'已使用'}">已启用</span>
                                 </td>
                                   <td class="td-status">
                                       <a href="#" ><span class="layui-btn layui-btn-normal layui-btn-mini">详情</span></a>
-                                      <a href="#" ><span class="layui-btn layui-btn-normal layui-btn-mini">修改</span></a>
+                                      <div class="layui-inline" style="width: 100px;" >
+                                          <select  id="modifier" style="width: 100px;" class="layui-select">
+                                              <option value="1">用途</option>
+                                              <option value="2">来源</option>
+                                          </select>
+                                      </div>
+                                      <div class="layui-input-inline">
+                                          <input type="text" id="change" class="layui-input">
+                                      </div>
+                                      <span class="layui-btn layui-btn-normal layui-btn-mini" onclick="change()">修改</span>
                                       <a th:href="@{|/deletegoods/${goodslist.id}|}" ><span class="layui-btn layui-btn-normal layui-btn-mini">删除</span></a>
                                   </td>
                               </tr>
@@ -115,6 +128,32 @@
     <script src="../layui.all.js"></script>
     <script type="text/javascript" src="../jquery-3.6.0.min.js"></script>
     <script>
+        function change(){
+            var modify = $("#change").val();
+            var op = $("#modifier").val();
+            var id = $("#goodid").text();
+            if(op == 1)
+            {
+                $.ajax({
+                    url:'/changePlace/'+id+'/'+modify,
+                    type:'get',
+                    success:function (data) {
+                        alert(data)
+                    }
+                })
+            }
+            if(op == 2)
+            {
+                $.ajax({
+                    url:'/changeSource/'+id+'/'+modify,
+                    type:'get',
+                    success:function (data) {
+                        alert(data)
+                    }
+                })
+            }
+        }
+
         $("#sex").change(function () {
             var suffix = $("#suffix").val();
             var op = $("#sex").val();

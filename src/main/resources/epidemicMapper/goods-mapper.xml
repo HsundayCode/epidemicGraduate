@@ -4,15 +4,15 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hfz.epidemicmanage.Dao.GoodsMapper">
     <sql id="selectFiles">
-        id,name,number,source,place,status
+        id,name,number,source,place,status,accountid,modifier
     </sql>
     <sql id="insertFiles">
-        name,number,source,place,status
+        name,number,source,place,status,accountid,modifier
     </sql>
 
     <insert id="insertGoods" keyProperty="id">
         insert into goods (<include refid="insertFiles"></include>)
-        values (#{name},#{number},#{source},#{place},#{status})
+        values (#{name},#{number},#{source},#{place},#{status},#{accountid},#{modifier})
     </insert>
     <select id="selectGoodsAll" resultType="Goods">
         select <include refid="selectFiles"></include>
@@ -61,11 +61,11 @@
     </delete>
 
     <update id="updatePlace">
-        update goods set place = #{place}
+        update goods set place = #{place},modifier = #{Modifier}
         where id = #{id}
     </update>
     <update id="updateSource">
-        update goods set source = #{source}
+        update goods set source = #{source},modifier = #{Modifier}
         where id = #{id}
     </update>
 </mapper>

@@ -1,9 +1,11 @@
 package com.hfz.epidemicmanage.Controller;
 
+import com.hfz.epidemicmanage.Dao.UserMapper;
 import com.hfz.epidemicmanage.Entity.Goods;
 import com.hfz.epidemicmanage.Entity.Page;
 import com.hfz.epidemicmanage.Service.GoodsService;
 import com.hfz.epidemicmanage.Util.EpidemicConstant;
+import com.hfz.epidemicmanage.Util.HostHolder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +20,10 @@ import java.util.List;
 public class GoodsController implements EpidemicConstant {
     @Autowired
     GoodsService goodsService;
+    @Autowired
+    HostHolder hostHolder;
+    @Autowired
+    UserMapper userMapper;
 
     @RequestMapping(path = "/addGoods",method = RequestMethod.GET)
     public String getAddGoodsPage(){
@@ -33,6 +39,7 @@ public class GoodsController implements EpidemicConstant {
         goods.setSource(source);
         goods.setPlace(place);
         goods.setStatus(GOODS_UNUSE);
+        goods.setAccountid(hostHolder.getAccount().getId());
         goodsService.addGoods(goods);
         model.addAttribute("res","添加成功");
         return "/addresult";
@@ -88,19 +95,23 @@ public class GoodsController implements EpidemicConstant {
         return "/addresult";
     }
 
-    @RequestMapping(path = "/changePlace",method = RequestMethod.GET)
+    //修改用途
+    @RequestMapping(path = "/changePlace/{id}/{place}",method = RequestMethod.GET)
     @ResponseBody
-    public String updatePlace(String place,int id)
+    public String updatePlace(@PathVariable("place") String place,@PathVariable("id") int id)
     {
-        goodsService.updatePlace(id,place);
+        String Modifier = userMapper.selectByAccountid(hostHolder.getAccount().getId()).getName();
+        goodsService.updatePlace(id,place,Modifier);
         return "修改成功";
     }
 
-    @RequestMapping(path = "/changeSource",method = RequestMethod.GET)
+    //修改来源
+    @RequestMapping(path = "/changeSource/{id}/{source}",method = RequestMethod.GET)
     @ResponseBody
-    public String updateSource(String source,int id)
+    public String updateSource(@PathVariable("source") String source,@PathVariable("id")int id)
     {
-        goodsService.updateSource(id,source);
+        String Modifier = userMapper.selectByAccountid(hostHolder.getAccount().getId()).getName();
+        goodsService.updateSource(id,source,Modifier);
         return "修改成功";
     }
 }

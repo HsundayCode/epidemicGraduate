@@ -20,7 +20,7 @@ public interface GoodsMapper {
     List<Goods> selectGoodsAll(int limit,int offset);
     int updateStatus(int id,int status);
     int deleteGoods(int id);
-    int updatePlace(int id,String place);
-    int updateSource(int id,String source);
+    int updatePlace(int id,String place,String Modifier);
+    int updateSource(int id,String source,String Modifier);
 
 }

@@ -54,12 +54,12 @@ public class GoodsService {
         goodsMapper.deleteGoods(id);
     }
 
-    public void updatePlace(int id,String place){
-        goodsMapper.updatePlace(id,place);
+    public void updatePlace(int id,String place,String Modifier){
+        goodsMapper.updatePlace(id,place,Modifier);
     }
-    public void updateSource(int id,String source)
+    public void updateSource(int id,String source,String Modifier)
     {
-        goodsMapper.updateSource(id,source);
+        goodsMapper.updateSource(id,source,Modifier);
     }
 
 }

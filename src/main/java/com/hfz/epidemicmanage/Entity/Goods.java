@@ -9,11 +9,12 @@ public class Goods {
     private String place;
     private int status;
     private int accountid;
+    private String Modifier;
 
     public Goods() {
     }
 
-    public Goods(int id, String name, int number, String source, String place, int status, int accountid) {
+    public Goods(int id, String name, int number, String source, String place, int status, int accountid, String modifier) {
         this.id = id;
         this.name = name;
         this.number = number;
@@ -21,6 +22,15 @@ public class Goods {
         this.place = place;
         this.status = status;
         this.accountid = accountid;
+        Modifier = modifier;
+    }
+
+    public String getModifier() {
+        return Modifier;
+    }
+
+    public void setModifier(String modifier) {
+        Modifier = modifier;
     }
 
     public int getAccountid() {
