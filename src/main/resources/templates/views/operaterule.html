@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="../css/view.css"/>
     <title></title>
 </head>
+
 <body class="layui-view-body">
     <div class="layui-content">
         <div class="layui-page-header">
@@ -19,14 +20,69 @@
                 <h2 class="title">权限配置</h2>
             </div>
         </div>
-        <div class="layui-row">
-            <div class="layui-card">
-                <div class="layui-card-body">
-                    
+        <div class="form-box">
+            <fieldset class="table-search-fieldset">
+                <legend>搜索信息</legend>
+                <div style="margin: 10px 10px 10px 10px">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">条件</label>
+                            <div class="layui-inline">
+                                <a href="/getNormalList"><button type="submit" class="layui-btn layui-btn-primary"  lay-submit lay-filter="data-search-btn"><i class="layui-icon"></i> 普通用户</button></a>
+                                <a href="/getManageList"><button type="submit" class="layui-btn layui-btn-primary"  lay-submit lay-filter="data-search-btn"><i class="layui-icon"></i> 管理员</button></a>
+
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            </fieldset>
+        </div>
+        <div class="layui-card-body ">
+            <table class="layui-table layui-form">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>账号</th>
+                    <th>角色</th>
+                    <th>操作</th>
+                </tr></thead>
+                <tbody th:each="account:${accountList}">
+                <tr >
+                    <td id="accountid" th:text="${account.id}">1</td>
+                    <td th:text="${account.name}">admin</td>
+                    <td class="td-status">
+                        <a><span class="layui-btn layui-btn-normal layui-btn-mini" th:text="${account.type ==1?'管理员':'用户'}" ></span></a>
+                    </td>
+                    <td class="td-status">
+<!--                        <a target="_blank" th:href="@{|/Userdetail/${res.user.id}|}" ><span class="layui-btn layui-btn-normal layui-btn-mini">详情</span></a>-->
+                        <div class="layui-inline" style="width: 100px;" >
+                            <select  id="type" style="width: 100px;" class="layui-select">
+                                <option value="0">普通用户</option>
+                                <option value="1">管理员</option>
+                            </select>
+                        </div><span class="layui-btn layui-btn-normal layui-btn-mini" onclick="chtype()">修改</span>
+<!--                        <a th:href="@{|/deleteuser/${res.user.id}|}" ><span class="layui-btn layui-btn-normal layui-btn-mini">删除</span></a>-->
+                    </td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </div>
     <script src="layui.all.js"></script>
+    <script type="text/javascript" src="../jquery-3.6.0.min.js"></script>
+<script type="text/javascript">
+    function chtype() {
+        var type = $("#type").val();
+        var accountid = $("#accountid").text();
+        $.ajax({
+            type:'post',
+            url:'/changeType',
+            data:{id:accountid,type:type},
+            success:function (data) {
+                alert(data)
+            }
+        })
+    }
+</script>
 </body>
 </html>

@@ -8,7 +8,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.List;
 import java.util.Map;
 //注册激活账号
 @Controller
@@ -16,6 +18,11 @@ public class AccountController {
 
     @Autowired
     AccountService accountService;
+
+    @RequestMapping(path = "/getoperaterulepage",method = RequestMethod.GET)
+    public String getoperaterulepage(){
+        return "views/operaterule";
+    }
 
     @RequestMapping(path = "/regist",method = RequestMethod.GET)
     public String toregist(){
@@ -62,5 +69,28 @@ public class AccountController {
         return "/regist_result";
     }
 
+    @RequestMapping(path = "/getManageList",method = RequestMethod.GET)
+    public String getManageList(Model model)
+    {
+        List<Account> ManagaeList = accountService.findManageAccount();
+        model.addAttribute("accountList",ManagaeList);
+        return "/views/operaterule";
+    }
+
+    @RequestMapping(path = "/getNormalList",method = RequestMethod.GET)
+    public String getNormalList(Model model)
+    {
+        List<Account> NormalList = accountService.findNormalAccount();
+        model.addAttribute("accountList",NormalList);
+        return "/views/operaterule";
+    }
+
+    @RequestMapping(path = "/changeType",method = RequestMethod.POST)
+    @ResponseBody
+    public String changeAccountType(int type,int id)
+    {
+        accountService.changeType(type,id);
+        return "修改成功";
+    }
 
 }

@@ -16,6 +16,7 @@ import org.thymeleaf.context.Context;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -198,6 +199,21 @@ public class AccountService implements EpidemicConstant {
         loginTicket.setStatus(1);//设置账号登录状态
         redisTemplate.opsForValue().set(ticketKey,loginTicket);
 
+    }
+
+    public List<Account> findManageAccount()
+    {
+        return accountMapper.selectManage();
+    }
+
+    public List<Account> findNormalAccount()
+    {
+        return accountMapper.selectNormal();
+    }
+
+    public void changeType(int type,int id)
+    {
+        accountMapper.updateType(type,id);
     }
 
 }

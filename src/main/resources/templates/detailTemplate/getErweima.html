@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+输入地点：<input type="text" id="place">
+<button type="button" onclick="f()">获取</button>
+<img src="/geterweima/xx医院" id="ewm">
+</body>
+<script type="text/javascript" src="../jquery-3.6.0.min.js"></script>
+<script type="text/javascript">
+    function f() {
+        var place = $("#place").val();
+        var url = '/geterweima/';
+        $("#ewm").attr('src',url+place);
+    }
+</script>
+</html>

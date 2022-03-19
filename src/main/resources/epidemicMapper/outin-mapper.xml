@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hfz.epidemicmanage.Dao.OutInMapper">
+    <sql id="selectFiles">
+        id,userType,name,recordTime,flowType
+    </sql>
+    <sql id="insertFiles">
+        userType,name,recordTime,flowType,place
+    </sql>
+
+    <select id="selectErweimacode" resultType="Integer">
+        select erweimacode
+        from erweima
+        where place = #{place}
+    </select>
+
+    <insert id="setErweimaUrl">
+        insert into erweima(place,erweimacode)
+        values (#{place},#{code})
+    </insert>
+
+    <insert id="recoedFlow" keyProperty="id">
+        insert into flow(<include refid="insertFiles"></include>)
+        values (#{userType},#{name},#{recordTime},#{flowType},#{place})
+    </insert>
+
+    <select id="selectcode" resultType="String">
+        select place
+        from erweima
+        where erweimacode = #{code}
+    </select>
+</mapper>
