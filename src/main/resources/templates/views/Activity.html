@@ -7,18 +7,13 @@
     <link rel="stylesheet" href="../css/layui.css">
     <link rel="stylesheet" href="../css/view.css"/>
     <link rel="icon" href="/favicon.ico">
-    <title>管理后台</title>
+    <title>通告管理</title>
 </head>
 <body class="layui-view-body">
     <div class="layui-content">
         <div class="layui-page-header">
             <div class="pagewrap">
-                <span class="layui-breadcrumb">
-                  <a href="">首页</a>
-                  <a href="">用户</a>
-                  <a><cite>用户组</cite></a>
-                </span>
-                <h2 class="title">用户组</h2>
+                <h2 class="title">通告列表</h2>
             </div>
         </div>
         <div class="layui-row">
@@ -32,7 +27,7 @@
                                     <div class="layui-inline">
                                         <label class="layui-form-label">条件</label>
                                         <div class="layui-inline">
-                                            <select  id="sex" style="width: 100px;" class="layui-select">
+                                            <select  id="factor" style="width: 100px;" class="layui-select">
                                                 <option value="1">地点</option>
                                                 <option value="2">完整标题</option>
                                             </select>
@@ -58,12 +53,9 @@
                         </fieldset>
 
                         <div class="layui-card-body ">
-                          <table class="layui-table layui-form">
+                          <table class="layui-table layui-form" th:fragment="acrep" id="acdata">
                             <thead>
                               <tr>
-                                <th>
-                                  <input type="checkbox" name="" lay-skin="primary"><div class="layui-unselect layui-form-checkbox" lay-skin="primary"><i class="layui-icon layui-icon-ok"></i></div>
-                                </th>
                                 <th>ID</th>
                                 <th>名称</th>
                                 <th>地点</th>
@@ -76,26 +68,24 @@
                             </tr></thead>
                             <tbody th:each="aclist:${AcList}">
                               <tr>
-                                <td>
-                                  <input type="checkbox" name="" lay-skin="primary"><div class="layui-unselect layui-form-checkbox" lay-skin="primary"><i class="layui-icon layui-icon-ok"></i></div>
-                                </td>
-                                <td id="acid" th:text="${aclist.id}">1</td>
-                                  <a th:href="@{|/getAcById/${aclist.id}|}"></a>
-                                <td th:text="${aclist.title}">admin</td>
-                                <td th:text="${aclist.place}">18925139194</td>
-                                <td th:text="${aclist.personNum}">113664000@qq.com</td>
-                                <td th:text="${aclist.leader}">超级管理员</td>
-                                <td th:text="${aclist.leaderPhone}">123</td>
-                                <td th:text="${aclist.actime}">2017-01-01 11:11:42</td>
+                                <td th:text="${aclist.id}">id</td>
+                                <td th:text="${aclist.title}">title</td>
+                                <td th:text="${aclist.place}">place</td>
+                                <td th:text="${aclist.personNum}">personNum</td>
+                                <td th:text="${aclist.leader}">leader</td>
+                                <td th:text="${aclist.leaderPhone}">leaderPhone</td>
+                                <td th:text="${aclist.actime}">actime</td>
                                 <td class="td-status">
                                   <span class="layui-btn layui-btn-normal layui-btn-mini" th:if="${aclist.status==0}" >未开始</span>
                                     <span class="layui-btn layui-btn-normal layui-btn-mini" th:if="${aclist.status==1}" >开始</span>
                                     <span class="layui-btn layui-btn-normal layui-btn-mini" th:if="${aclist.status==2}" >结束</span>
                                 </td>
                                   <td class="td-status">
-                                      <a target="_blank" onclick="detail()" ><span class="layui-btn layui-btn-normal layui-btn-mini">详情</span></a>
-                                      <a target="_blank" th:href="@{|/updateAcStatus/${aclist.id}/${aclist.status}|}" ><span class="layui-btn layui-btn-normal layui-btn-mini">修改</span></a>
-                                      <a target="_blank" th:href="@{|/deleteactivity/${aclist.id}|}" ><span class="layui-btn layui-btn-normal layui-btn-mini">删除</span></a>
+                                      <a target="_blank" th:onclick="|detail(${aclist.id});|" ><span class="layui-btn layui-btn-normal layui-btn-mini">详情</span></a>
+                                      <span class="layui-btn layui-btn-normal layui-btn-mini" th:if="${aclist.status == 0}" th:onclick="|upstatus(${aclist.id},1);|">开始</span>
+                                      <span class="layui-btn layui-btn-normal layui-btn-mini" th:if="${aclist.status == 1}" th:onclick="|upstatus(${aclist.id},2);|">结束</span>
+                                     <span class="layui-btn layui-btn-normal layui-btn-mini"  th:if="${aclist.status == 2}" th:onclick="|upstatus(${aclist.id},0);|">未开始</span>
+                                      <span class="layui-btn layui-btn-normal layui-btn-mini" th:onclick="|deleteac(${aclist.id});|">删除</span>
                                   </td>
                               </tr>
                             </tbody>
@@ -106,23 +96,43 @@
             </div>
         </div>
     </div>
-    <div class="digg" th:fragment="pagedemo">
-        <span class="disabled"> <a th:href="@{${page.path}(current=${page.current-1})}">&lt;</a></span>
-        <span class="current" th:href="@{${page.path}(current=1)}">1</span>
-        <a th:href="@{${page.path}(current=2)}">2</a>
-        <a th:href="@{${page.path}(current=3)}">3</a>
-        <a th:href="@{${page.path}(current=4)}">4</a>
-        <a th:href="@{${page.path}(current=5)}">5</a>
-        <a th:href="@{${page.path}(current=${page.total})}" >末页</a>
+    <div class="digg" >
+        <a th:href="@{${page.path}(current=${page.current-1})}">&lt;</a>
+        <a th:class="${page.current==1?'pagecolor':''}" th:href="@{${page.path}(current=1)}">1</a>
+        <a th:class="${page.current==2?'pagecolor':''}" th:href="@{${page.path}(current=2)}">2</a>
+        <a th:class="${page.current==3?'pagecolor':''}" th:href="@{${page.path}(current=3)}">3</a>
+        <a th:class="${page.current==4?'pagecolor':''}" th:href="@{${page.path}(current=4)}">4</a>
+        <a th:class="${page.current==5?'pagecolor':''}" th:href="@{${page.path}(current=5)}">5</a>
+        <a  th:href="@{${page.path}(current=${page.total})}" >末页</a>
         <a th:href="@{${page.path}(current=${page.current+1})}">
             &gt; </a></div>
-    <script src="../layui.all.js"></script>
     <script type="text/javascript" src="../jquery-3.6.0.min.js"></script>
     <script type="text/javascript">
-        function detail() {
+        function deleteac(acid) {
+            $.ajax({
+                url:'/deleteactivity/'+acid,
+                type:'get',
+                success:function (data) {
+                    $("#acdata").html(data)
+                }
+            })
+        }
+
+        function upstatus(acid,status) {
+            $.ajax({
+                url:'/updateAcStatus/'+acid+'/'+status,
+                type:'get',
+                success:function (data) {
+                    $("#acdata").html(data)
+                }
+            })
+        }
+
+
+        function detail(acid) {
             $.ajax({
                 type:'get',
-                url:'/getAcById/'+$("#acid").text(),
+                url:'/getAcById/'+acid,
                 success:function (data) {
                     datajson = $.parseJSON(data)
                     alert(datajson.msg);
@@ -130,9 +140,9 @@
             })
 
 
-            $("#sex").change(function () {
+            $("#factor").change(function () {
                 var suffix = $("#suffix").val();
-                var op = $("#sex").val()
+                var op = $("#factor").val()
                 if(op == 1)
                 {
                     $("#res").attr("href","/getAcByPlace/"+suffix);
@@ -145,7 +155,7 @@
 
             $("#suffix").blur(function () {
                 var suffix = $("#suffix").val();
-                var op = $("#sex").val();
+                var op = $("#factor").val();
                 if(op == 1)
                     $("#res").attr("href","/getAcByPlace/"+suffix);
                 if(op == 2)

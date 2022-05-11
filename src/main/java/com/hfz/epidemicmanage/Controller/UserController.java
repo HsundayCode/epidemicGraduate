@@ -7,6 +7,7 @@ import com.hfz.epidemicmanage.Entity.User;
 import com.hfz.epidemicmanage.Service.UserService;
 import com.hfz.epidemicmanage.Util.HostHolder;
 import com.hfz.epidemicmanage.annotation.LoginRequire;
+import com.hfz.epidemicmanage.annotation.ManageRequire;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,7 +39,7 @@ public class UserController {
 
     @RequestMapping(path = "/getdetailpage",method = RequestMethod.GET)
     public String getdetailpage(){
-        return "/detailTemplate/userdetail";
+        return "detailTemplate/userdetail";
     }
 
     //用户添加信息
@@ -47,31 +48,22 @@ public class UserController {
     @LoginRequire
     @RequestMapping(path = "/information",method = RequestMethod.POST)
     public String addinformation(Model model, User user){
-        Map<String,Object> map = new HashMap<>();
-        Account account = hostHolder.getAccount();
-        if(account.getStatus() == 3)
-        {
-            map.put("userMessage","信息重复添加");
-            model.addAttribute("res",map.get("userMessage"));
-            return "/addresult";
-        }
-       map = userService.addUser(user);
-        //判断map是否为空，返回指定页面
-        if(map != null)
-        {
-            model.addAttribute("userMessage",map.get("userMessage"));
-            return "/detailTemplate/userdetail";
-        }
-       return "index";
+        user.setStatus("正常");
+        Map<String,Object>  map = userService.addUser(user);
+        model.addAttribute("userMessage",map.get("userMessage"));
+        return "redirect:/index";
     }
 
     //删除
+    @ManageRequire
+    @LoginRequire
     @RequestMapping(path = "/deleteuser/{userid}",method = RequestMethod.GET)
     public String deleteUser(@PathVariable("userid") int id, Model model)
     {
         userService.deleteUser(id);
-        model.addAttribute("res","删除成功");
-        return "/addresult";
+        List<Map<String,Object>> afmaplist = userService.findUsers(5,0);
+        model.addAttribute("maplist",afmaplist);
+        return "views/users :: userrsp";
     }
 
     //修改用户状态
@@ -85,6 +77,8 @@ public class UserController {
     }
 
     //通关名字查找
+    @ManageRequire
+    @LoginRequire
     @RequestMapping(path = "/getByName/{name}",method = RequestMethod.GET)
     public String getUserByName(Model model, @PathVariable("name") String name, Page page)
     {
@@ -94,18 +88,22 @@ public class UserController {
     }
 
     //通关身份证查找
+    @ManageRequire
+    @LoginRequire
     @RequestMapping(path = "/getByIdcard/{idcard}",method = RequestMethod.GET)
-    public String getUserByIdcard(Model model,@PathVariable("idcard") int idcard,Page page)
+    public String getUserByIdcard(Model model,@PathVariable("idcard") String idcard,Page page)
     {
 
         List<Map<String,Object>> maplist = userService.findUserByIdcard(idcard);
+
         model.addAttribute("maplist",maplist);
         return "views/users";//返回全部列表
     }
 
-    //因为分页的原因条件查询要分开不能用post来分页？
+
     //获得全体列表
     @LoginRequire
+    @ManageRequire
     @RequestMapping(path = "/UserList",method = RequestMethod.GET)
     public String getUsersList(Model model, Page page){
         page.setLimit(5);
@@ -117,18 +115,26 @@ public class UserController {
 
     //根据id获得用户详情
     //用户列表中会有用户id
+    @ManageRequire
     @LoginRequire
     @RequestMapping(path = "/Userdetail/{Userid}",method = RequestMethod.GET)
-    public String getPatientDetail(Model model, @PathVariable("Userid") int patientid){
-        User user= userService.findUserById(patientid);
+    public String getPatientDetail(Model model, @PathVariable("Userid") int userid){
+        User user= userService.findUserById(userid);
+        if (user == null)
+        {
+            model.addAttribute("res","用户不存在");
+            return "addresult";
+        }
         model.addAttribute("user",user);
-        return "/detailTemplate/userdetail";//返回一个用户实体类
+        return "detailTemplate/userdetail";//返回一个用户实体类
     }
 
+    @ManageRequire
+    @LoginRequire
     @RequestMapping(path = "/updatedetail",method = RequestMethod.POST)
     @ResponseBody
-    public String updatedetail(User user){
-        userService.updateUser(user);
+    public String updatedetail(int id,String status,String place,String divide,String trail,String occurrencetime){
+        userService.updateUser(id,status,place,divide,trail,occurrencetime);
         return "修改成功";
     }
 

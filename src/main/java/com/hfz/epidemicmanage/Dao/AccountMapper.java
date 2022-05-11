@@ -25,4 +25,8 @@ public interface AccountMapper {
     List<Account> selectManage();
     void updateType(int type,int id);
     List<Account> selectNormal();
+
+    int deleteAccount(int id);
+
+    int changepasw(String pasw,String name,String salt);
 }

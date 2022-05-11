@@ -8,6 +8,7 @@ import com.hfz.epidemicmanage.Entity.Post;
 import com.hfz.epidemicmanage.Entity.User;
 import com.hfz.epidemicmanage.Util.EpidemicConstant;
 import com.hfz.epidemicmanage.Util.HostHolder;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,8 +30,9 @@ public class PostService implements EpidemicConstant {
         Map<String,Object> map = new HashMap<>();
         Post post = new Post();
         Account account = hostHolder.getAccount();
-        User user = userMapper.selectById(account.getId());
+        User user = userMapper.selectByAccountid(account.getId());
 
+        post.setName(user.getName());//用户名
         post.setAccountid(account.getId());//账号id，通过账号id可以知道用户信息
         post.setContent(content);//内容
         post.setTitle(title);//标题
@@ -49,54 +51,41 @@ public class PostService implements EpidemicConstant {
     }
 
     //获取全部反馈信息
-    public List<Map<String,Object>> getPostList(int limit,int offset)
+    public List<Post> getPostList(int limit,int offset)
     {
         List<Post> postList = postMapper.selectPostList(limit,offset);
-        List<Map<String,Object>> postvo = new ArrayList<>();
-        for(Post post : postList)
-        {
-            Map<String,Object> map = new HashMap<>();
-            map.put("user",userMapper.selectByAccountid(post.getAccountid()));
-            map.put("post",post);
-            postvo.add(map);
-        }
-        return postvo;
+        return postList;
     }
 
     public void updateStatus(int posttid,int status)
     {
-        if(status == POST_UNREAD)
+
         postMapper.updateStatus(posttid,POST_READ);
     }
 
     //未解决反馈信息列表
-    public List<Map<String,Object>> getUnResolvedList(int limit,int offset)
+    public List<Post> getUnResolvedList(int limit,int offset)
     {
 
         List<Post> UnResolvedList = postMapper.selectUnResolvedList(limit,offset);
-        List<Map<String,Object>> unresolved = new ArrayList<>();
-        for(Post post : UnResolvedList)
-        {
-            Map<String,Object> map = new HashMap<>();
-            map.put("user",userMapper.selectByAccountid(post.getAccountid()));
-            map.put("post",post);
-            unresolved.add(map);
-        }
-        return unresolved;
+        return UnResolvedList;
     }
     //已解决反馈信息列表
-    public List<Map<String,Object>> getResolvedList(int limit,int offset)
+    public List<Post> getResolvedList(int limit,int offset)
     {
 
         List<Post> ResolvedList = postMapper.selectResolvedList(limit,offset);
-        List<Map<String,Object>> resolved = new ArrayList<>();
-        for(Post post : ResolvedList)
-        {
-            Map<String,Object> map = new HashMap<>();
-            map.put("user",userMapper.selectByAccountid(post.getAccountid()));
-            map.put("post",post);
-            resolved.add(map);
-        }
-        return resolved;
+        return ResolvedList;
+    }
+
+    public List<Post> FindPostByName(String name,int limit,int offset)
+    {
+        return postMapper.selectPostByName(name,limit,offset);
+    }
+
+    public String deletePostById(int id)
+    {
+        postMapper.deletePost(id);
+        return "删除成功";
     }
 }

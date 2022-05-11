@@ -51,4 +51,12 @@
     <select id="updateType" parameterType="int">
         update account set type = #{type} where id = #{id}
     </select>
+
+    <delete id="deleteAccount">
+        delete form account where id = #{id}
+    </delete>
+
+    <update id="changepasw">
+        update account set password = #{pasw},Salt = #{salt} where name = #{name}
+    </update>
 </mapper>

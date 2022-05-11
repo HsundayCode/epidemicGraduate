@@ -16,9 +16,9 @@ public interface UserMapper {
     User selectByAccountid(int accountid);
     int insertUser(User user);//用户信息添加
     int deleteUser(int id);
-    User selectByIdcard(int idcard);//身份证
+    User selectByIdcard(String idcard);//身份证
     List<User> selectUsers(@Param("limit") int limit, @Param("offset") int offset);//全部
     int updateStatus(@Param("userid") int userid,@Param("status") String Status);//修改级别
 
-    int updateUser(User user);
+    int updateUser(int id,String status,String place,String divide,String trail,String occurrencetime);
 }

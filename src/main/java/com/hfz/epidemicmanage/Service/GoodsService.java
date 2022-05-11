@@ -2,6 +2,7 @@ package com.hfz.epidemicmanage.Service;
 
 import com.hfz.epidemicmanage.Dao.GoodsMapper;
 import com.hfz.epidemicmanage.Entity.Goods;
+import com.hfz.epidemicmanage.Util.EpidemicConstant;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class GoodsService {
+public class GoodsService implements EpidemicConstant {
 
     @Autowired
     GoodsMapper goodsMapper;
@@ -44,6 +45,10 @@ public class GoodsService {
         return goodsMapper.selectGoodsAll(limit,offset);
     }
 
+    public Goods findGoodsDetail(int id){
+        return goodsMapper.selectGoodsById(id);
+    }
+
     public void updateStatus(int id,int status)
     {
         goodsMapper.updateStatus(id,status);
@@ -55,7 +60,7 @@ public class GoodsService {
     }
 
     public void updatePlace(int id,String place,String Modifier){
-        goodsMapper.updatePlace(id,place,Modifier);
+        goodsMapper.updatePlace(id,place,Modifier,GOODS_USE);
     }
     public void updateSource(int id,String source,String Modifier)
     {

@@ -59,7 +59,7 @@ public class RecordController {
     @LoginRequire
     @ResponseBody
     @RequestMapping(path = "/addRecord",method = RequestMethod.POST)
-    public String addRecord(Model model,String temperature,String locale)
+    public String addRecord(String temperature,String locale)
     {
         int accountid = hostHolder.getAccount().getId();//当前添加信息的账号id
         Record record = new Record();
@@ -72,13 +72,11 @@ public class RecordController {
         record.setName(user.getName());//名字
         record.setPhone(user.getPhone());//联系
         String result = recordService.addRecord(record);//
-//        System.out.println(result);
-        //model.addAttribute("result",result);
-        //return "/record";
         return result;
     }
 
     //最近打卡列表
+    @ManageRequire
     @LoginRequire
     @RequestMapping(path = "/getRecentlyRecordList",method = RequestMethod.GET)
     public String getRecentlyRecordList(Model model,Page page){
@@ -89,6 +87,8 @@ public class RecordController {
         return "views/record";
     }
 
+    @ManageRequire
+    @LoginRequire
     @RequestMapping(path = "/getRecordByTem/{tem}", method = RequestMethod.GET)
     public String getRecordByTem(@PathVariable("tem")int tem, Model model,Page page)
     {
@@ -99,6 +99,8 @@ public class RecordController {
         return "views/record";
     }
 
+    @ManageRequire
+    @LoginRequire
     @RequestMapping(path = "/deleteRecord/{id}",method = RequestMethod.GET)
     @ResponseBody
     public String deleteRecord(@PathVariable("id") int id)

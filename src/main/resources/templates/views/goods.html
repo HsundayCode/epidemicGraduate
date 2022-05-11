@@ -7,18 +7,13 @@
     <link rel="stylesheet" href="../css/layui.css">
     <link rel="stylesheet" href="../css/view.css"/>
     <link rel="icon" href="/favicon.ico">
-    <title>管理后台</title>
+    <title>物资管理</title>
 </head>
 <body class="layui-view-body">
     <div class="layui-content">
         <div class="layui-page-header">
             <div class="pagewrap">
-                <span class="layui-breadcrumb">
-                  <a href="">首页</a>
-                  <a href="">用户</a>
-                  <a><cite>用户组</cite></a>
-                </span>
-                <h2 class="title">用户组</h2>
+                <h2 class="title"物资列表</h2>
             </div>
         </div>
         <div class="layui-row">
@@ -36,8 +31,6 @@
                                                 <option value="1">物品名称</option>
                                                 <option value="2">来处</option>
                                                 <option value="3">用处</option>
-                                                <option value="4">已使用</option>
-                                                <option value="5">未使用</option>
                                             </select>
                                         </div>
                                         <div class="layui-inline">
@@ -59,55 +52,38 @@
                                 </div>
                             </div>
                         </fieldset>
-
                         <div class="layui-card-body ">
-                          <table class="layui-table layui-form">
+                          <table class="layui-table layui-form" th:fragment="goodsrep" id="goodsdata">
                             <thead>
                               <tr>
-                                <th>
-                                  <input type="checkbox" name="" lay-skin="primary"><div class="layui-unselect layui-form-checkbox" lay-skin="primary"><i class="layui-icon layui-icon-ok"></i></div>
-                                </th>
                                 <th>ID</th>
                                 <th>名称</th>
                                 <th>数量</th>
                                 <th>来源</th>
-                                <th>去处</th>
-                                  <th>添加者账号id</th>
+                                <th>用途</th>
+                                  <th>添加者</th>
                                   <th>负责人</th>
                                 <th>状态</th>
                                 <th>操作</th>
-                            </tr></thead>
-                            <tbody th:each="goodslist:${goodsList}">
-                              <tr>
-                                <td>
-                                  <input type="checkbox" name="" lay-skin="primary"><div class="layui-unselect layui-form-checkbox" lay-skin="primary"><i class="layui-icon layui-icon-ok"></i></div>
-                                </td>
-                                <td id="goodid" th:text="${goodslist.id}">1</td>
-                                <td th:text="${goodslist.name}">admin</td>
-                                <td th:text="${goodslist.number}">18925139194</td>
-                                <td th:text="${goodslist.source}">113664000@qq.com</td>
-                                <td th:text="${goodslist.place}">超级管理员</td>
-                                  <td th:text="${goodslist.accountid}">11</td>
-                                  <td th:text="${goodslist.Modifier}"></td>
-                                <td class="td-status">
-                                    <a th:href="@{|/changeStatus/${goodslist.id}|}"><span class="layui-btn layui-btn-normal layui-btn-mini" th:text="${goodslist.status==0?'未使用':'已使用'}">已启用</span></a>
-
-                                </td>
-                                  <td class="td-status">
-                                      <div class="layui-inline" style="width: 100px;" >
-                                          <select  id="modifier" style="width: 100px;" class="layui-select">
-                                              <option value="1">用途</option>
-                                              <option value="2">来源</option>
-                                          </select>
-                                      </div>
-                                      <div class="layui-input-inline">
-                                          <input type="text" id="change" class="layui-input">
-                                      </div>
-                                      <span class="layui-btn layui-btn-normal layui-btn-mini" onclick="change()">修改</span>
-                                      <a th:href="@{|/deletegoods/${goodslist.id}|}" ><span class="layui-btn layui-btn-normal layui-btn-mini">删除</span></a>
-                                  </td>
                               </tr>
-                            </tbody>
+                            </thead>
+                                  <tbody  th:each="goodslist:${goodsList}" >
+                                  <tr>
+                                      <td th:text="${goodslist.id}">1</td>
+                                      <td th:text="${goodslist.name}">name</td>
+                                      <td th:text="${goodslist.number}">number</td>
+                                      <td th:text="${goodslist.source}">source</td>
+                                      <td th:text="${goodslist.place}">place</td>
+                                      <td th:text="${goodslist.adder}">accountid</td>
+                                      <td th:text="${goodslist.Modifier}">Modifier</td>
+                                      <td class="td-status">
+                                          <span class="layui-btn layui-btn-normal layui-btn-mini" th:text="${goodslist.status==0?'未使用':'已使用'}">已启用</span>
+                                      <td class="td-status">
+                                          <a target="_blank" th:href="@{|/getGoodsDetail/${goodslist.id}|}"><span class="layui-btn layui-btn-normal layui-btn-mini">修改</span></a>
+                                          <span class="layui-btn layui-btn-normal layui-btn-mini" th:onclick="|deletegoods(${goodslist.id});|">删除</span>
+                                      </td>
+                                  </tr>
+                                  </tbody>
                           </table>
                       </div>
                     </div>
@@ -115,44 +91,30 @@
             </div>
         </div>
     </div>
-    <div class="digg" th:fragment="pagedemo">
-        <span class="disabled"> <a th:href="@{${page.path}(current=${page.current-1})}">&lt;</a></span>
-        <span class="current" th:href="@{${page.path}(current=1)}">1</span>
-        <a th:href="@{${page.path}(current=2)}">2</a>
-        <a th:href="@{${page.path}(current=3)}">3</a>
-        <a th:href="@{${page.path}(current=4)}">4</a>
-        <a th:href="@{${page.path}(current=5)}">5</a>
-        <a th:href="@{${page.path}(current=${page.total})}" >末页</a>
+    <div class="digg" >
+        <a th:href="@{${page.path}(current=${page.current-1})}">&lt;</a>
+        <a th:class="${page.current==1?'pagecolor':''}" th:href="@{${page.path}(current=1)}">1</a>
+        <a th:class="${page.current==2?'pagecolor':''}" th:href="@{${page.path}(current=2)}">2</a>
+        <a th:class="${page.current==3?'pagecolor':''}" th:href="@{${page.path}(current=3)}">3</a>
+        <a th:class="${page.current==4?'pagecolor':''}" th:href="@{${page.path}(current=4)}">4</a>
+        <a th:class="${page.current==5?'pagecolor':''}" th:href="@{${page.path}(current=5)}">5</a>
+        <a  th:href="@{${page.path}(current=${page.total})}" >末页</a>
         <a th:href="@{${page.path}(current=${page.current+1})}">
             &gt; </a></div>
     <script src="../layui.all.js"></script>
     <script type="text/javascript" src="../jquery-3.6.0.min.js"></script>
-    <script>
-        function change(){
-            var modify = $("#change").val();
-            var op = $("#modifier").val();
-            var id = $("#goodid").text();
-            if(op == 1)
-            {
-                $.ajax({
-                    url:'/changePlace/'+id+'/'+modify,
-                    type:'get',
-                    success:function (data) {
-                        alert(data)
-                    }
-                })
-            }
-            if(op == 2)
-            {
-                $.ajax({
-                    url:'/changeSource/'+id+'/'+modify,
-                    type:'get',
-                    success:function (data) {
-                        alert(data)
-                    }
-                })
-            }
+    <script type="text/javascript">
+
+        function deletegoods(goodsid){
+            $.ajax({
+                type:'get',
+                url:'/deletegoods/'+goodsid,
+                success:function (data) {
+                    $("#goodsdata").html(data)
+                }
+            })
         }
+
 
         $("#sex").change(function () {
             var suffix = $("#suffix").val();

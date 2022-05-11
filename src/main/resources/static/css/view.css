@@ -140,36 +140,40 @@ DIV.digg {
     padding: 3px;
     TEXT-ALIGN: center
 }
-.digg A {
+.digg a {
     BORDER-RIGHT: #aaaadd 1px solid;
     BORDER-TOP: #aaaadd 1px solid;
     MARGIN: 2px;
-    BORDER-LEFT: #aaaadd 1px solid; COLOR: #000099;
+    BORDER-LEFT: #aaaadd 1px solid;
     padding: 2px 5px;
     BORDER-BOTTOM: #aaaadd 1px solid; TEXT-DECORATION: none
 }
-.digg A:hover {
+.digg a:hover {
     BORDER-RIGHT: #000099 1px solid; BORDER-TOP: #000099 1px solid;
-    BORDER-LEFT: #000099 1px solid; COLOR: #000; BORDER-BOTTOM: #000099 1px solid
+    BORDER-LEFT: #000099 1px solid; BORDER-BOTTOM: #000099 1px solid;
 }
-.digg A:active {
+.digg a:active {
     BORDER-RIGHT: #000099 1px solid; BORDER-TOP: #000099 1px solid;
-    BORDER-LEFT: #000099 1px solid; COLOR: #000; BORDER-BOTTOM: #000099 1px solid
+    BORDER-LEFT: #000099 1px solid;  BORDER-BOTTOM: #000099 1px solid; background-color: #1E9FFF;
 }
-.digg SPAN.current {
-    BORDER-RIGHT: #000099 1px solid;
-    BORDER-TOP: #000099 1px solid;
-    FONT-WEIGHT: bold;
-    MARGIN: 2px; BORDER-LEFT: #000099 1px solid;
-    COLOR: #fff;
-    padding: 2px 5px;
-    BORDER-BOTTOM: #000099 1px solid; BACKGROUND-COLOR: #000099
-}
-.digg SPAN.disabled {
-    BORDER-RIGHT: #eee 1px solid;
-    BORDER-TOP: #eee 1px solid;
-    MARGIN: 2px;
-    BORDER-LEFT: #eee 1px solid; COLOR: #ddd;
-    padding: 2px 5px;
-    BORDER-BOTTOM: #eee 1px solid
+/*.digg SPAN.current {*/
+/*    BORDER-RIGHT: #000099 1px solid;*/
+/*    BORDER-TOP: #000099 1px solid;*/
+/*    FONT-WEIGHT: bold;*/
+/*    MARGIN: 2px; BORDER-LEFT: #000099 1px solid;*/
+/*    COLOR: #fff;*/
+/*    padding: 2px 5px;*/
+/*    BORDER-BOTTOM: #000099 1px solid; BACKGROUND-COLOR: #000099*/
+/*}*/
+/*.digg SPAN.disabled {*/
+/*    BORDER-RIGHT: #eee 1px solid;*/
+/*    BORDER-TOP: #eee 1px solid;*/
+/*    MARGIN: 2px;*/
+/*    BORDER-LEFT: #eee 1px solid; COLOR: #ddd;*/
+/*    padding: 2px 5px;*/
+/*    BORDER-BOTTOM: #eee 1px solid*/
+/*}*/
+
+.pagecolor{
+    background-color: #1E9FFF;
 }

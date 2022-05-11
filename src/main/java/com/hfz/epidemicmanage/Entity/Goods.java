@@ -8,20 +8,20 @@ public class Goods {
     private String source;
     private String place;
     private int status;
-    private int accountid;
+    private String adder;
     private String Modifier;
 
     public Goods() {
     }
 
-    public Goods(int id, String name, int number, String source, String place, int status, int accountid, String modifier) {
+    public Goods(int id, String name, int number, String source, String place, int status, String adder, String modifier) {
         this.id = id;
         this.name = name;
         this.number = number;
         this.source = source;
         this.place = place;
         this.status = status;
-        this.accountid = accountid;
+        this.adder = adder;
         Modifier = modifier;
     }
 
@@ -33,12 +33,12 @@ public class Goods {
         Modifier = modifier;
     }
 
-    public int getAccountid() {
-        return accountid;
+    public String getAdder() {
+        return adder;
     }
 
-    public void setAccountid(int accountid) {
-        this.accountid = accountid;
+    public void setAdder(String accountid) {
+        this.adder = accountid;
     }
 
     public int getId() {
@@ -91,13 +91,15 @@ public class Goods {
 
     @Override
     public String toString() {
-        return "goods{" +
+        return "Goods{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", number=" + number +
                 ", source='" + source + '\'' +
                 ", place='" + place + '\'' +
                 ", status=" + status +
+                ", adder='" + adder + '\'' +
+                ", Modifier='" + Modifier + '\'' +
                 '}';
     }
 }

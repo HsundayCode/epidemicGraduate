@@ -40,7 +40,7 @@ public class ActivityService implements EpidemicConstant {
     }
 
     public void addActivity(Activity activity){
-        System.out.println(activity.getActime());
+
         activityMapper.insertActivity(activity);
     }
 
@@ -51,15 +51,7 @@ public class ActivityService implements EpidemicConstant {
 
     //0未开始-》1开始  1开始 -》 2结束 2 结束-》0未开始
     public void updateAcStatus(int status,int id){
-        if(status == 0)
-        {
-            activityMapper.updateStatus(AC_START,id);//未开始修成开始 1 -
-        }else if(status == 1) {
-            activityMapper.updateStatus(AC_END,id);//开始修成结束
-        }else if(status == 2)
-        {
-            activityMapper.updateStatus(AC_UNSTART,id);//结束修成未开始
-        }
+        activityMapper.updateStatus(status,id);
 
     }
 }

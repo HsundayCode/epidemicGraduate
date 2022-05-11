@@ -4,10 +4,10 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hfz.epidemicmanage.Dao.UserMapper">
     <sql id="selectFiles">
-        id,accountid,name,sex,age,idcard,locale,phone,birthday,userType,status,place,divide,trail,occurrencetime
+        id,accountid,name,sex,age,idcard,locale,phone,birthday,status,place,divide,trail,occurrencetime
     </sql>
     <sql id="insertFiles">
-        accountid,name,sex,age,idcard,locale,phone,birthday,userType,status,place,divide,trail,occurrencetime
+        accountid,name,sex,age,idcard,locale,phone,birthday,status,place,divide,trail,occurrencetime
     </sql>
 
     <select id="selectById" parameterType="int" resultType="User">
@@ -28,9 +28,9 @@
     </select>
 
     <insert id="insertUser" parameterType="User" keyProperty="id">
-        insert into User(<include refid="insertFiles"></include>)
+        insert into user(<include refid="insertFiles"></include>)
         values (#{accountid},#{name},#{sex},#{age},#{idcard},#{locale},#{phone},#{birthday},
-        #{userType},#{status},#{place},#{divide},#{trail},#{occurrencetime})
+        #{status},#{place},#{divide},#{trail},#{occurrencetime})
     </insert>
 
     <delete id="deleteUser">
@@ -55,10 +55,8 @@
     </update>
 
     <update id="updateUser" parameterType="User">
-        update user set accountid=#{accountid},name=#{name},sex=#{sex},age=#{age},idcard=#{idcard},locale=#{locale},phone=#{phone},birthday=#{birthday},userType=#{userType},
-        status=#{status},place=#{place},divide=#{divide},trail=#{trail},occurrencetime=#{occurrencetime}
+        update user set status=#{status},place=#{place},divide=#{divide},trail=#{trail},occurrencetime=#{occurrencetime}
         where id = #{id}
-
     </update>
 
 </mapper>

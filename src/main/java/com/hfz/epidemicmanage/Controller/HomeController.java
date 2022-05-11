@@ -9,6 +9,8 @@ import com.hfz.epidemicmanage.Service.ActivityService;
 import com.hfz.epidemicmanage.Service.EventService;
 import com.hfz.epidemicmanage.Service.PostService;
 import com.hfz.epidemicmanage.Util.HostHolder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +23,8 @@ import java.util.List;
 //登录页面 每日动态消息展示 以及消息通知
 @Controller
 public class HomeController {
+    
+    private static final Logger log = LoggerFactory.getLogger(HomeController.class);
 
 
     @Autowired
@@ -42,18 +46,22 @@ public class HomeController {
     @RequestMapping(path = "/index",method = RequestMethod.GET)
     public String getIndex(Model model){
         User user = null;
-        Account account= null;
+        Account account;
         Outsider outsider = null;
         account = hostHolder.getAccount();
-        if(account != null)
+        if(account !=null && account.getStatus() == 3)
         {
             user = userMapper.selectByAccountid(account.getId());
-            outsider = outsidersMapper.selectOutsiderByAccountid(account.getId());
+            if(user == null)
+            {
+                outsider = outsidersMapper.selectOutsiderByAccountid(account.getId());
+            }
+
         }
         model.addAttribute("account",account);
         model.addAttribute("user",user);
         model.addAttribute("outsider",outsider);
-        return "/index";
+        return "index";
     }
 
     @RequestMapping(path = "/getconsole",method = RequestMethod.GET)
@@ -66,11 +74,11 @@ public class HomeController {
         return "views/console";
     }
 
-//    @RequestMapping(path = "/message",method = RequestMethod.POST)
-//    public String sendMessageTest(Model model,String content){
-//        System.out.println(content);
-//
-//
-//        return "/WebsocketClient";
-//    }
+    @RequestMapping(path = "/err",method = RequestMethod.GET)
+    public String getErrorPage()
+    {
+        return "/error/404";
+    }
+
+
 }

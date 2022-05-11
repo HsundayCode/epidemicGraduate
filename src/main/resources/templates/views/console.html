@@ -9,7 +9,13 @@
     <link rel="stylesheet" href="../css/view.css"/>
     <title></title>
 </head>
-
+<style>
+    .welcome .layuimini-notice:hover {background:#f6f6f6;}
+    .welcome .layuimini-notice {padding:7px 16px;clear:both;font-size:12px !important;cursor:pointer;position:relative;transition:background 0.2s ease-in-out;}
+    .welcome .layuimini-notice-title,.layuimini-notice-label {padding-right:70px !important;text-overflow:ellipsis !important;overflow:hidden !important;white-space:nowrap !important;}
+    .welcome .layuimini-notice-title {line-height:28px;font-size:14px;}
+    .welcome .layuimini-notice-extra {position:absolute;top:50%;margin-top:-8px;right:16px;display:inline-block;height:16px;color:#999;}
+</style>
 <body class="layui-view-body">
     <div class="layui-content">
         <div class="layui-row layui-col-space20">
@@ -33,9 +39,9 @@
                             <div class="chart-header">
                                 <div class="metawrap">
                                     <div class="meta">
-                                        <span>高危</span>
+                                        <span>感染</span>
                                     </div>
-                                    <div class="total" th:text="${event.divideNum}">126,560</div>
+                                    <div class="total" th:text="${event.doubtNUm}">126,560</div>
                                 </div>
                             </div>
                         </div>
@@ -47,9 +53,9 @@
                             <div class="chart-header">
                                 <div class="metawrap">
                                     <div class="meta">
-                                        <span>中度</span>
+                                        <span>高危</span>
                                     </div>
-                                    <div class="total" th:text="${event.doubtNUm}">126,560</div>
+                                    <div class="total" th:text="${event.divideNum}">126,560</div>
                                 </div>
                             </div>
                         </div>
@@ -61,16 +67,14 @@
                         <div class="chart-header">
                             <div class="metawrap">
                                 <div class="meta">
-                                    <span>外来人员</span>
+                                    <span>正常</span>
                                 </div>
-                                <div class="total" th:text="${event.outsiderNum}">126,560</div>
+                                <div class="total" th:text="${event.normalNum}">126,560</div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-
 <!--            打卡反馈-->
             <div class="layui-row layui-col-space20">
                 <div class="layui-col-sm20 layui-col-md20">
@@ -103,30 +107,20 @@
                 </div>
             </div>
 <!--                公告发布-->
-            <div class="layui-row layui-col-space20">
-                <div class="layui-col-sm20 layui-col-md20">
+                <div class="layuimini-main welcome">
                     <div class="layui-card">
-                        <div class="layui-card-body chart-card">
-                            <div class="chart-header">
-                                <div class="metawrap">
-                                    <div class="meta">
-                                        <span>社区动态</span>
-                                    </div>
-                                    <ul th:each="aclist:${activitylist}">
-                                        <a th:href="@{|/getAcById/${aclist.id}|}"><li th:text="${aclist.title}"></li></a>
-
-                                    </ul>
-                                </div>
+                        <div class="layui-card-header"><i class="fa fa-bullhorn icon icon-tip"></i>系统公告</div>
+                        <div class="layui-card-body layui-text">
+                            <div class="layuimini-notice" th:each="aclist:${activitylist}">
+                                <div class="layuimini-notice-title" th:text="${aclist.title}">修改选项卡样式</div>
+                                <div class="layuimini-notice-extra" th:text="${aclist.actime}">2019-07-11 23:06</div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
         </div>
     </div>
 </div>
-    
-   
     <script src="layui.all.js"></script>
     <script type="text/javascript" src="../jquery-3.6.0.min.js"></script>
     <script type="text/javascript">
@@ -137,11 +131,13 @@
                 dataType:"text",
                 data: {"temperature":$("#temperature").val(),"locale" : $("#locale").val()},
                 success:function (res) {
+                    //window.location.href=res;
                     alert(res);
-                    $("#res").html(res);
                 }
             });
         }
+
+
     </script>
 
 </body>

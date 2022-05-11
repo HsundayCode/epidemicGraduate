@@ -22,10 +22,6 @@ public class EventController {
     public String getPatientNum(Model model){
         Event event = eventService.getPatientNum();
         model.addAttribute("event",event);
-//        HashMap<String,Event> map = new HashMap<>();
-//        map.put("event",event);
-//        model.addAttribute("eventmap",map);
-
         return "views/console";
     }
 

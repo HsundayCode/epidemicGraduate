@@ -1,15 +1,24 @@
 package com.hfz.epidemicmanage.Util;
 
 import com.hfz.epidemicmanage.Config.QRCodeConfig;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ErweimaUtil {
 
-    public static void createErweima(int code) throws Exception
-    {
+    @Value("${epidemicmanage.idlocal}")
+    private String local;
+    @Value("${epidemicmanage.tupianpath}")
+        private  String tupianpath;
 
-        String text = "http://localhost:8080/daka/"+code;
+        public void createErweima(int code) throws Exception
+        {
 
-        String destPath = "F:/epidemicmanage/"+code+".jpg";//文件名
+            String text = local+":8080/daka/"+code;
+
+            String destPath = tupianpath+code+".jpg";//文件名
+
         //生成二维码
         QRCodeConfig.encode(text,destPath);
     }

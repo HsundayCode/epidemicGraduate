@@ -10,13 +10,13 @@ public class Record {
     private String temperature;//当前体温
     private String name;//姓名
     private String locale;//当前地址
-    private int phone;//联系
+    private String phone;//联系
     private String createtime;//打卡时间
 
     public Record() {
     }
 
-    public Record(int id, int accountid, String temperature, String name, String locale, int phone, String createtime) {
+    public Record(int id, int accountid, String temperature, String name, String locale, String phone, String createtime) {
         this.id = id;
         this.accountid = accountid;
         this.temperature = temperature;
@@ -66,11 +66,11 @@ public class Record {
         this.locale = locale;
     }
 
-    public int getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(int phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 

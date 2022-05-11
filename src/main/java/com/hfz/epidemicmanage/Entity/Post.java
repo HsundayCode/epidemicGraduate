@@ -10,6 +10,7 @@ import java.util.Date;
 public class Post {
     private int id;
     private int accountid;
+    private String name;
     private String title;
     private String content;
     private int status;
@@ -19,13 +20,22 @@ public class Post {
     public Post() {
     }
 
-    public Post(int id, int accountid, String title, String content, int status, Date createTime) {
+    public Post(int id, int accountid, String name, String title, String content, int status, Date createTime) {
         this.id = id;
         this.accountid = accountid;
+        this.name = name;
         this.title = title;
         this.content = content;
         this.status = status;
         this.createTime = createTime;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public int getId() {
@@ -81,6 +91,7 @@ public class Post {
         return "Post{" +
                 "id=" + id +
                 ", accountid=" + accountid +
+                ", name='" + name + '\'' +
                 ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
                 ", status=" + status +

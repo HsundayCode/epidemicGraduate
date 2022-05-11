@@ -4,15 +4,15 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hfz.epidemicmanage.Dao.PostMapper">
     <sql id="insertFiles">
-        accountid,title,content,status,createtime
+        name,accountid,title,content,status,createtime
     </sql>
     <sql id="selectFiles">
-        id,accountid,title,content,status,createtime
+        id,name,accountid,title,content,status,createtime
     </sql>
 
     <insert id="insertPost" keyProperty="id" parameterType="Post">
         insert into post (<include refid="insertFiles"></include>)
-        values (#{accountid},#{title},#{content},#{status},#{createTime})
+        values (#{name},#{accountid},#{title},#{content},#{status},#{createTime})
     </insert>
 
     <select id="selectPostById" resultType="Post">
@@ -44,4 +44,16 @@
         order by createtime desc
         limit #{offset},#{limit}
     </select>
+
+    <select id="selectPostByName" resultType="Post">
+        select <include refid="selectFiles"></include>
+        from post
+        where name = #{name}
+        limit #{offset},#{limit}
+    </select>
+
+    <delete id="deletePost">
+        delete from post
+        where id = #{id}
+    </delete>
 </mapper>

@@ -11,95 +11,102 @@
 <div class="layui-content">
     <div class="layui-row">
         <div class="layui-card">
-            <div class="layui-card-header">表单</div>
+            <div class="layui-card-header">用户详情</div>
             <form class="layui-form layui-card-body" method="post" th:action="@{/updatedetail}">
                 <input type="hidden" name="id" th:value="${user.id}">
                 <input type="hidden" name="accountid" th:value="${user.accountid}">
-                <div class="layui-form-item">
-                    <label class="layui-form-label">姓名</label>
-                    <div class="layui-input-block">
-                        <input type="text" name="name" th:value="${user.name}"  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+                <div class="layui-card">
+                    <div class="layui-card-header"><i class="fa fa-fire icon"></i>个人信息</div>
+                    <div class="layui-card-body layui-text">
+                        <table class="layui-table">
+                            <colgroup>
+                                <col width="100">
+                                <col>
+                            </colgroup>
+                            <tbody>
+                            <tr>
+                                <td>姓名</td>
+                                <td th:text="${user.name}">
+                                    name
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>性别</td>
+                                <td th:text="${user.sex}">sex</td>
+                            </tr>
+                            <tr>
+                                <td>年龄</td>
+                                <td th:text="${user.age}">age</td>
+                            </tr>
+                            <tr>
+                                <td>身份证</td>
+                                <td th:text="${user.idcard}">
+                                    idcard
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>地址</td>
+                                <td th:text="${user.locale}">
+                                    locale
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>联系方式</td>
+                                <td th:text="${user.phone}">
+                                    phone
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>出生日期</td>
+                                <td th:text="${user.birthday}">
+                                    birthday
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>感染地点</td>
+                                <td>
+                                    <input type="text" name="place" th:value="${user.place}" class="layui-input">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>隔离地点</td>
+                                <td>
+                                    <input type="text" name="divide" th:value="${user.divide}"   class="layui-input">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>路径</td>
+                                <td>
+                                    <input type="text" name="trail" th:value="${user.trail}"   class="layui-input">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>发生时间</td>
+                                <td>
+                                    <input type="text" name="occurrencetime" th:value="${user.occurrencetime}"   class="layui-input">
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">性别</label>
-                    <div class="layui-input-block">
-                        <input type="text" name="sex" th:value="${user.sex}" lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">年龄</label>
-                    <div class="layui-input-block">
-                        <input type="text" name="age"  th:value="${user.age}" lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">身份证</label>
-                    <div class="layui-input-block">
-                        <input type="text" name="idcard" th:value="${user.idcard}" lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">住址</label>
-                    <div class="layui-input-block">
-                        <input type="text" name="locale"  th:value="${user.locale}" lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">手机号码</label>
-                    <div class="layui-input-block">
-                        <input type="text" name="phone" th:value="${user.phone}" lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">出生日期</label>
-                    <div class="layui-input-block">
-                        <input type="text" name="birthday" th:value="${user.birthday}" lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-
-
-
-                <div class="layui-form-item" pane="">
+                    <div class="layui-form-item" pane="">
                     <label class="layui-form-label">单选框</label>
                     <div class="layui-input-block">
-                        <input type="radio" name="status" value="感染" title="感染" checked="">
-                        <input type="radio" name="status" value="高危" title="高危" checked="">
-                        <input type="radio" name="status" value="中度" title="中度" checked="">
-                        <input type="radio" name="status" value="正常" title="正常" checked="">
+                        <input type="radio" name="status" value="感染" title="感染" th:checked="${user.status eq '感染'}" >
+                        <input type="radio" name="status" value="高危" title="高危" th:checked="${user.status eq '高危'}">
+                        <input type="radio" name="status" value="中度" title="中度" th:checked="${user.status eq '中度'}">
+                        <input type="radio" name="status" value="正常" title="正常" th:checked="${user.status eq '正常'}">
                     </div>
                 </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">感染地点</label>
-                    <div class="layui-input-block">
-                        <input type="text" name="place" th:value="${user.place}"  placeholder="请输入标题" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">隔离地点</label>
-                    <div class="layui-input-block">
-                        <input type="text" name="divide" th:value="${user.divide}"  placeholder="请输入标题" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">路径</label>
-                    <div class="layui-input-block">
-                        <input type="text" name="trail" th:value="${user.trail}"  placeholder="请输入标题" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">发生时间</label>
-                    <div class="layui-input-block">
-                        <input type="text" name="occurrencetime" th:value="${user.occurrencetime}"  placeholder="请输入标题" autocomplete="off" class="layui-input">
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <button class="layui-btn layui-btn-blue" lay-submit lay-filter="formDemo">立即提交</button>
+                            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                        </div>
                     </div>
                 </div>
 
-                <div class="layui-form-item">
-                    <div class="layui-input-block">
-                        <button class="layui-btn layui-btn-blue" lay-submit lay-filter="formDemo">立即提交</button>
-                        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
-                    </div>
-                </div>
+
             </form>
         </div>
     </div>

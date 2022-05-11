@@ -17,4 +17,8 @@ public interface PostMapper {
 
     List<Post> selectUnResolvedList(@Param("limit") int limit, @Param("offset") int offset);
     List<Post> selectResolvedList(@Param("limit") int limit, @Param("offset") int offset);
+
+    List<Post> selectPostByName(String name,int limit,int offset);
+
+    int deletePost(int id);
 }

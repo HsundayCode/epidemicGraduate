@@ -6,6 +6,8 @@ import com.hfz.epidemicmanage.Entity.Page;
 import com.hfz.epidemicmanage.Service.OutsiderService;
 import com.hfz.epidemicmanage.Util.GetJSONUtil;
 import com.hfz.epidemicmanage.Util.HostHolder;
+import com.hfz.epidemicmanage.annotation.LoginRequire;
+import com.hfz.epidemicmanage.annotation.ManageRequire;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,6 +34,8 @@ public class OutsiderController {
     }
 
     //查询所有外来人员列表
+    @ManageRequire
+    @LoginRequire
     @RequestMapping(path = "/getOutsiderAll",method = RequestMethod.GET)
     public String OutsiderAll(Model model,Page page){
         List<Outsider> outsiderAll = outsiderService.findOutsiderAll(page.getLimit(),page.getoffset());
@@ -40,22 +44,23 @@ public class OutsiderController {
     }
 
     //添加外来人员
+    @ManageRequire
+    @LoginRequire
     @RequestMapping(path = "/addOutsider",method = RequestMethod.POST)
     public String addOutsider(Outsider outsider,Model model){
         if(outsider == null)
-            throw new RuntimeException("没有填写信息");
+            throw new IllegalArgumentException("没有填写信息");
         int accountid = hostHolder.getAccount().getId();
-//        if(accountid == 1 || accountid == 3)
-//        {
-//            outsider.setAccountid(userMapper.selectByName(outsider.getName()).getId());
-//        }
         outsider.setAccountid(accountid);
+        System.out.println(outsider);
         outsiderService.addOutsider(outsider);
         model.addAttribute("res","添加成功");
-        return "/addresult";
+        return "addresult";
     }
 
     //根据名字查询获得外来人员列表
+    @ManageRequire
+    @LoginRequire
     @RequestMapping(path = "/bynamegetoutsider/{name}",method = RequestMethod.GET)
     public String getOutsiderListByName(@PathVariable("name") String name, Page page, Model model){
 
@@ -65,6 +70,8 @@ public class OutsiderController {
     }
 
     //根据来源查询获得外来人员列表
+    @ManageRequire
+    @LoginRequire
     @RequestMapping(path = "/bysourcegetoutsider/{source}",method = RequestMethod.GET)
     public String getOutsiderListBySource(@PathVariable("source") String source, Page page, Model model){
 
@@ -74,8 +81,10 @@ public class OutsiderController {
     }
 
     //根据身份证查询获得外来人员列表
+    @ManageRequire
+    @LoginRequire
     @RequestMapping(path = "/byidcardgetoutsider/{idcard}",method = RequestMethod.GET)
-    public String getOutsiderListByIdcard(@PathVariable("idcard") int idcard, Model model,Page page){
+    public String getOutsiderListByIdcard(@PathVariable("idcard") String idcard, Model model,Page page){
 
         List<Outsider> outsideridcardList = outsiderService.findOutsiderByIdcard(idcard,page.getLimit(),page.getoffset());
         model.addAttribute("outsiderList",outsideridcardList);
@@ -83,6 +92,8 @@ public class OutsiderController {
     }
 
     //外来人员详情，来的原因不能在表单里展示
+    @ManageRequire
+    @LoginRequire
     @ResponseBody
     @RequestMapping(path = "/getDetail/{id}",method = RequestMethod.GET)
     public String outsiderDetail(Model model, @PathVariable("id")int id){
@@ -92,12 +103,15 @@ public class OutsiderController {
 
     }
 
+    @ManageRequire
+    @LoginRequire
     @RequestMapping(path = "/deleteoutsider/{outsiderid}",method = RequestMethod.GET)
     public String deleteOutsider(@PathVariable("outsiderid") int id,Model model)
     {
         outsiderService.deleteOutsider(id);
-        model.addAttribute("res","删除成功");
-        return "/addresult";
+        List<Outsider> outsiderAll = outsiderService.findOutsiderAll(5,0);
+        model.addAttribute("outsiderList",outsiderAll);
+        return "views/outsider :: outrep";
     }
 
 

@@ -12,14 +12,13 @@ import java.util.List;
 public interface OutInMapper {
     int recoedFlow(Flow flow);
     int recordIn(Flow flow);
-    int selectPlace(String place);
-    List<Flow> selectFlowAll(int limit,int offset);
-    List<Flow> selectOut(int flowType,int limit,int offset);
-    List<Flow> selectIn(int flowType,int limit,int offset);
-    List<Flow> selectRecordTime(Data recordtime,int limit,int offset);
-    Integer setErweimaUrl(@Param("place") String place, @Param("code") int code);
+    List<Flow> selectPlace(String place,int offset,int limit);
+    List<Flow> selectFlowAll(@Param("offset") int offset,@Param("limit") int limit);
+    List<Flow> selectName(String name,int offset,int limit);
+    Integer setErweimaUrl(@Param("place") String place, @Param("code") int code,String ewmpath);
     Integer selectErweimacode(String place);
     String selectcode(int code);
+
 
 
 }

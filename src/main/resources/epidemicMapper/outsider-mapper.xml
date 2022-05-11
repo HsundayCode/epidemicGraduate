@@ -4,15 +4,16 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hfz.epidemicmanage.Dao.OutsidersMapper">
     <sql id="selectFiles">
-        id,name,accountid,source,place,cometime,status,content,phone,idcard
+        id,name,accountid,source,place,cometime,status,content,phone,idcard,leavetime
     </sql>
     <sql id="insertFiles">
-        name,accountid,source,place,cometime,status,content,phone,idcard
+        name,accountid,source,place,cometime,status,content,phone,idcard,leavetime
     </sql>
 
     <insert id="insertOutsider" keyProperty="id">
-        insert into outsider (<include refid="insertFiles"></include>)
-        values (#{name},#{accountid},#{source},#{place},#{cometime},#{status},#{content},#{phone},#{idcard})
+        insert into outsider(<include refid="insertFiles"></include>)
+        values (#{name},#{accountid},#{source},#{place},
+        #{cometime},#{status},#{content},#{phone},#{idcard},#{leavetime})
     </insert>
 
     <update id="updateStatus">

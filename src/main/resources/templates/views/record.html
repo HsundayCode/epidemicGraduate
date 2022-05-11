@@ -7,26 +7,19 @@
     <link rel="stylesheet" href="../css/layui.css">
     <link rel="stylesheet" href="../css/view.css"/>
     <link rel="icon" href="/favicon.ico">
-    <title>管理后台</title>
+    <title>打卡记录管理</title>
 </head>
 <body class="layui-view-body">
     <div class="layui-content">
         <div class="layui-page-header">
             <div class="pagewrap">
-                <span class="layui-breadcrumb">
-                  <a href="">首页</a>
-                  <a href="">用户</a>
-                  <a><cite>用户组</cite></a>
-                </span>
-                <h2 class="title">用户组</h2>
+                <h2 class="title">打卡记录列表</h2>
             </div>
         </div>
         <div class="layui-row">
             <div class="layui-card">
                 <div class="layui-card-body">
                     <div class="form-box">
-
-
                         <fieldset class="table-search-fieldset">
                             <legend>搜索信息</legend>
                             <div style="margin: 10px 10px 10px 10px">
@@ -48,7 +41,6 @@
                                         <div class="layui-inline">
                                             今日打卡人数:<span class="layui-btn layui-btn-normal layui-btn-mini" id="recordnum"></span>
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
@@ -94,24 +86,27 @@
             </div>
         </div>
     </div>
-    <div class="digg" th:fragment="pagedemo">
-        <span class="disabled"> <a th:href="@{${page.path}(current=${page.current-1})}">&lt;</a></span>
-        <span class="current" th:href="@{${page.path}(current=1)}">1</span>
-        <a th:href="@{${page.path}(current=2)}">2</a>
-        <a th:href="@{${page.path}(current=3)}">3</a>
-        <a th:href="@{${page.path}(current=4)}">4</a>
-        <a th:href="@{${page.path}(current=5)}">5</a>
-        <a th:href="@{${page.path}(current=${page.total})}" >末页</a>
+    <div class="digg" >
+        <a th:href="@{${page.path}(current=${page.current-1})}">&lt;</a>
+        <a th:class="${page.current==1?'pagecolor':''}" th:href="@{${page.path}(current=1)}">1</a>
+        <a th:class="${page.current==2?'pagecolor':''}" th:href="@{${page.path}(current=2)}">2</a>
+        <a th:class="${page.current==3?'pagecolor':''}" th:href="@{${page.path}(current=3)}">3</a>
+        <a th:class="${page.current==4?'pagecolor':''}" th:href="@{${page.path}(current=4)}">4</a>
+        <a th:class="${page.current==5?'pagecolor':''}" th:href="@{${page.path}(current=5)}">5</a>
+        <a  th:href="@{${page.path}(current=${page.total})}" >末页</a>
         <a th:href="@{${page.path}(current=${page.current+1})}">
             &gt; </a></div>
     <script src="../layui.all.js"></script>
     <script type="text/javascript" src="../jquery-3.6.0.min.js"></script>
     <script type="text/javascript">
+        function deletecored(){
+
+        }
+
         $.ajax({
             url:'/todayRecordNum',
             type:'get',
             success:function (data) {
-
                 $("#recordnum").text(data)
             }
         })

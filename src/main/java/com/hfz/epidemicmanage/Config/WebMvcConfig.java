@@ -1,4 +1,4 @@
-package com.hfz.epidemicmanage.Aspect;
+package com.hfz.epidemicmanage.Config;
 
 import com.hfz.epidemicmanage.Controller.Interceptor.LoginRequireInterceptor;
 import com.hfz.epidemicmanage.Controller.Interceptor.LoginTicketInterceptor;

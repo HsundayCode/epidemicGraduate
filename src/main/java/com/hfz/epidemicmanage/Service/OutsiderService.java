@@ -14,7 +14,7 @@ public class OutsiderService {
 
     public List<Outsider> findOutsiderAll(int limit,int offset)
     {
-        return outsidersMapper.selectOutsiderAll(limit,offset);
+        return outsidersMapper.selectOutsiderAll(offset,limit);
     }
 
     public List<Outsider> findOutsiderByName(String name,int limit,int offset)
@@ -27,13 +27,17 @@ public class OutsiderService {
         return outsidersMapper.selectOutsiderBySource(source, limit, offset);
     }
 
-    public List<Outsider>findOutsiderByIdcard(int idcard, int limit, int offset)
+    public List<Outsider>findOutsiderByIdcard(String idcard, int limit, int offset)
     {
         return outsidersMapper.selectOutsiderByIdcard(idcard,limit,offset);
     }
 
     public void addOutsider(Outsider outsider)
     {
+        if(outsider == null)
+        {
+            throw new IllegalArgumentException("参数不能为空");
+        }
         outsidersMapper.insertOutsider(outsider);
     }
     public void deleteOutsider(int id)

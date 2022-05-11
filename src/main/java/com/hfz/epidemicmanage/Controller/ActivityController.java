@@ -4,6 +4,8 @@ import com.hfz.epidemicmanage.Entity.Activity;
 import com.hfz.epidemicmanage.Entity.Page;
 import com.hfz.epidemicmanage.Service.ActivityService;
 import com.hfz.epidemicmanage.Util.GetJSONUtil;
+import com.hfz.epidemicmanage.annotation.LoginRequire;
+import com.hfz.epidemicmanage.annotation.ManageRequire;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,6 +27,8 @@ public class ActivityController {
     }
 
     //根据获得id查询，用来查询获得活动详情
+    @ManageRequire
+    @LoginRequire
     @ResponseBody
     @RequestMapping(path = "/getAcById/{id}",method = RequestMethod.GET)
     public String getActivityListId(Model model, @PathVariable("id") int id){
@@ -36,6 +40,8 @@ public class ActivityController {
     }
 
     //根据活动状态查询获得活动列表，
+    @ManageRequire
+    @LoginRequire
     @RequestMapping(path = "/getAcByStatus/{status}",method = RequestMethod.GET)
     public String getActivityListStatus(Model model, @PathVariable("status") int status, Page page){
         page.setPath("/getAcByStatus/"+status);
@@ -46,6 +52,8 @@ public class ActivityController {
     }
 
     //根据活动地点查询获得活动列表
+    @ManageRequire
+    @LoginRequire
     @RequestMapping(path = "/getAcByPlace/{place}",method = RequestMethod.GET)
     public String getActivityListPlace(Model model,@PathVariable("place") String place, Page page){
         page.setLimit(5);
@@ -56,6 +64,8 @@ public class ActivityController {
     }
 
     //根据获得时间查询获得活动列表
+    @ManageRequire
+    @LoginRequire
     @RequestMapping(path = "/getAcByActime/{actime}",method = RequestMethod.GET)
     public String getActivityListActime(Model model,@PathVariable("actime") String actime, Page page){
         page.setLimit(5);
@@ -66,6 +76,8 @@ public class ActivityController {
     }
 
     //根据获得标题查询获得活动列表
+    @ManageRequire
+    @LoginRequire
     @RequestMapping(path = "/getAcByTitle/{title}",method = RequestMethod.GET)
     public String getActivityListTitle(Model model, @PathVariable("title") String title, Page page){
         page.setLimit(5);
@@ -77,9 +89,10 @@ public class ActivityController {
 
 
     //查询所有活动列表
+    @LoginRequire
+    @ManageRequire
     @RequestMapping(path = "/getAcAll",method = RequestMethod.GET)
     public String getActivityAllList(Model model,Page page){
-        System.out.println(page.getCurrent());
         page.setPath("/getAcAll");
         page.setLimit(5);
         List<Activity> AcAllList = activityService.findActivityAll(page.getLimit(),page.getoffset());
@@ -88,31 +101,42 @@ public class ActivityController {
     }
 
     //添加活动
+    @LoginRequire
+    @ManageRequire
     @RequestMapping(path = "/addActivity",method = RequestMethod.POST)
     public String addActivity(Model model,Activity activity)
     {
-        System.out.println(activity.getActime());
+        if(activity == null)
+        {
+            throw new IllegalArgumentException("数据不能为空");
+        }
         activityService.addActivity(activity);
         model.addAttribute("res","添加成功");
         return "addresult";
     }
 
     //删除
+    @ManageRequire
+    @LoginRequire
     @RequestMapping(path = "/deleteactivity/{acid}",method = RequestMethod.GET)
     public String deleteActivity(@PathVariable("acid") int id,Model model)
     {
         activityService.deleteActivity(id);
-        model.addAttribute("res","删除成功");
-        return "/addresult";
+        List<Activity> AcAllList = activityService.findActivityAll(5,0);
+        model.addAttribute("AcList",AcAllList);
+        return "views/Activity :: acrep";
     }
 
     //修改未开始 开始 结束
     //传入当前的status，后台判断修改
-
+    @ManageRequire
+    @LoginRequire
     @RequestMapping(path = "/updateAcStatus/{acid}/{status}",method = RequestMethod.GET)
-    public String updateAcStatus(@PathVariable("acid") int id,@PathVariable("status") int status)
+    public String updateAcStatus(@PathVariable("acid") int id,@PathVariable("status") int status,Model model)
     {
         activityService.updateAcStatus(status,id);
-        return "redirect:/getAcById/"+id;
+        List<Activity> AcAllList = activityService.findActivityAll(5,0);
+        model.addAttribute("AcList",AcAllList);
+        return "views/Activity :: acrep";
     }
 }

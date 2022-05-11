@@ -7,11 +7,11 @@ public class User {
     private String name;//姓名
     private String sex;//性别
     private String age;//年龄
-    private int idcard;//身份证
+    private String idcard;//身份证
     private String locale;//地址
-    private int phone;//手机号码
+    private String phone;//手机号码
     private String birthday;//出生日期
-    private int userType;//1-住户 2-外来
+
 
     private String status;//1-正常  2-中度 3-高危 4-感染
     private String place;//感染地方
@@ -22,8 +22,8 @@ public class User {
     public User() {
     }
 
-    public User(int id, int accountid, String name, String sex, String age, int idcard, String locale, int phone, String birthday,
-                int userType, String status, String place, String divide, String trail, String occurrencetime) {
+    public User(int id, int accountid, String name, String sex, String age, String idcard, String locale, String phone, String birthday,
+                String status, String place, String divide, String trail, String occurrencetime) {
         this.id = id;
         this.accountid = accountid;
         this.name = name;
@@ -33,20 +33,11 @@ public class User {
         this.locale = locale;
         this.phone = phone;
         this.birthday = birthday;
-        this.userType = userType;
         this.status = status;
         this.place = place;
         this.divide = divide;
         this.trail = trail;
         this.occurrencetime = occurrencetime;
-    }
-
-    public int getUserType() {
-        return userType;
-    }
-
-    public void setUserType(int userType) {
-        this.userType = userType;
     }
 
     public int getId() {
@@ -89,11 +80,11 @@ public class User {
         this.age = age;
     }
 
-    public int getIdcard() {
+    public String getIdcard() {
         return idcard;
     }
 
-    public void setIdcard(int idcard) {
+    public void setIdcard(String idcard) {
         this.idcard = idcard;
     }
 
@@ -105,11 +96,11 @@ public class User {
         this.locale = locale;
     }
 
-    public int getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(int phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 
@@ -169,11 +160,10 @@ public class User {
                 ", name='" + name + '\'' +
                 ", sex='" + sex + '\'' +
                 ", age='" + age + '\'' +
-                ", idcard=" + idcard +
+                ", idcard='" + idcard + '\'' +
                 ", locale='" + locale + '\'' +
-                ", phone=" + phone +
+                ", phone='" + phone + '\'' +
                 ", birthday='" + birthday + '\'' +
-                ", userType=" + userType +
                 ", status='" + status + '\'' +
                 ", place='" + place + '\'' +
                 ", divide='" + divide + '\'' +

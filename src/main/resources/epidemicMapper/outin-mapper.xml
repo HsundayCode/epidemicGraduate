@@ -4,10 +4,10 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hfz.epidemicmanage.Dao.OutInMapper">
     <sql id="selectFiles">
-        id,userType,name,recordTime,flowType
+        id,name,userType,recordTime,flowType,place
     </sql>
     <sql id="insertFiles">
-        userType,name,recordTime,flowType,place
+        name,userType,recordTime,flowType,place
     </sql>
 
     <select id="selectErweimacode" resultType="Integer">
@@ -17,8 +17,8 @@
     </select>
 
     <insert id="setErweimaUrl">
-        insert into erweima(place,erweimacode)
-        values (#{place},#{code})
+        insert into erweima(place,erweimacode,ewmpath)
+        values (#{place},#{code},#{ewmpath})
     </insert>
 
     <insert id="recoedFlow" keyProperty="id">
@@ -30,5 +30,25 @@
         select place
         from erweima
         where erweimacode = #{code}
+    </select>
+
+    <select id="selectFlowAll" resultType="Flow">
+        select <include refid="selectFiles"></include>
+        from flow
+        limit #{offset},#{limit}
+    </select>
+
+    <select id="selectPlace" resultType="Flow">
+        select <include refid="selectFiles"></include>
+        from flow
+        where place = #{place}
+        limit #{offset},#{limit}
+    </select>
+
+    <select id="selectName" resultType="Flow">
+        select <include refid="selectFiles"></include>
+        from flow
+        where name = #{name}
+        limit #{offset},#{limit}
     </select>
 </mapper>

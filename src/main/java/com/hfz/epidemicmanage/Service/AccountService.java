@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.tomcat.util.http.ConcurrentDateFormat;
 import org.apache.tomcat.util.http.parser.Host;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
@@ -33,6 +34,8 @@ public class AccountService implements EpidemicConstant {
     RedisTemplate redisTemplate;
     @Autowired
     HostHolder hostHolder;
+    @Value("${epidemicmanage.idlocal}")
+    private String local;
 
 
     //通过账号id(主键)查询账号实体
@@ -88,16 +91,14 @@ public class AccountService implements EpidemicConstant {
             map.put("emailMessage","邮箱已存在");
             return map;
         }
-        //对注册进行加工，在存入数据库
-
+        //对账号属性进行设置
         account.setSalt(EpidemicUtil.generateUUID().substring(0,5));//唯一码
         account.setPassword(EpidemicUtil.getmd5(account.getPassword() + account.getSalt()));//密码md5加密
         account.setType(0);//设置权限
         account.setStatus(0);//设置状态
         account.setCreatetime(new Date());//注册时间
         account.setActivationcode(EpidemicUtil.generateUUID()); //设置激活码
-       // account.setEmail(account.getEmail());
-        //accountMapper.insertAccount(account);//应该先放进缓存设置过期时间，激活时再放进数据库
+
         //发送激活邮件
         String ActivationcodeKey = RedisKeyUtil.getActivationcodeKey(account.getActivationcode());//获得激活码的kye
         redisTemplate.opsForValue().set(ActivationcodeKey,account);//加入缓存
@@ -105,9 +106,8 @@ public class AccountService implements EpidemicConstant {
 
         Context context = new Context();//模板
         context.setVariable("email",account.getEmail());//设置模板属性
-        //注册接口/+姓名(账号)+账号激活码  xxx
-        //不能用中文做url
-        String url ="http://localhost:8080/register/"+account.getActivationcode();
+        //激活链接
+        String url =local+"/register/"+account.getActivationcode();
         context.setVariable("url",url);//设置模板属性
         String content = templateEngine.process("mail/registmail",context);
 
@@ -119,18 +119,16 @@ public class AccountService implements EpidemicConstant {
     //激活判断 会改成redis
     //传入从url里获得的激活码
     public int activation(String Activationcode){
-        //Account account = accountMapper.selectById(id);//
-        //String code = account.getActivationcode();
+
         String ActivationcodeKey = RedisKeyUtil.getActivationcodeKey(Activationcode);//获得激活码再redis里的key
         Account account = (Account) redisTemplate.opsForValue().get(ActivationcodeKey);//获得account实体
-        Account accountDB = accountMapper.selectByName(account.getName());
         //注册出了点问题，多次点击激活会数据库会有多个相同账号，因为缓存里的状态码没变，判断会出现问题，激活后要删除缓存，
-        if(account == null || accountDB.getStatus() == 1)//是否已激活，判断是否已激活要考虑到数据库是否已存在
+        if(account == null)//是否已激活，判断是否已激活要考虑到数据库是否已存在
         {
             return ACTIVATION_REPEAT;
         }else if(Activationcode.equals(account.getActivationcode()))//激活码是否一致
         {
-            account.setStatus(1);//设置激活状态
+            account.setStatus(ACTIVATION_SUCCESS);//设置激活状态
             accountMapper.insertAccount(account);//添加进数据库
             redisTemplate.delete(ActivationcodeKey);//删除缓存
             return ACTIVATION_SUCCESS;
@@ -182,9 +180,9 @@ public class AccountService implements EpidemicConstant {
         loginTicket.setExpired(new Date(System.currentTimeMillis() + expire * 1000));//过期时间，放进cookie
 
         String ticketKey = RedisKeyUtil.getTicketKey(loginTicket.getTicket());
-        //拦截器用但现在感觉这个时多此一举了
+
         redisTemplate.opsForValue().set(ticketKey,loginTicket);//里面有用户id
-        redisTemplate.expire(ticketKey,expire * 1000,TimeUnit.SECONDS);//过期时间
+        redisTemplate.expire(ticketKey,expire * 14,TimeUnit.SECONDS);//过期时间 7天
 
         map.put("ticket",loginTicket.getTicket());
         return map;
@@ -195,10 +193,10 @@ public class AccountService implements EpidemicConstant {
     public void logout(HttpServletRequest request){
         String ticket = CookieUtil.getCookie(request,"ticket"); //cookie取出ticketKey
         String ticketKey = RedisKeyUtil.getTicketKey(ticket);
-        LoginTicket loginTicket=(LoginTicket) redisTemplate.opsForValue().get(ticketKey);//再从redis中取出loginTicket 删除
+        LoginTicket loginTicket=(LoginTicket) redisTemplate.opsForValue().get(ticketKey);//再从redis中取出loginTicket
         loginTicket.setStatus(1);//设置账号登录状态
         redisTemplate.opsForValue().set(ticketKey,loginTicket);
-
+        hostHolder.clear();
     }
 
     public List<Account> findManageAccount()

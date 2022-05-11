@@ -23,16 +23,14 @@ public class UserService implements EpidemicConstant {
     @Autowired
     HostHolder hostHolder;
 
-
-
-
     //添加个人信息
     public Map<String,Object> addUser(User user){
         Map<String,Object> map = new HashMap<>();
         Account account = hostHolder.getAccount();
-        if(account == null)
+
+        if(account.getStatus() == 3)
         {
-            map.put("userMessage","请先登录帐号");
+            map.put("userMessage","信息重复添加");
             return map;
         }
         if(user == null){
@@ -47,16 +45,19 @@ public class UserService implements EpidemicConstant {
 
     //获得用户列表页面
     //一次性查询 列表
-    public List<Map<String,Object>> findUsers(int limit, int offset){
+    public List<Map<String,Object>> findUsers(int limit, int offset) {
 
-        List<User> patientslist = userMapper.selectUsers(limit,offset);
-        List<Map<String,Object>> reslist = new ArrayList<>();
-        for(User user : patientslist)
+        List<User> userlist = userMapper.selectUsers(limit, offset);
+        List<Map<String, Object>> reslist = new ArrayList<>();
+        if (userlist != null)
         {
-            Map<String,Object> map = new HashMap<>();
-            map.put("account",accountMapper.selectById(user.getAccountid()));
-            map.put("user",user);
-            reslist.add(map);
+            for(User user : userlist)
+            {
+                Map<String,Object> map = new HashMap<>();
+                        map.put("account",accountMapper.selectById(user.getAccountid()));
+                map.put("user",user);
+                reslist.add(map);
+            }
         }
         return reslist;
     }
@@ -75,10 +76,14 @@ public class UserService implements EpidemicConstant {
         return reslist;
     }
 
-    public List<Map<String,Object>> findUserByIdcard(int idcard)
+    public List<Map<String,Object>> findUserByIdcard(String idcard)
     {
         Map<String,Object> map = new HashMap<>();
         User patient = userMapper.selectByIdcard(idcard);
+        if(patient == null)
+        {
+            return new ArrayList<Map<String,Object>>();
+        }
         map.put("user",patient);
         map.put("account",accountMapper.selectById(patient.getAccountid()));
         List<Map<String,Object>> reslist = new ArrayList<>();
@@ -93,9 +98,9 @@ public class UserService implements EpidemicConstant {
     //用于判断用户不可以（修改）二次输入信息
     //添加用户信息
     //修该用户信息
-    public void updateUser(User user)
+    public void updateUser(int id,String status,String place,String divide,String trail,String occurrencetime)
     {
-        userMapper.updateUser(user);
+        userMapper.updateUser(id,status,place,divide,trail,occurrencetime);
     }
     //修改用户状态
     public void updateStatus(int id,String status)

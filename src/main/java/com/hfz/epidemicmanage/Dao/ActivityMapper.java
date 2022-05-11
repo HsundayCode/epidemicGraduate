@@ -24,5 +24,5 @@ public interface ActivityMapper {
 
     int insertActivity(Activity activity);
     int deleteActivity(int id);
-    int updateStatus(int status,int id);
+    int updateStatus(@Param("status") int status,@Param("id") int id);
 }

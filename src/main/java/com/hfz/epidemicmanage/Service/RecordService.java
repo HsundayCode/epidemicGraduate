@@ -31,19 +31,18 @@ public class RecordService {
     //添加记录
     public String addRecord(Record record){
         String todayKey = RedisKeyUtil.getTodayRecordKey(record.getAccountid());
-        String beforeDate = (String)redisTemplate.opsForValue().get(todayKey);
+        String beforeDate = (String)redisTemplate.opsForValue().get(todayKey);//获取缓存日期
 
-        boolean between = DateUtil.getDifferentDateGap(record.getCreatetime(),beforeDate);//判断日期是否过期,过了一天返回true
-
-        if(beforeDate == null || between)//数据不存在或过期，或日期已经是另一天了
+        boolean between = DateUtil.getDifferentDateGap(beforeDate,record.getCreatetime());//判断日期是否过期,过了一天返回true
+        if(beforeDate == null || between)//缓存数据不存在或日期已经是另一天了>可以登记
         {
             redisTemplate.opsForValue().set(todayKey,record.getCreatetime());//更新缓存数据
-            if(recordSMapper.selectTodayRecord(record.getAccountid()) == null)//判断今天是否登记过
+            if(recordSMapper.selectTodayRecord(record.getAccountid()) != null)//判断是否第一次登记
             {
-                recordSMapper.insertTodayRecord(record);//没有则放入最近表
-            }else {
                 //更新最近表
                 recordSMapper.updateToday(record.getAccountid(),record.getTemperature(),record.getLocale(),record.getCreatetime());
+            }else {
+                recordSMapper.insertTodayRecord(record);//没有则放入最近表
             }
 
         }else {

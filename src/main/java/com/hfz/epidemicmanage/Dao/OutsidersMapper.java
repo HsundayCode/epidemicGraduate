@@ -14,8 +14,8 @@ public interface OutsidersMapper {
 
     List<Outsider> selectOutsiderBySource(String source, int limit, int offset);
 
-    List<Outsider> selectOutsiderByIdcard(int idcard, int limit, int offset);
-    List<Outsider> selectOutsiderAll(int limit ,int offset);
+    List<Outsider> selectOutsiderByIdcard(String idcard, int limit, int offset);
+    List<Outsider> selectOutsiderAll(int offset,int limit);
     Outsider selectOutsiderByAccountid(int accountid);
 
     int insertOutsider(Outsider outsider);

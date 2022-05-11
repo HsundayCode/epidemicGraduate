@@ -1,7 +1,5 @@
 package com.hfz.epidemicmanage.Entity;
 
-import java.util.Date;
-
 public class Outsider {
     private int id;
     private String name;//姓名
@@ -12,13 +10,14 @@ public class Outsider {
     private int status;//状态
     private String content;//来干嘛
     private int phone;
-    private int idcard;
+    private String idcard;
+    private String leavetime;
 
     public Outsider() {
     }
 
-    public Outsider(int id, String name, int accountid, String source,
-                    String place, String cometime, int status, String content, int phone, int idcard) {
+    public Outsider(int id, String name, int accountid, String source, String place, String cometime,
+                    int status, String content, int phone, String idcard, String leavetime) {
         this.id = id;
         this.name = name;
         this.accountid = accountid;
@@ -29,22 +28,7 @@ public class Outsider {
         this.content = content;
         this.phone = phone;
         this.idcard = idcard;
-    }
-
-    public int getPhone() {
-        return phone;
-    }
-
-    public void setPhone(int phone) {
-        this.phone = phone;
-    }
-
-    public int getIdcard() {
-        return idcard;
-    }
-
-    public void setIdcard(int idcard) {
-        this.idcard = idcard;
+        this.leavetime = leavetime;
     }
 
     public int getId() {
@@ -111,17 +95,44 @@ public class Outsider {
         this.content = content;
     }
 
+    public int getPhone() {
+        return phone;
+    }
+
+    public void setPhone(int phone) {
+        this.phone = phone;
+    }
+
+    public String getIdcard() {
+        return idcard;
+    }
+
+    public void setIdcard(String idcard) {
+        this.idcard = idcard;
+    }
+
+    public String getLeavetime() {
+        return leavetime;
+    }
+
+    public void setLeavetime(String leavetime) {
+        this.leavetime = leavetime;
+    }
+
     @Override
     public String toString() {
-        return "Outsiders{" +
+        return "Outsider{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", accountid=" + accountid +
                 ", source='" + source + '\'' +
                 ", place='" + place + '\'' +
-                ", cometime=" + cometime +
+                ", cometime='" + cometime + '\'' +
                 ", status=" + status +
                 ", content='" + content + '\'' +
+                ", phone=" + phone +
+                ", idcard='" + idcard + '\'' +
+                ", leavetime='" + leavetime + '\'' +
                 '}';
     }
 }
